@@ -37,7 +37,7 @@ export const login = (payload, history) =>  (dispatch) => {
     credentials: "same-origin"
   }).then(response => response.json())
   .then(data => {
-    if (data.message === 'User Not found') {
+    if (data.message !== 'User updated successfully') {
       toastr.error('', 'Incorrect email or password', toastrOptions)
       return;
     }
