@@ -110,6 +110,7 @@ class Login extends React.Component {
                       autoComplete="new-email"
                       value={email}
                       name="email"
+                      required
                       onChange={(e) => this.handleChange(e)}
                     />
                   </InputGroup>
@@ -126,6 +127,7 @@ class Login extends React.Component {
                       type="password"
                       value={password}
                       name="password"
+                      required
                       onChange={(e) => this.handleChange(e)}
                     />
                   </InputGroup>
