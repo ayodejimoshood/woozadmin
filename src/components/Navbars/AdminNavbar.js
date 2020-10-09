@@ -17,9 +17,18 @@ import {
   Container,
   Media,
 } from "reactstrap";
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { logOut } from "redux/actions/auth";
 
 class AdminNavbar extends React.Component {
+  handleSignOut = () => {
+    this.props.history.push('/auth/login')
+    this.props.logoutUser()
+  }
   render() {
+    const { firstName, lastName } = this.props;
+   
     return (
       <>
         <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
@@ -54,7 +63,7 @@ class AdminNavbar extends React.Component {
                     </span>
                     <Media className="ml-2 d-none d-lg-block">
                       <span className="mb-0 text-sm font-weight-bold">
-                        Ayodeji Moshood
+                        {firstName} {lastName}
                       </span>
                     </Media>
                   </Media>
@@ -81,8 +90,7 @@ class AdminNavbar extends React.Component {
                   </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
+                    onClick={this.handleSignOut}
                   >
                     <i className="ni ni-user-run" />
                     <span>Logout</span>
@@ -97,4 +105,19 @@ class AdminNavbar extends React.Component {
   }
 }
 
-export default AdminNavbar;
+const mapStateToProps = ({ auth }) => {
+  const {user: { firstName, lastName}} = auth;
+  const capitalise = (name) => {
+    return name[0].toUpperCase() + name.slice(1)
+  }
+  return {
+    firstName: capitalise(firstName),
+    lastName: capitalise(lastName)
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  logoutUser: () => dispatch(logOut())
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AdminNavbar));
