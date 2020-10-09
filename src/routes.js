@@ -8,6 +8,13 @@ import Icons from "views/examples/Icons.js";
 
 var routes = [
   {
+    path: "/login",
+    // name: "Login",
+    // icon: "ni ni-key-25 text-info",
+    component: Login,
+    layout: "/auth"
+  },
+  {
     path: "/index  ",
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
@@ -44,26 +51,44 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/settings",
-    name: "Settings",
+    path: "/merchants",
+    name: "Merchants",
     icon: "ni ni-circle-08 text-pink",
 
     component: Tables,
     layout: "/admin",
   },
   {
-    path: "/login",
-    name: "Login",
-    icon: "ni ni-key-25 text-info",
-    component: Login,
-    layout: "/auth"
+    path: "/insurance",
+    name: "Insurance",
+    icon: "ni ni-circle-08 text-pink",
+
+    component: Tables,
+    layout: "/admin",
   },
   {
-    path: "/register",
-    name: "Register",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: Register,
-    layout: "/auth"
-  }
+    path: "/verticals",
+    name: "verticals",
+    icon: "ni ni-circle-08 text-pink",
+
+    component: Tables,
+    layout: "/admin",
+  },
+  // {
+  //   path: "/settings",
+  //   name: "Settings",
+  //   icon: "ni ni-circle-08 text-pink",
+
+  //   component: Tables,
+  //   layout: "/admin",
+  // },
+  
+  // {
+  //   path: "/register",
+  //   name: "Register",
+  //   icon: "ni ni-bullet-list-67 text-red",
+  //   component: Register,
+  //   layout: "/auth"
+  // }
 ];
 export default routes;
