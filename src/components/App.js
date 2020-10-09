@@ -8,13 +8,22 @@ import AuthLayout from "layouts/Auth.js";
 import auth from "redux/reducers/auth.js";
 
 const App = (props) => {
+  const { auth } = props
   return (
     <div>
       <Switch>
-          <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+          <Route path="/admin" render={(props) => {
+              if (auth.user === null) {
+              return <Redirect to='/auth/login' />
+            } else {
+              return <AdminLayout {...props}  />
+            }
+           
+          } } />
+           
           <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
           <Route path='/' render={() => {
-            if (props.auth.user === null) {
+            if (auth.user === null) {
               return <Redirect to='/auth/login' />
             } else {
               return <Redirect to='/admin/index' />
@@ -26,6 +35,7 @@ const App = (props) => {
 }
 
 const mapStateToProps = ({ auth }) => {
+  console.log(auth)
   return {
     auth
   }
