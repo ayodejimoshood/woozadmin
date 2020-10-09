@@ -1,4 +1,7 @@
 import React from "react";
+import { Redirect, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { login } from '../../redux/actions/auth'
 
 // reactstrap components
 import {
@@ -15,9 +18,40 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { JsxEmit } from "typescript";
 
 class Login extends React.Component {
+  state = {
+    email: '',
+    password: ''
+  }
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+
+    this.setState({
+      [name]: value
+    })
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    const { email, password } = this.state;
+    const { history, loginUser } = this.props;
+    loginUser({ email, password }, history)
+  }
+
+
   render() {
+    if (this.props.token) {
+    return  <Redirect to='/'/>
+    }
+
+    
+
+
+
+    const { email, password } = this.state; 
     return (
       <>
         <Col lg="5" md="7">
@@ -61,7 +95,8 @@ class Login extends React.Component {
               {/* <div className="text-center text-muted mb-4">
                 <small>Or sign in with credentials</small>
               </div> */}
-              <Form role="form">
+              <Form role="form" onSubmit={this.handleSubmit} >
+              
                 <FormGroup className="mb-3">
                   <InputGroup className="input-group-alternative">
                     <InputGroupAddon addonType="prepend">
@@ -73,6 +108,9 @@ class Login extends React.Component {
                       placeholder="Email"
                       type="email"
                       autoComplete="new-email"
+                      value={email}
+                      name="email"
+                      onChange={(e) => this.handleChange(e)}
                     />
                   </InputGroup>
                 </FormGroup>
@@ -86,7 +124,9 @@ class Login extends React.Component {
                     <Input
                       placeholder="Password"
                       type="password"
-                      autoComplete="new-password"
+                      value={password}
+                      name="password"
+                      onChange={(e) => this.handleChange(e)}
                     />
                   </InputGroup>
                 </FormGroup>
@@ -104,7 +144,7 @@ class Login extends React.Component {
                   </label>
                 </div>
                 <div className="text-center">
-                  <Button className="my-4" color="primary" type="button">
+                  <Button className="my-4" color="primary" type="submit">
                     Sign in
                   </Button>
                 </div>
@@ -137,4 +177,12 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapStateToProps = ({ auth: { token } }) => ({
+  token
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  loginUser: (userObject, history) => dispatch(login(userObject, history)) 
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));
