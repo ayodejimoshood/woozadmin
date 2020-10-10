@@ -19,7 +19,7 @@ const base = 'https://scalable-commerce-backend.herokuapp.com/api/v1'
 
 
 const toastrOptions = {
-  timeOut: 7000, 
+  timeOut: 9000, 
   showCloseButton: true, 
 }
 

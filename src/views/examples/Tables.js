@@ -1,5 +1,5 @@
 import React from "react";
-
+import { connect } from 'react-redux'
 // reactstrap components
 import {
   Badge,
@@ -22,9 +22,23 @@ import {
 } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.js";
+import { handleGetUsers } from '../../redux/actions/users'
 
 class Tables extends React.Component {
+  state = {
+    users: []
+  }
+  componentDidMount() {
+    const {getUsers} = this.props;
+    getUsers().then(data => {
+      this.setState({
+        users: this.props.users
+      })
+    })
+  }
+ 
   render() {
+    const {users} = this.state;
     return (
       <>
         <Header />
@@ -54,80 +68,85 @@ class Tables extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
+                  {users.map(user => (
                     <tr>
-                      <th scope="row">
-                        <Media className="align-items-center">
-                          <a
-                            className="avatar rounded-circle mr-3"
+                    
+                    <th scope="row">
+                      <Media className="align-items-center">
+                        <a
+                          className="avatar rounded-circle mr-3"
+                          href="#pablo"
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          <img
+                            alt="..."
+                            src={user.imageUrl ? user.imageUrl : require("assets/img/theme/avatar.jpg")}
+                          />
+                        </a>
+                      </Media>
+                    </th>
+                    
+                    <td>
+                      <span className="mb-0 text-sm">{user.firstName}</span>
+                    </td>
+                    <td>
+                      {" "}
+                      <span className="mb-0 text-sm">{user.lastName}</span>
+                    </td>
+                    <td>
+                      <span className="mb-0 text-sm">
+                        {user.email}
+                      </span>
+                    </td>
+                    <td>
+                      <span className="mb-0 text-sm">
+                        {user.phone}
+                      </span>
+                    </td>
+                    
+                    <td>
+                      <div className="d-flex align-items-center">
+                        <span className="mr-2">{user.accountType}</span>
+                        
+                      </div>
+                    </td>
+                    <td>
+                      <span className="mb-0 text-sm">
+                        Google
+                      </span>
+                    </td>
+                    <td className="text-right">
+                      <UncontrolledDropdown>
+                        <DropdownToggle
+                          className="btn-icon-only text-light"
+                          href="#pablo"
+                          role="button"
+                          size="sm"
+                          color=""
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          <i className="fas fa-ellipsis-v" />
+                        </DropdownToggle>
+                        <DropdownMenu className="dropdown-menu-arrow" right>
+                          <DropdownItem
                             href="#pablo"
                             onClick={(e) => e.preventDefault()}
                           >
-                            <img
-                              alt="..."
-                              src={require("assets/img/theme/avatar.jpg")}
-                            />
-                          </a>
-                        </Media>
-                      </th>
-                      <td>
-                        <span className="mb-0 text-sm">Ayodeji</span>
-                      </td>
-                      <td>
-                        {" "}
-                        <span className="mb-0 text-sm">Moshood</span>
-                      </td>
-                      <td>
-                        <span className="mb-0 text-sm">
-                          amoshood@fczmedia.com
-                        </span>
-                      </td>
-                      <td>
-                        <span className="mb-0 text-sm">
-                          07060460216
-                        </span>
-                      </td>
-                      
-                      <td>
-                        <div className="d-flex align-items-center">
-                          <span className="mr-2">Merchant</span>
+                            Edit
+                          </DropdownItem>
+                          <DropdownItem
+                            href="#pablo"
+                            onClick={(e) => e.preventDefault()}
+                          >
+                            Delete
+                          </DropdownItem>
                           
-                        </div>
-                      </td>
-                      <td>
-                        <span className="mb-0 text-sm">
-                          Google
-                        </span>
-                      </td>
-                      <td className="text-right">
-                        <UncontrolledDropdown>
-                          <DropdownToggle
-                            className="btn-icon-only text-light"
-                            href="#pablo"
-                            role="button"
-                            size="sm"
-                            color=""
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            <i className="fas fa-ellipsis-v" />
-                          </DropdownToggle>
-                          <DropdownMenu className="dropdown-menu-arrow" right>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              Edit
-                            </DropdownItem>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              Delete
-                            </DropdownItem>
-                            
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
-                      </td>
-                    </tr>
+                        </DropdownMenu>
+                      </UncontrolledDropdown>
+                    </td>
+                  </tr>
+                  ))}
+                    
                   </tbody>
                 </Table>
               </Card>
@@ -139,4 +158,14 @@ class Tables extends React.Component {
   }
 }
 
-export default Tables;
+const mapStateToProps = ({ users }) => {
+  return {
+    users: users.users
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  getUsers: () => dispatch(handleGetUsers())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tables);
