@@ -23,7 +23,7 @@ import {
 // core components
 import Header from "components/Headers/Header.js";
 
-class Merchants extends React.Component {
+class Verticals extends React.Component {
   render() {
     return (
       <>
@@ -35,7 +35,7 @@ class Merchants extends React.Component {
             <div className="col">
               <Card className="bg-default shadow">
                 <CardHeader className="bg-transparent border-0">
-                  <h3 className="text-white mb-0">All Merchants Data</h3>
+                  <h3 className="text-white mb-0">All Verticals Data</h3>
                 </CardHeader>
                 <Table
                   className="align-items-center table-dark table-flush"
@@ -45,7 +45,6 @@ class Merchants extends React.Component {
                     <tr>
                       <th scope="col">Avatar</th>
                       <th scope="col">Name</th>
-                      <th scope="col">Vertical</th>
                       
                       <th scope="col">Action</th>
                     </tr>
@@ -61,20 +60,15 @@ class Merchants extends React.Component {
                           >
                             <img
                               alt="..."
-                              src={require("assets/img/brand/shoprite.jpg")}
+                              src={require("assets/img/icons/click-shop.png")}
                             />
                           </a>
                         </Media>
                       </th>
                       <td>
-                        <span className="mb-0 text-sm">Shoprite</span>
+                        <span className="mb-0 text-sm">On The Go</span>
                       </td>
                       
-                      <td>
-                        <span className="mb-0 text-sm">
-                          Click &amp; Shop
-                        </span>
-                      </td>
                       <td className="text-right">
                         <UncontrolledDropdown>
                           <DropdownToggle
@@ -116,4 +110,4 @@ class Merchants extends React.Component {
   }
 }
 
-export default Merchants;
+export default Verticals;
