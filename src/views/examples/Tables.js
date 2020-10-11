@@ -30,15 +30,11 @@ class Tables extends React.Component {
   }
   componentDidMount() {
     const {getUsers} = this.props;
-    getUsers().then(data => {
-      this.setState({
-        users: this.props.users
-      })
-    })
+    getUsers()
   }
  
   render() {
-    const {users} = this.state;
+    const {users} = this.props;
     return (
       <>
         <Header />
@@ -69,7 +65,7 @@ class Tables extends React.Component {
                   </thead>
                   <tbody>
                   {users.map(user => (
-                    <tr>
+                    <tr key={user.userId}>
                     
                     <th scope="row">
                       <Media className="align-items-center">
