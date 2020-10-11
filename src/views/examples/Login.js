@@ -1,7 +1,7 @@
 import React from "react";
-import { Redirect, withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { login } from '../../redux/actions/auth'
+import { Redirect, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { login } from "../../redux/actions/auth";
 
 // reactstrap components
 import {
@@ -22,81 +22,47 @@ import { JsxEmit } from "typescript";
 
 class Login extends React.Component {
   state = {
-    email: '',
-    password: ''
-  }
+    email: "",
+    password: "",
+  };
 
   handleChange = (e) => {
     const { name, value } = e.target;
 
     this.setState({
-      [name]: value
-    })
-  }
+      [name]: value,
+    });
+  };
 
   handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const { email, password } = this.state;
     const { history, loginUser } = this.props;
-    loginUser({ email, password }, history)
-  }
-
+    loginUser({ email, password }, history);
+  };
 
   render() {
     if (this.props.token) {
-    return  <Redirect to='/'/>
+      return <Redirect to="/" />;
     }
 
-    
-
-
-
-    const { email, password } = this.state; 
+    const { email, password } = this.state;
     return (
       <>
         <Col lg="5" md="7">
+          <div className="text-center text-muted mb-4">
+            <span className="btn-inner--icon">
+              <img
+                alt="..."
+                width="200px"
+                src={require("../../assets/img/brand/woozeee.png")}
+              />
+            </span>
+          </div>
+
           <Card className="bg-secondary shadow border-0">
-            {/* <CardHeader className="bg-transparent pb-5">
-              <div className="text-muted text-center mt-2 mb-3">
-                <small>Sign in with</small>
-              </div>
-              <div className="btn-wrapper text-center">
-                <Button
-                  className="btn-neutral btn-icon"
-                  color="default"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <span className="btn-inner--icon">
-                    <img
-                      alt="..."
-                      src={require("assets/img/icons/common/github.svg")}
-                    />
-                  </span>
-                  <span className="btn-inner--text">Github</span>
-                </Button>
-                <Button
-                  className="btn-neutral btn-icon"
-                  color="default"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <span className="btn-inner--icon">
-                    <img
-                      alt="..."
-                      src={require("assets/img/icons/common/google.svg")}
-                    />
-                  </span>
-                  <span className="btn-inner--text">Google</span>
-                </Button>
-              </div>
-            </CardHeader> */}
             <CardBody className="px-lg-5 py-lg-5">
-              {/* <div className="text-center text-muted mb-4">
-                <small>Or sign in with credentials</small>
-              </div> */}
-              <Form role="form" onSubmit={this.handleSubmit} >
-              
+              <Form role="form" onSubmit={this.handleSubmit}>
                 <FormGroup className="mb-3">
                   <InputGroup className="input-group-alternative">
                     <InputGroupAddon addonType="prepend">
@@ -146,7 +112,7 @@ class Login extends React.Component {
                   </label>
                 </div>
                 <div className="text-center">
-                  <Button className="my-4" color="primary" type="submit">
+                  <Button style={{backgroundColor: '#043f7c'}} className="my-4" color="primary" type="submit">
                     Sign in
                   </Button>
                 </div>
@@ -163,15 +129,6 @@ class Login extends React.Component {
                 <small>Forgot password?</small>
               </a>
             </Col>
-            <Col className="text-right" xs="6">
-              <a
-                className="text-light"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <small>Create new account</small>
-              </a>
-            </Col>
           </Row>
         </Col>
       </>
@@ -180,11 +137,11 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = ({ auth: { token } }) => ({
-  token
-})
+  token,
+});
 
 const mapDispatchToProps = (dispatch) => ({
-  loginUser: (userObject, history) => dispatch(login(userObject, history)) 
-})
+  loginUser: (userObject, history) => dispatch(login(userObject, history)),
+});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

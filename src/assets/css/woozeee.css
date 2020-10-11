@@ -11923,7 +11923,7 @@ button.bg-lighter:focus {
 }
 
 .bg-gradient-info {
-  background: linear-gradient(87deg, #11cdef 0, #1171ef 100%) !important;
+  background: linear-gradient(87deg, #ff5757 0, #ff5757 100%) !important;
 }
 
 .bg-gradient-warning {
@@ -11991,7 +11991,7 @@ button.bg-lighter:focus {
 }
 
 .bg-gradient-teal {
-  background: linear-gradient(87deg, #11cdef 0, #1171ef 100%) !important;
+  background: linear-gradient(87deg, #ffffff 0, #1171ef 100%) !important;
 }
 
 .bg-gradient-cyan {
@@ -12218,7 +12218,7 @@ button.section-darker:focus {
 }
 
 .bg-gradient-info {
-  background: linear-gradient(87deg, #11cdef 0, #1171ef 100%) !important;
+  background: linear-gradient(87deg, #ff5757 0, #ff5757 100%) !important;
 }
 
 .bg-gradient-warning {
