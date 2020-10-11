@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from 'react-redux'
-import {BrowserRouter, Switch, Redirect} from 'react-router-dom'
+import {BrowserRouter} from 'react-router-dom'
 import ReduxToastr from 'react-redux-toastr'
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store.js'
@@ -30,11 +30,6 @@ ReactDOM.render(
       progressBar
       closeOnToastrClick/>
       <BrowserRouter>
-        <Switch>
-          {/* <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-          <Route path="/auth" render={(props) => <AuthLayout {...props} />} /> */}
-          <Redirect from="/" to="/auth/login" />
-        </Switch>
         <App />
       </BrowserRouter>
     </PersistGate>

@@ -6,7 +6,7 @@ import {GET_ALL_USERS, LOADING_USERS} from '../actions/types'
 
 const initialState = {
   loadingUsers: false,
-  users: null
+  users: []
 }
 
 const users = (state = initialState, action) => {
@@ -15,7 +15,7 @@ const users = (state = initialState, action) => {
       return {
         ...state,
         loadingUsers: false,
-        users: action.payload
+        users: [...state.users, ...action.payload]
       }
     case LOADING_USERS: 
       return {
