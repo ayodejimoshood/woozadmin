@@ -5,11 +5,6 @@ import {BrowserRouter} from 'react-router-dom'
 import ReduxToastr from 'react-redux-toastr'
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store.js'
-// import { Provider } from "react-redux";
-// import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-// import ReduxToastr from "react-redux-toastr";
-// import { PersistGate } from "redux-persist/integration/react";
-// import { store, persistor } from "./redux/store.js";
 import "assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "assets/scss/woozeee-admin-dashboard.scss";
