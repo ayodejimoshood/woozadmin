@@ -5,31 +5,38 @@ import {BrowserRouter} from 'react-router-dom'
 import ReduxToastr from 'react-redux-toastr'
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store.js'
+// import { Provider } from "react-redux";
+// import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+// import ReduxToastr from "react-redux-toastr";
+// import { PersistGate } from "redux-persist/integration/react";
+// import { store, persistor } from "./redux/store.js";
 import "assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "assets/scss/woozeee-admin-dashboard.scss";
-import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
-// import AdminLayout from 'layouts/Admin'
-// import AuthLayout from 'layouts/Auth'
+import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
 import App from "components/App.js";
-
-
-
 
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>
-    <ReduxToastr
-      timeOut={4000}
-      newestOnTop={false}
-      preventDuplicates
-      position="top-right"
-      getState={(state) => state.toastr} // This is the default
-      transitionIn="fadeIn"
-      transitionOut="fadeOut"
-      progressBar
-      closeOnToastrClick/>
+      <ReduxToastr
+        timeOut={4000}
+        newestOnTop={false}
+        preventDuplicates
+        position="top-right"
+        getState={(state) => state.toastr} // This is the default
+        transitionIn="fadeIn"
+        transitionOut="fadeOut"
+        progressBar
+        closeOnToastrClick
+      />
       <BrowserRouter>
+<<<<<<< HEAD
+=======
+        <Switch>
+          <Redirect from="/" to="/auth/login" />
+        </Switch>
+>>>>>>> ef5711a... merchant
         <App />
       </BrowserRouter>
     </PersistGate>
