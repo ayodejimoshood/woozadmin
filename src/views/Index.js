@@ -30,6 +30,7 @@ import {
 } from "variables/charts.js";
 
 import Header from "components/Headers/Header.js";
+import CreateMerchants from "./examples/CreateMerchantsModal";
 
 class Index extends React.Component {
   constructor(props) {
@@ -118,9 +119,7 @@ class Index extends React.Component {
                       <h2 className="mb-0">Merchants</h2>
                     </div>
                     <Col className="col-auto">
-                      <Button color="primary" type="button">
-                        Add New Merchant
-                      </Button>
+                      <CreateMerchants/>
                     </Col>
                   </Row>
                 </CardHeader>

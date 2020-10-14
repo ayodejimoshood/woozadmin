@@ -3,6 +3,8 @@ import React from "react";
 // reactstrap components
 import {
   Badge,
+  Button,
+  Col,
   Card,
   CardHeader,
   CardFooter,
@@ -11,6 +13,13 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   Media,
+  Modal,
+  FormGroup,
+  Form,
+  Input,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroup,
   Pagination,
   PaginationItem,
   PaginationLink,
@@ -22,6 +31,7 @@ import {
 } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.js";
+import CreateMerchantsModal from "../examples/CreateMerchantsModal";
 
 class Merchants extends React.Component {
   render() {
@@ -35,7 +45,14 @@ class Merchants extends React.Component {
             <div className="col">
               <Card className="bg-default shadow">
                 <CardHeader className="bg-transparent border-0">
-                  <h3 className="text-white mb-0">All Merchants Data</h3>
+                  <Row>
+                    <Col lg="10">
+                      <h3 className="text-white mb-0">All Merchants Data</h3>
+                    </Col>
+                    <Col lg="2" className="ml-auto">
+                      <CreateMerchantsModal />
+                    </Col>
+                  </Row>
                 </CardHeader>
                 <Table
                   className="align-items-center table-dark table-flush"
@@ -46,7 +63,7 @@ class Merchants extends React.Component {
                       <th scope="col">Avatar</th>
                       <th scope="col">Name</th>
                       <th scope="col">Vertical</th>
-                      
+
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
@@ -69,11 +86,9 @@ class Merchants extends React.Component {
                       <td>
                         <span className="mb-0 text-sm">Shoprite</span>
                       </td>
-                      
+
                       <td>
-                        <span className="mb-0 text-sm">
-                          Click &amp; Shop
-                        </span>
+                        <span className="mb-0 text-sm">Click &amp; Shop</span>
                       </td>
                       <td className="text-right">
                         <UncontrolledDropdown>
@@ -100,7 +115,6 @@ class Merchants extends React.Component {
                             >
                               Delete
                             </DropdownItem>
-                            
                           </DropdownMenu>
                         </UncontrolledDropdown>
                       </td>
