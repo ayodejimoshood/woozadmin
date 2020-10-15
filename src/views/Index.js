@@ -31,6 +31,7 @@ import {
 
 import Header from "components/Headers/Header.js";
 import CreateMerchants from "./examples/CreateMerchantsModal";
+import CreateVerticals from "./examples/CreateVerticalsModal";
 
 class Index extends React.Component {
   constructor(props) {
@@ -131,9 +132,7 @@ class Index extends React.Component {
                       <h2 className="mb-0">Verticals</h2>
                     </div>
                     <Col className="col-auto">
-                      <Button color="default" type="button">
-                        Add New Vertical
-                      </Button>
+                      <CreateVerticals/>
                     </Col>
                   </Row>
                 </CardHeader>
