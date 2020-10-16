@@ -31,12 +31,6 @@ ReactDOM.render(
         closeOnToastrClick
       />
       <BrowserRouter>
-<<<<<<< HEAD
-=======
-        <Switch>
-          <Redirect from="/" to="/auth/login" />
-        </Switch>
->>>>>>> ef5711a... merchant
         <App />
       </BrowserRouter>
     </PersistGate>
