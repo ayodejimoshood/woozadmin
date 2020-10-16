@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from 'react-redux'
-import {BrowserRouter} from 'react-router-dom'
+import {BrowserRouter, Switch, Redirect} from 'react-router-dom'
 import ReduxToastr from 'react-redux-toastr'
 import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from './redux/store.js'
+import { store, persistor } from './redux/store.js';
 import "assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "assets/scss/woozeee-admin-dashboard.scss";
@@ -26,12 +26,9 @@ ReactDOM.render(
         closeOnToastrClick
       />
       <BrowserRouter>
-<<<<<<< HEAD
-=======
         <Switch>
           <Redirect from="/" to="/auth/login" />
         </Switch>
->>>>>>> ef5711a... merchant
         <App />
       </BrowserRouter>
     </PersistGate>
