@@ -8,6 +8,7 @@ import Merchants from "views/examples/Merchants.js";
 import Insurance from "views/examples/Insurance.js";
 import Verticals from "views/examples/Verticals.js";
 import Icons from "views/examples/Icons.js";
+import Socials from "views/examples/Socials";
 
 var routes = [
   {
@@ -76,6 +77,14 @@ var routes = [
     icon: "ni ni-circle-08 text-pink",
 
     component: Verticals,
+    layout: "/admin",
+  },
+  {
+    path: "/socials",
+    name: "Socials",
+    icon: "ni ni-circle-08 text-pink",
+
+    component: Socials,
     layout: "/admin",
   },
   // {
