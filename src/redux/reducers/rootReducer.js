@@ -8,6 +8,8 @@ import storage from 'redux-persist/lib/storage';
 import auth from './auth'
 import messages from './messages'
 import users from './users'
+import merchant from './merchant'
+import verticals from './verticals'
 
 const persistConfig = {
   key: 'woozadmin',
@@ -19,6 +21,8 @@ const rootReducer = combineReducers({
   auth,
   messages,
   users,
+  merchant,
+  verticals,
   toastr: toastrReducer
 });
 

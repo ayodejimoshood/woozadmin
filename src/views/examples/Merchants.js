@@ -32,9 +32,15 @@ import {
 // core components
 import Header from "components/Headers/Header.js";
 import CreateMerchantsModal from "../examples/CreateMerchantsModal";
+import { connect } from "react-redux";
+import { handleGetMerchants } from "redux/actions/merchant";
 
 class Merchants extends React.Component {
+  componentDidMount() {
+    this.props.getMerchants()
+  }
   render() {
+    const { merchant } = this.props;
     return (
       <>
         <Header />
@@ -68,7 +74,9 @@ class Merchants extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
+                  {
+                    merchant.map(mer => (
+                      <tr>
                       <th scope="row">
                         <Media className="align-items-center">
                           <a
@@ -84,11 +92,11 @@ class Merchants extends React.Component {
                         </Media>
                       </th>
                       <td>
-                        <span className="mb-0 text-sm">Shoprite</span>
+                        <span className="mb-0 text-sm">{mer.name}</span>
                       </td>
 
                       <td>
-                        <span className="mb-0 text-sm">Click &amp; Shop</span>
+                        <span className="mb-0 text-sm">{mer.vertical}</span>
                       </td>
                       <td className="text-right">
                         <UncontrolledDropdown>
@@ -119,6 +127,9 @@ class Merchants extends React.Component {
                         </UncontrolledDropdown>
                       </td>
                     </tr>
+                    ))
+                  }
+                    
                   </tbody>
                 </Table>
               </Card>
@@ -130,4 +141,12 @@ class Merchants extends React.Component {
   }
 }
 
-export default Merchants;
+const mapStateToProps = ({merchant}) => ({
+  merchant
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  getMerchants: () => dispatch(handleGetMerchants())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Merchants);

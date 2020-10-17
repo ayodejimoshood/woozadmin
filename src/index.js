@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from 'react-redux'
-import {BrowserRouter, Switch, Redirect} from 'react-router-dom'
+import {BrowserRouter} from 'react-router-dom'
 import ReduxToastr from 'react-redux-toastr'
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store.js';
@@ -26,9 +26,6 @@ ReactDOM.render(
         closeOnToastrClick
       />
       <BrowserRouter>
-        <Switch>
-          <Redirect from="/" to="/auth/login" />
-        </Switch>
         <App />
       </BrowserRouter>
     </PersistGate>
