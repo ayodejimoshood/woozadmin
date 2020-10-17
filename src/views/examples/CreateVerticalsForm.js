@@ -12,7 +12,6 @@ import {
   Col,
 } from "reactstrap";
 
-import UploadVerticalIcons from './UploadVerticalIcons'
 
 class CreateVerticalsForm extends React.Component {
   render() {

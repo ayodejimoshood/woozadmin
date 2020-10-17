@@ -22,9 +22,15 @@ import {
 } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.js";
+import { handleGetVerticals } from "redux/actions/verticals";
+import { connect } from "react-redux";
 
 class Verticals extends React.Component {
+  componentDidMount() {
+    this.props.getVerticals()
+  }
   render() {
+    const { verticals} = this.props
     return (
       <>
         <Header />
@@ -46,11 +52,14 @@ class Verticals extends React.Component {
                       <th scope="col">Avatar</th>
                       <th scope="col">Name</th>
                       
-                      <th scope="col">Action</th>
+                      <th scope="col">ID</th>
+                      <th scope="col"></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
+                  {
+                    verticals.map(vertical => (
+                      <tr>
                       <th scope="row">
                         <Media className="align-items-center">
                           <a
@@ -66,7 +75,10 @@ class Verticals extends React.Component {
                         </Media>
                       </th>
                       <td>
-                        <span className="mb-0 text-sm">On The Go</span>
+                        <span className="mb-0 text-sm">{vertical.name}</span>
+                      </td>
+                      <td>
+                        <span className="mb-0 text-sm">{vertical.id}</span>
                       </td>
                       
                       <td className="text-right">
@@ -99,6 +111,9 @@ class Verticals extends React.Component {
                         </UncontrolledDropdown>
                       </td>
                     </tr>
+                    ))
+                  }
+                    
                   </tbody>
                 </Table>
               </Card>
@@ -110,4 +125,12 @@ class Verticals extends React.Component {
   }
 }
 
-export default Verticals;
+const mapStateToProps = ({verticals}) => ({
+  verticals
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  getVerticals: () => dispatch(handleGetVerticals()) 
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Verticals);
