@@ -18,7 +18,7 @@ import {
 import { connect } from 'react-redux'
 import { handleCreateMerchant } from "redux/actions/merchant";
 
-class CreateMerchantModals extends React.Component {
+class CreateMerchantModal extends React.Component {
   state = {
     CreateMerchantsModal: false,
     merchantName: '',
@@ -167,4 +167,4 @@ const mapDispatchToProps = (dispatch) => ({
   createMerchant: (merchant) => dispatch(handleCreateMerchant(merchant))
 })
 
-export default connect(null, mapDispatchToProps)(CreateMerchantModals);
+export default connect(null, mapDispatchToProps)(CreateMerchantModal);

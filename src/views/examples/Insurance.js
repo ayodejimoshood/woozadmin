@@ -4,6 +4,7 @@ import React from "react";
 import {
   Badge,
   Card,
+  Col,
   CardHeader,
   CardFooter,
   DropdownMenu,
@@ -22,6 +23,7 @@ import {
 } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.js";
+import CreateInsuranceModal from "../examples/CreateInsuranceModal";
 
 class Insurance extends React.Component {
   render() {
@@ -35,7 +37,14 @@ class Insurance extends React.Component {
             <div className="col">
               <Card className="bg-default shadow">
                 <CardHeader className="bg-transparent border-0">
-                  <h3 className="text-white mb-0">All Insurance Data</h3>
+                <Row>
+                    <Col lg="10">
+                      <h3 className="text-white mb-0">All Insurance Data</h3>
+                    </Col>
+                    <Col lg="2" className="ml-auto">
+                      <CreateInsuranceModal />
+                    </Col>
+                  </Row>
                 </CardHeader>
                 <Table
                   className="align-items-center table-dark table-flush"
