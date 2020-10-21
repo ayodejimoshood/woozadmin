@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 // reactstrap components
 import {
   Button,
@@ -15,18 +16,43 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import CreateHashtagEntryForm from "./CreateHashtagEntryForm";
+import { handleAddHashtagEntry } from "redux/actions/socials";
 
 class CreateHashtagEntryModal extends React.Component {
   state = {
     CreateHashtagEntryModal: false,
+    hashtagEntry: '',
+    isMakingRequest: false
   };
   toggleModal = (state) => {
     this.setState({
       [state]: !this.state[state],
     });
   };
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      [name]: value
+    })
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { hashtagEntry } = this.state;
+    if (hashtagEntry === '') return;
+    this.setState(prevState => ({
+      isMakingRequest: !prevState.isMakingRequest
+    }))
+    this.props.addHashtagEntry({name: hashtagEntry}).then(res => {
+      this.setState(prevState => ({
+        isMakingRequest: !prevState.isMakingRequest
+      }))
+    })
+  }
+
   render() {
+    const { hashtagEntry, isMakingRequest } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -57,8 +83,24 @@ class CreateHashtagEntryModal extends React.Component {
               <span aria-hidden={true}>×</span>
             </button>
           </div>
+          <Form onSubmit={this.handleSubmit}>
           <div className="modal-body">
-            <CreateHashtagEntryForm />
+          
+          <Row>
+            <Col md="12">
+              <FormGroup>
+                <Input
+                  id="exampleFormControlInput1"
+                  placeholder="hashtag entry name"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="hashtagEntry"
+                  value={hashtagEntry}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+       
           </div>
           <div className="modal-footer">
             <Button
@@ -69,14 +111,24 @@ class CreateHashtagEntryModal extends React.Component {
             >
               Close
             </Button>
-            <Button color="primary" type="button">
+            <Button 
+              color="primary" 
+              type="submit"
+              disabled={hashtagEntry === '' || isMakingRequest === true}
+            >
               Create
             </Button>
           </div>
+          </Form>
         </Modal>
       </>
     );
   }
 }
 
-export default CreateHashtagEntryModal;
+const mapDispatchToProps = (dispatch) => ({
+  addHashtagEntry: (hashtag) => dispatch(handleAddHashtagEntry(hashtag)) 
+}) 
+
+
+export default connect(null, mapDispatchToProps)(CreateHashtagEntryModal);

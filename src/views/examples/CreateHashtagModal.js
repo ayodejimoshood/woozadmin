@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 // reactstrap components
 import {
   Button,
@@ -15,18 +16,48 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import CreateHashtagForm from "./CreateHashtagForm";
+import { handleAddHashtag } from "redux/actions/socials";
 
 class CreateHashtagModal extends React.Component {
+
   state = {
     CreateHashtagModal: false,
+    hashtagName: '',
+    isMakingRequest: ''
   };
+
+
   toggleModal = (state) => {
     this.setState({
       [state]: !this.state[state],
     });
   };
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      [name]: value
+    })
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { hashtagName } = this.state;
+    console.log(hashtagName)
+    if (hashtagName === '') return;
+    this.setState(prevState => ({
+      isMakingRequest: !prevState.isMakingRequest
+    }))
+    this.props.addHashtag({name: hashtagName}).then(res => {
+      this.setState(prevState => ({
+        isMakingRequest: !prevState.isMakingRequest
+      }))
+    })
+  }
+
+
   render() {
+    const { hashtagName, isMakingRequest } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -45,7 +76,7 @@ class CreateHashtagModal extends React.Component {
         >
           <div className="modal-header">
             <h5 className="modal-title" id="CreateHashtagModalLabel">
-            Add Hashtag
+              Add Hashtag
             </h5>
             <button
               aria-label="Close"
@@ -57,26 +88,49 @@ class CreateHashtagModal extends React.Component {
               <span aria-hidden={true}>×</span>
             </button>
           </div>
-          <div className="modal-body">
-            <CreateHashtagForm />
-          </div>
-          <div className="modal-footer">
-            <Button
-              color="secondary"
-              data-dismiss="modal"
-              type="button"
-              onClick={() => this.toggleModal("CreateHashtagModal")}
-            >
-              Close
+          <Form onSubmit={this.handleSubmit}>
+            <div className="modal-body">
+              <Row>
+                <Col md="12">
+                  <FormGroup>
+                    <Input
+                      id="exampleFormControlInput1"
+                      placeholder="hashtag name"
+                      type="text"
+                      name="hashtagName"
+                      value={hashtagName}
+                      onChange={e => this.handleChange(e)}
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+            </div>
+            <div className="modal-footer">
+              <Button
+                color="secondary"
+                data-dismiss="modal"
+                type="button"
+                onClick={() => this.toggleModal("CreateHashtagModal")}
+              >
+                Close
             </Button>
-            <Button color="primary" type="button">
-              Create
+              <Button 
+                color="primary" 
+                type="submit"
+                disabled={hashtagName === '' || isMakingRequest === true}
+              >
+                Create
             </Button>
-          </div>
+            </div>
+          </Form>
         </Modal>
       </>
     );
   }
 }
 
-export default CreateHashtagModal;
+const mapDispatchToProps = (dispatch) => ({
+  addHashtag: (hashtag) => dispatch(handleAddHashtag(hashtag)) 
+}) 
+
+export default connect(null, mapDispatchToProps)(CreateHashtagModal);
