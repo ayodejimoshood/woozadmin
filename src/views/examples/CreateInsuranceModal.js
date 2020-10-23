@@ -18,6 +18,8 @@ import {
 import { connect } from 'react-redux'
 import { handleCreateMerchant } from "redux/actions/merchant";
 import ReactDatetime from "react-datetime";
+import { convertDateToNumber } from "utils/helpers";
+import { handleCreateInsurance } from "redux/actions/insurance";
 
 class CreateInsuranceModal extends React.Component {
   state = {
@@ -25,7 +27,19 @@ class CreateInsuranceModal extends React.Component {
     merchantName: '',
     vertical: '',
     attribute: '',
-    isMakingRequest: false
+    isMakingRequest: false,
+    patnerCode: '',
+    productCode: '',
+    firstName: '',
+    lastName: '',
+    gender: '',
+    dob: '',
+    phone: '',
+    address: '',
+    policyStartDate: '',
+    policyEndDate: '',
+    sumAssured: '',
+    premium: ''
   };
   toggleModal = (state) => {
     this.setState({
@@ -35,38 +49,108 @@ class CreateInsuranceModal extends React.Component {
 
   handleChange = (e) => {
     const {name, value} = e.target;
-
-    this.setState({
-      [name]: value
-    })
+      this.setState({
+        [name]: value
+      })
   } 
+
+  handleDate = (event, location) => {
+    if (typeof(event) !== 'object') return false;
+
+    const date = event.toDate().toString()
+    const dateArr = date.split(" ")
+    let day = dateArr[2], year = dateArr[3], month = convertDateToNumber(dateArr[1])
+    const formattedDate = `${month}/${day}/${year}`
+    if (location === 'dob') {
+      this.setState({
+        [location]: formattedDate
+      })
+      return
+    }
+    const formattedDateforPolicy = `${year}-${month}-${day} 23:00:00`
+    this.setState({
+      [location]: formattedDateforPolicy
+    })
+    return
+  }
+
+  handleDateChangeRaw = (e) => {
+    e.preventDefault();
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {merchantName, vertical, attribute} = this.state;
-    if (merchantName === '' || vertical === '' || attribute === '') {
-      return;
-    }
+    const {
+      patnerCode,
+      productCode,
+      firstName,
+      lastName,
+      gender,
+      dob,
+      phone,
+      address,
+      policyStartDate,
+      policyEndDate,
+      sumAssured,
+      premium
+    } = this.state;
+    let genderNum
+
+      if (gender.startsWith('M') || gender.startsWith('m')) {
+        genderNum = 1
+      } else if (gender.startsWith('F') || gender.startsWith('f')) {
+        genderNum = 0
+      }
+
+    if (patnerCode === '' || productCode === '' || firstName === '' || lastName === '' || dob === '' || phone === '' || address === '' ||
+      policyStartDate === '' || policyEndDate === '' || gender === '' || sumAssured === '' || premium === '') {
+        alert("Please fill all fields")
+        return;
+      }
+    
+    console.log(this.state)
+    
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.createMerchant({
-      "name": merchantName,
-      "vertical" :  vertical,
-      "attributes": attribute
-   }).then(res => {
-      console.log(res)
+
+    this.props.createInsurance({
+      PatnerCode: patnerCode,
+      ProductCode: productCode,
+      Firstname: firstName,
+      Lastname: lastName,
+      DateOfBirth: dob,
+      Gender: genderNum,
+      Phonenumber: phone,
+      Address: address,
+      PolicyStartDate: policyStartDate,
+      PolicyEndDate: policyEndDate,
+      SumAssured: sumAssured,
+      Premium: premium
+    }).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
     })
-
-
   }
 
 
   render() {
-    const {merchantName, vertical, attribute, isMakingRequest} = this.state;
+    const {
+      patnerCode,
+      productCode,
+      firstName,
+      lastName,
+      gender,
+      dob,
+      phone,
+      address,
+      policyStartDate,
+      policyEndDate,
+      sumAssured,
+      premium,
+      isMakingRequest
+    } = this.state;
     return (
       <>
         {/* Button trigger modal */}
@@ -105,9 +189,9 @@ class CreateInsuranceModal extends React.Component {
                     <Input
                       id="exampleFormControlInput1"
                       placeholder="partner code"
-                      type="text"
-                      name="merchantName"
-                      value={merchantName}
+                      type="number"
+                      name="patnerCode"
+                      value={patnerCode}
                       onChange={e => this.handleChange(e)}
                     />
                   </FormGroup>
@@ -117,9 +201,9 @@ class CreateInsuranceModal extends React.Component {
                     <Input
                       id="exampleFormControlInput1"
                       placeholder="product code"
-                      type="text"
-                      name="vertical"
-                      value={vertical}
+                      type="number"
+                      name="productCode"
+                      value={productCode}
                       onChange={e => this.handleChange(e)}
                     />
                   </FormGroup>
@@ -132,8 +216,8 @@ class CreateInsuranceModal extends React.Component {
                       id="exampleFormControlInput1"
                       placeholder="first name"
                       type="text"
-                      name="attribute"
-                      value={attribute}
+                      name="firstName"
+                      value={firstName}
                       onChange={e => this.handleChange(e)}
                     />
                   </FormGroup>
@@ -144,8 +228,8 @@ class CreateInsuranceModal extends React.Component {
                       id="exampleFormControlInput1"
                       placeholder="last name"
                       type="text"
-                      name="attribute"
-                      value={attribute}
+                      name="lastName"
+                      value={lastName}
                       onChange={e => this.handleChange(e)}
                     />
                   </FormGroup>
@@ -160,9 +244,12 @@ class CreateInsuranceModal extends React.Component {
                       </InputGroupAddon>
                       <ReactDatetime
                         inputProps={{
-                          placeholder: "Date Of Birth"
+                          placeholder: "Date Of Birth",
+                          name: 'dob',
+                          
                         }}
-                        timeFormat={false}
+                        onChange={(e) => this.handleDate(e, 'dob')}
+                        required
                       />
                     </InputGroup>
                   </FormGroup>
@@ -173,8 +260,8 @@ class CreateInsuranceModal extends React.Component {
                       id="exampleFormControlInput1"
                       placeholder="gender"
                       type="text"
-                      name="attribute"
-                      value={attribute}
+                      name="gender"
+                      value={gender}
                       onChange={e => this.handleChange(e)}
                     />
                   </FormGroup>
@@ -185,8 +272,8 @@ class CreateInsuranceModal extends React.Component {
                       id="exampleFormControlInput1"
                       placeholder="phone number"
                       type="phone"
-                      name="attribute"
-                      value={attribute}
+                      name="phone"
+                      value={phone}
                       onChange={e => this.handleChange(e)}
                     />
                   </FormGroup>
@@ -197,8 +284,8 @@ class CreateInsuranceModal extends React.Component {
                       id="exampleFormControlInput1"
                       placeholder="Address"
                       type="text"
-                      name="attribute"
-                      value={attribute}
+                      name="address"
+                      value={address}
                       onChange={e => this.handleChange(e)}
                     />
                   </FormGroup>
@@ -246,7 +333,7 @@ class CreateInsuranceModal extends React.Component {
                       </td>
                     );
                   }}
-                  onChange={e => this.setState({ startDate: e })}
+                  onChange={e => this.handleDate(e, 'policyStartDate')}
                 />
               </InputGroup>
             </FormGroup>
@@ -293,7 +380,7 @@ class CreateInsuranceModal extends React.Component {
                       </td>
                     );
                   }}
-                  onChange={e => this.setState({ endDate: e })}
+                  onChange={e => this.handleDate(e, 'policyEndDate')}
                 />
               </InputGroup>
             </FormGroup>
@@ -304,9 +391,9 @@ class CreateInsuranceModal extends React.Component {
                     <Input
                       id="exampleFormControlInput1"
                       placeholder="sum assured"
-                      type="phone"
-                      name="attribute"
-                      value={attribute}
+                      type="number"
+                      name="sumAssured"
+                      value={sumAssured}
                       onChange={e => this.handleChange(e)}
                     />
                   </FormGroup>
@@ -317,8 +404,8 @@ class CreateInsuranceModal extends React.Component {
                       id="exampleFormControlInput1"
                       placeholder="Premium"
                       type="text"
-                      name="attribute"
-                      value={attribute}
+                      name="premium"
+                      value={premium}
                       onChange={e => this.handleChange(e)}
                     />
                   </FormGroup>
@@ -338,7 +425,7 @@ class CreateInsuranceModal extends React.Component {
               <Button 
                 color="primary" 
                 type="submit"
-                disabled={merchantName === '' || vertical === '' || attribute === '' || isMakingRequest === true}
+                disabled={isMakingRequest === true}
                 >
                 Create
               </Button>
@@ -352,7 +439,7 @@ class CreateInsuranceModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  createMerchant: (merchant) => dispatch(handleCreateMerchant(merchant))
+  createInsurance: (insurance) => dispatch(handleCreateInsurance(insurance))
 })
 
 export default connect(null, mapDispatchToProps)(CreateInsuranceModal);

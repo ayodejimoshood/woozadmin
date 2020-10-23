@@ -10,6 +10,7 @@ import messages from './messages'
 import users from './users'
 import merchant from './merchant'
 import verticals from './verticals'
+import socials from './socials'
 
 const persistConfig = {
   key: 'woozadmin',
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   users,
   merchant,
   verticals,
+  socials,
   toastr: toastrReducer
 });
 
