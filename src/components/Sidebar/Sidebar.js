@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
+import woozeeelogo from 'assets/img/brand/woozeee.png'
 
 // reactstrap components
 import {
@@ -111,9 +112,10 @@ class Sidebar extends React.Component {
           {logo ? (
             <NavbarBrand className="pt-0" {...navbarBrandProps}>
               <img
-                alt={logo.imgAlt}
-                className="navbar-brand-img"
-                src={logo.imgSrc}
+                // alt={logo.imgAlt}
+                // className="navbar-brand-img"
+                // src={logo.imgSrc}
+                src={woozeeelogo}
               />
             </NavbarBrand>
           ) : null}

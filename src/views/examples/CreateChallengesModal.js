@@ -18,9 +18,9 @@ import {
 } from "reactstrap";
 import { handleAddHashtagEntry } from "redux/actions/socials";
 
-class CreateHashtagEntryModal extends React.Component {
+class CreateChallengesModal extends React.Component {
   state = {
-    CreateHashtagEntryModal: false,
+    CreateChallengesModal: false,
     hashtagEntry: '',
     isMakingRequest: false
   };
@@ -59,26 +59,26 @@ class CreateHashtagEntryModal extends React.Component {
         <Button
           color="primary"
           type="button"
-          onClick={() => this.toggleModal("CreateHashtagEntryModal")}
+          onClick={() => this.toggleModal("CreateChallengesModal")}
         >
-          Create An Hashtag Entry
+          Create Challenges
         </Button>
         {/* Modal */}
         <Modal
           className="modal-dialog-centered"
-          isOpen={this.state.CreateHashtagEntryModal}
-          toggle={() => this.toggleModal("CreateHashtagEntryModal")}
+          isOpen={this.state.CreateChallengesModal}
+          toggle={() => this.toggleModal("CreateChallengesModal")}
         >
           <div className="modal-header">
-            <h5 className="modal-title" id="CreateHashtagEntryModalLabel">
-            Create An Hashtag Entry
+            <h5 className="modal-title" id="CreateChallengesModalLabel">
+            Create Challenges
             </h5>
             <button
               aria-label="Close"
               className="close"
               data-dismiss="modal"
               type="button"
-              onClick={() => this.toggleModal("CreateHashtagEntryModal")}
+              onClick={() => this.toggleModal("CreateChallengesModal")}
             >
               <span aria-hidden={true}>×</span>
             </button>
@@ -91,7 +91,7 @@ class CreateHashtagEntryModal extends React.Component {
               <FormGroup>
                 <Input
                   id="exampleFormControlInput1"
-                  placeholder="hashtag entry name"
+                  placeholder="name of challenge"
                   type="text"
                   onChange={e => this.handleChange(e)}
                   name="hashtagEntry"
@@ -107,7 +107,7 @@ class CreateHashtagEntryModal extends React.Component {
               color="secondary"
               data-dismiss="modal"
               type="button"
-              onClick={() => this.toggleModal("CreateHashtagEntryModal")}
+              onClick={() => this.toggleModal("CreateChallengesModal")}
             >
               Close
             </Button>
@@ -131,4 +131,4 @@ const mapDispatchToProps = (dispatch) => ({
 }) 
 
 
-export default connect(null, mapDispatchToProps)(CreateHashtagEntryModal);
+export default connect(null, mapDispatchToProps)(CreateChallengesModal);

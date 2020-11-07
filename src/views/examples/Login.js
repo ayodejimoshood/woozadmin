@@ -2,6 +2,7 @@ import React from "react";
 import { Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { login } from "../../redux/actions/auth";
+import logo from 'assets/img/brand/woozeee.png'
 
 // reactstrap components
 import {
@@ -55,7 +56,8 @@ class Login extends React.Component {
               <img
                 alt="..."
                 width="200px"
-                src={require("../../assets/img/brand/woozeee.png")}
+                // src={require("../../assets/img/brand/woozeee.png")}
+                src={logo}
               />
             </span>
           </div>
