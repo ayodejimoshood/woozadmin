@@ -61,7 +61,7 @@ class CreateEntryCommentsModal extends React.Component {
           type="button"
           onClick={() => this.toggleModal("CreateEntryCommentsModal")}
         >
-          Create Entry Comments
+          CreateEntryComments
         </Button>
         {/* Modal */}
         <Modal
@@ -91,7 +91,20 @@ class CreateEntryCommentsModal extends React.Component {
               <FormGroup>
                 <Input
                   id="exampleFormControlInput1"
-                  placeholder="entry comments"
+                  placeholder="comment"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="hashtagEntry"
+                  value={hashtagEntry}
+                />
+              </FormGroup>
+            </Col>
+
+            <Col md="12">
+              <FormGroup>
+                <Input
+                  id="exampleFormControlInput1"
+                  placeholder="entry id"
                   type="text"
                   onChange={e => this.handleChange(e)}
                   name="hashtagEntry"

@@ -99,14 +99,17 @@ class CreateEntryDataModal extends React.Component {
                 />
               </FormGroup>
             </Col>
-            <Col md="12">
-              <FormGroup controlId="exampleForm.ControlSelect1">
-                <Form.Label>Entry Like</Form.Label>
-                <Form.Control as="select">
-                  <option>True</option>
-                  <option>False</option>
-                </Form.Control>
-              </FormGroup>
+            <Col md="3" className="custom-control custom-radio mb-3 ml-3">
+              {/* <FormGroup> */}
+                <input className="custom-control-input" id="customRadio5" name="custom-radio-2" type="radio" />
+                <label className="custom-control-label" htmlFor="customRadio5"> True </label>
+              {/* </FormGroup> */}
+            </Col>
+            <Col md="3" className="custom-control custom-radio mb-3">
+              {/* <FormGroup> */}
+                <input className="custom-control-input" id="customRadio6" name="custom-radio-2" type="radio" />
+                <label className="custom-control-label" htmlFor="customRadio6"> False </label>
+              {/* </FormGroup> */}
             </Col>
           </Row>
        

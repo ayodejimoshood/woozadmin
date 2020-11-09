@@ -91,7 +91,33 @@ class CreateSponsorModal extends React.Component {
               <FormGroup>
                 <Input
                   id="exampleFormControlInput1"
-                  placeholder="hashtag entry name"
+                  placeholder="sponsor name"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="hashtagEntry"
+                  value={hashtagEntry}
+                />
+              </FormGroup>
+            </Col>
+
+            <Col md="12">
+              <FormGroup>
+                <Input
+                  id="exampleFormControlInput1"
+                  placeholder="sponsor description"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="hashtagEntry"
+                  value={hashtagEntry}
+                />
+              </FormGroup>
+            </Col>
+
+            <Col md="12">
+              <FormGroup>
+                <Input
+                  id="exampleFormControlInput1"
+                  placeholder="#hashtag"
                   type="text"
                   onChange={e => this.handleChange(e)}
                   name="hashtagEntry"

@@ -91,7 +91,46 @@ class CreateEntriesModal extends React.Component {
               <FormGroup>
                 <Input
                   id="exampleFormControlInput1"
-                  placeholder="entries"
+                  placeholder="image url"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="hashtagEntry"
+                  value={hashtagEntry}
+                />
+              </FormGroup>
+            </Col>
+
+            <Col md="12">
+              <FormGroup>
+                <Input
+                  id="exampleFormControlInput1"
+                  placeholder="media url"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="hashtagEntry"
+                  value={hashtagEntry}
+                />
+              </FormGroup>
+            </Col>
+
+            <Col md="12">
+              <FormGroup>
+                <Input
+                  id="exampleFormControlInput1"
+                  placeholder="challenge id"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="hashtagEntry"
+                  value={hashtagEntry}
+                />
+              </FormGroup>
+            </Col>
+
+            <Col md="12">
+              <FormGroup>
+                <Input
+                  id="exampleFormControlInput1"
+                  placeholder="category id"
                   type="text"
                   onChange={e => this.handleChange(e)}
                   name="hashtagEntry"

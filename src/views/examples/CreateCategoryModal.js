@@ -91,7 +91,31 @@ class CreateMerchantModals extends React.Component {
                   <FormGroup>
                     <Input
                       id="exampleFormControlInput1"
+                      placeholder="category description"
+                      type="text"
+                      name="cartegoryName"
+                      value={cartegoryName}
+                      onChange={e => this.handleChange(e)}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col md="12">
+                  <FormGroup>
+                    <Input
+                      id="exampleFormControlInput1"
                       placeholder="category name"
+                      type="text"
+                      name="cartegoryName"
+                      value={cartegoryName}
+                      onChange={e => this.handleChange(e)}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col md="12">
+                  <FormGroup>
+                    <Input
+                      id="exampleFormControlInput1"
+                      placeholder="#hashtag"
                       type="text"
                       name="cartegoryName"
                       value={cartegoryName}

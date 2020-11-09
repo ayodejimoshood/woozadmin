@@ -9,6 +9,14 @@ import Insurance from "views/examples/Insurance.js";
 import Verticals from "views/examples/Verticals.js";
 import Icons from "views/examples/Icons.js";
 import Socials from "views/examples/Socials";
+import Hashtag from "views/examples/Hashtag";
+import Categories from "views/examples/Categories";
+import Sponsor from "views/examples/Sponsor";
+import Challenges from "views/examples/Challenges";
+import Entries from "views/examples/Entries";
+import EntryComments from "views/examples/EntryComments";
+import UserStories from "views/examples/UserStories";
+import EntryData from "views/examples/EntryData";
 
 var routes = [
   {
@@ -20,7 +28,7 @@ var routes = [
   },
   {
     path: "/index  ",
-    path: "/index",
+    // path: "/index",
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Index,
@@ -83,10 +91,50 @@ var routes = [
     path: "/socials",
     name: "Socials",
     icon: "ni ni-circle-08 text-pink",
-
     component: Socials,
     layout: "/admin",
   },
+  {
+    path: "/hashtag",
+    component: Hashtag,
+    layout: "/admin",
+  },
+  {
+    path: "/categories",
+    component: Categories,
+    layout: "/admin",
+  },
+  {
+    path: '/sponsor',
+    component: Sponsor,
+    layout: '/admin'
+  },
+  {
+    path: "/challenges",
+    component: Challenges,
+    layout: "/admin",
+  },
+  {
+    path: "/entries",
+    component: Entries,
+    layout: "/admin",
+  },
+  {
+    path: "/entrycomments",
+    component: EntryComments,
+    layout: "/admin",
+  },
+  {
+    path: "/entrydata",
+    component: EntryData,
+    layout: "/admin",
+  },
+  {
+    path: "/userstories",
+    component: UserStories,
+    layout: "/admin",
+  },
+  
   // {
   //   path: "/settings",
   //   name: "Settings",
@@ -104,4 +152,5 @@ var routes = [
   //   layout: "/auth"
   // }
 ];
+
 export default routes;
