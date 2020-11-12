@@ -26,6 +26,8 @@ import Header from "components/Headers/Header.js";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { handleGetHashtags } from "redux/actions/hashtag";
+import DeleteHashtagModal from "./DeleteHashtagModal";
+import EditHashtagModal from "./EditHashtagModal";
 
 class Hashtag extends React.Component {
   state = {
@@ -68,7 +70,7 @@ class Hashtag extends React.Component {
                     <tr>
                       <th scope="col">ID</th>
                       <th scope="col">Name</th>
-                      <th scope="col"></th>
+                      <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -117,8 +119,6 @@ class Hashtag extends React.Component {
 
                       ))
                     }
-
-
                   </tbody>
                 </Table>
               </Card>

@@ -20,10 +20,13 @@ import {
   Container,
   Row,
   UncontrolledTooltip,
+  Col,
 } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.js";
 import { Link } from "react-router-dom";
+import EditSponsorModal from "./EditSponsorModal";
+import DeleteSponsorModal from "./DeleteSponsorModal";
 // import { handleGetSponsor } from "redux/actions/Sponsor";
 import { connect } from "react-redux";
 import { handleGetSponsors } from "redux/actions/sponsors";
@@ -72,7 +75,7 @@ class Sponsor extends React.Component {
                       <th scope="col">Name</th>
                       <th scope="col">Hashtag</th>
                       <th scope="col">Image</th>
-                      <th scope="col"></th>
+                      <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -139,9 +142,6 @@ class Sponsor extends React.Component {
                         </tr>
                       ))
                     }
-
-
-
                   </tbody>
                 </Table>
               </Card>

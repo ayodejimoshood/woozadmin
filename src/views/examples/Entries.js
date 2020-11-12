@@ -24,6 +24,9 @@ import {
 // core components
 import Header from "components/Headers/Header.js";
 import { Link } from "react-router-dom";
+import EditEntryDataModal from "./EditEntryDataModal";
+import EditEntriesModal from "./EditEntriesModal";
+import DeleteEntriesModal from "./DeleteEntriesModal";
 
 class Entries extends React.Component {
   
@@ -120,36 +123,12 @@ class Entries extends React.Component {
                           </a>
                         </Media>
                       </th>
+
+                      <th scope='row'>
+                        <EditEntriesModal/>
+                        <DeleteEntriesModal/>
+                      </th>
                       
-                      <td className="text-right">
-                        <UncontrolledDropdown>
-                          <DropdownToggle
-                            className="btn-icon-only text-light"
-                            href="#pablo"
-                            role="button"
-                            size="sm"
-                            color=""
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            <i className="fas fa-ellipsis-v" />
-                          </DropdownToggle>
-                          <DropdownMenu className="dropdown-menu-arrow" right>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              Edit
-                            </DropdownItem>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              Delete
-                            </DropdownItem>
-                            
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
-                      </td>
                     </tr>
                     
                     

@@ -117,7 +117,6 @@ class CreateEntryDataModal extends React.Component {
               {/* </FormGroup> */}
             </Col>
           </Row>
-       
           </div>
           <div className="modal-footer">
             <Button

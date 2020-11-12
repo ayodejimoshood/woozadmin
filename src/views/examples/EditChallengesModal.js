@@ -18,12 +18,10 @@ import {
 } from "reactstrap";
 import { handleAddHashtagEntry } from "redux/actions/socials";
 
-class CreateChallengesModal extends React.Component {
+class EditChallengesModal extends React.Component {
   state = {
-    CreateChallengesModal: false,
-    id: '',
-    name: '',
-    imageURL: '',
+    EditChallengesModal: false,
+    hashtagEntry: '',
     isMakingRequest: false
   };
   toggleModal = (state) => {
@@ -41,12 +39,12 @@ class CreateChallengesModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { id, name, imageURL } = this.state;
-    if (id === '' || name === '' || imageURL === '') return;
+    const { hashtagEntry } = this.state;
+    if (hashtagEntry === '') return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addHashtagEntry({name, categoryId:id, imageURL}).then(res => {
+    this.props.addHashtagEntry({name: hashtagEntry}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
@@ -54,33 +52,29 @@ class CreateChallengesModal extends React.Component {
   }
 
   render() {
-    const { name, id, imageURL, isMakingRequest } = this.state
+    const { hashtagEntry, isMakingRequest } = this.state
     return (
       <>
         {/* Button trigger modal */}
-        <Button
-          color="primary"
-          type="button"
-          onClick={() => this.toggleModal("CreateChallengesModal")}
-        >
-          Create Challenges
+        <Button color="primary" type="button" onClick={() => this.toggleModal("EditChallengesModal")}>
+          Edit
         </Button>
         {/* Modal */}
         <Modal
           className="modal-dialog-centered"
-          isOpen={this.state.CreateChallengesModal}
-          toggle={() => this.toggleModal("CreateChallengesModal")}
+          isOpen={this.state.EditChallengesModal}
+          toggle={() => this.toggleModal("EditChallengesModal")}
         >
           <div className="modal-header">
-            <h5 className="modal-title" id="CreateChallengesModalLabel">
-            Create Challenges
+            <h5 className="modal-title" id="EditChallengesModalLabel">
+            Edit Challenges
             </h5>
             <button
               aria-label="Close"
               className="close"
               data-dismiss="modal"
               type="button"
-              onClick={() => this.toggleModal("CreateChallengesModal")}
+              onClick={() => this.toggleModal("EditChallengesModal")}
             >
               <span aria-hidden={true}>×</span>
             </button>
@@ -93,20 +87,7 @@ class CreateChallengesModal extends React.Component {
               <FormGroup>
                 <Input
                   id="exampleFormControlInput1"
-                  placeholder="category id"
-                  type="text"
-                  onChange={e => this.handleChange(e)}
-                  name="id"
-                  value={id}
-                />
-              </FormGroup>
-            </Col>
-
-            <Col md="12">
-              <FormGroup>
-                <Input
-                  id="exampleFormControlInput1"
-                  placeholder="name"
+                  placeholder="challenge name"
                   type="text"
                   onChange={e => this.handleChange(e)}
                   name="hashtagEntry"
@@ -115,31 +96,7 @@ class CreateChallengesModal extends React.Component {
               </FormGroup>
             </Col>
 
-            <Col md="12">
-              <FormGroup>
-                <Input
-                  id="exampleFormControlInput1"
-                  placeholder="#hashtag"
-                  type="text"
-                  onChange={e => this.handleChange(e)}
-                  name="name"
-                  value={name}
-                />
-              </FormGroup>
-            </Col>
-
-            <Col md="12">
-              <FormGroup>
-                <Input
-                  id="exampleFormControlInput1"
-                  placeholder="image url"
-                  type="text"
-                  onChange={e => this.handleChange(e)}
-                  name="imageURL"
-                  value={imageURL}
-                />
-              </FormGroup>
-            </Col>
+            
           </Row>
        
           </div>
@@ -148,14 +105,14 @@ class CreateChallengesModal extends React.Component {
               color="secondary"
               data-dismiss="modal"
               type="button"
-              onClick={() => this.toggleModal("CreateChallengesModal")}
+              onClick={() => this.toggleModal("EditChallengesModal")}
             >
               Close
             </Button>
             <Button 
               color="primary" 
               type="submit"
-              disabled={id === '' || name === '' || imageURL === '' || isMakingRequest === true}
+              disabled={hashtagEntry === '' || isMakingRequest === true}
             >
               Create
             </Button>
@@ -172,4 +129,4 @@ const mapDispatchToProps = (dispatch) => ({
 }) 
 
 
-export default connect(null, mapDispatchToProps)(CreateChallengesModal);
+export default connect(null, mapDispatchToProps)(EditChallengesModal);
