@@ -24,6 +24,8 @@ import {
 // core components
 import Header from "components/Headers/Header.js";
 import { Link } from "react-router-dom";
+import DeleteHashtagModal from "./DeleteHashtagModal";
+import EditHashtagModal from "./EditHashtagModal";
 // import { handleGetHashtag } from "redux/actions/Hashtag";
 // import { connect } from "react-redux";
 
@@ -58,7 +60,7 @@ class Hashtag extends React.Component {
                     <tr>
                       <th scope="col">ID</th>
                       <th scope="col">Name</th>
-                      <th scope="col"></th>
+                      <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -71,37 +73,12 @@ class Hashtag extends React.Component {
                       <td>
                         <span className="mb-0 text-sm">Hashtag Name</span>
                       </td>
+
+                      <th scope='row'>
+                        <EditHashtagModal/>
+                        <DeleteHashtagModal/>
+                      </th>
                       
-                      
-                      <td className="text-right">
-                        <UncontrolledDropdown>
-                          <DropdownToggle
-                            className="btn-icon-only text-light"
-                            href="#pablo"
-                            role="button"
-                            size="sm"
-                            color=""
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            <i className="fas fa-ellipsis-v" />
-                          </DropdownToggle>
-                          <DropdownMenu className="dropdown-menu-arrow" right>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              Edit
-                            </DropdownItem>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              Delete
-                            </DropdownItem>
-                            
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
-                      </td>
                     </tr>
                     
                     

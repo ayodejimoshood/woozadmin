@@ -18,9 +18,9 @@ import {
 } from "reactstrap";
 import { handleAddHashtagEntry } from "redux/actions/socials";
 
-class CreateEntryDataModal extends React.Component {
+class EditEntryDataModal extends React.Component {
   state = {
-    CreateEntryDataModal: false,
+    EditEntryDataModal: false,
     hashtagEntry: '',
     isMakingRequest: false
   };
@@ -56,29 +56,25 @@ class CreateEntryDataModal extends React.Component {
     return (
       <>
         {/* Button trigger modal */}
-        <Button
-          color="primary"
-          type="button"
-          onClick={() => this.toggleModal("CreateEntryDataModal")}
-        >
-          Create Entry Data
+        <Button color="primary" type="button" onClick={() => this.toggleModal("EditEntryDataModal")}>
+          Edit
         </Button>
         {/* Modal */}
         <Modal
           className="modal-dialog-centered"
-          isOpen={this.state.CreateEntryDataModal}
-          toggle={() => this.toggleModal("CreateEntryDataModal")}
+          isOpen={this.state.EditEntryDataModal}
+          toggle={() => this.toggleModal("EditEntryDataModal")}
         >
           <div className="modal-header">
-            <h5 className="modal-title" id="CreateEntryDataModalLabel">
-            Create Entry Data
+            <h5 className="modal-title" id="EditEntryDataModalLabel">
+            Edit Entry Data
             </h5>
             <button
               aria-label="Close"
               className="close"
               data-dismiss="modal"
               type="button"
-              onClick={() => this.toggleModal("CreateEntryDataModal")}
+              onClick={() => this.toggleModal("EditEntryDataModal")}
             >
               <span aria-hidden={true}>×</span>
             </button>
@@ -86,39 +82,30 @@ class CreateEntryDataModal extends React.Component {
           <Form onSubmit={this.handleSubmit}>
           <div className="modal-body">
           
-            <Row>
-              <Col md="12">
-                <FormGroup>
-                  <Input
-                    id="exampleFormControlInput1"
-                    placeholder="entry id"
-                    type="text"
-                    onChange={e => this.handleChange(e)}
-                    name="hashtagEntry"
-                    value={hashtagEntry}
-                  />
-                </FormGroup>
-              </Col>
-              <Col md="3" className="custom-control custom-radio mb-3 ml-3">
-                {/* <FormGroup> */}
-                  <input className="custom-control-input" id="customRadio5" name="custom-radio-2" type="radio" />
-                  <label className="custom-control-label" htmlFor="customRadio5"> True </label>
-                {/* </FormGroup> */}
-              </Col>
-              <Col md="3" className="custom-control custom-radio mb-3">
-                {/* <FormGroup> */}
-                  <input className="custom-control-input" id="customRadio6" name="custom-radio-2" type="radio" />
-                  <label className="custom-control-label" htmlFor="customRadio6"> False </label>
-                {/* </FormGroup> */}
-              </Col>
-            </Row>
+          <Row>
+            <Col md="12">
+              <FormGroup>
+                <Input
+                  id="exampleFormControlInput1"
+                  placeholder="challenge name"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="hashtagEntry"
+                  value={hashtagEntry}
+                />
+              </FormGroup>
+            </Col>
+
+           
+          </Row>
+       
           </div>
           <div className="modal-footer">
             <Button
               color="secondary"
               data-dismiss="modal"
               type="button"
-              onClick={() => this.toggleModal("CreateEntryDataModal")}
+              onClick={() => this.toggleModal("EditEntryDataModal")}
             >
               Close
             </Button>
@@ -142,4 +129,4 @@ const mapDispatchToProps = (dispatch) => ({
 }) 
 
 
-export default connect(null, mapDispatchToProps)(CreateEntryDataModal);
+export default connect(null, mapDispatchToProps)(EditEntryDataModal);

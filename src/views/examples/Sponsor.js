@@ -20,10 +20,13 @@ import {
   Container,
   Row,
   UncontrolledTooltip,
+  Col,
 } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.js";
 import { Link } from "react-router-dom";
+import EditSponsorModal from "./EditSponsorModal";
+import DeleteSponsorModal from "./DeleteSponsorModal";
 // import { handleGetSponsor } from "redux/actions/Sponsor";
 // import { connect } from "react-redux";
 
@@ -60,7 +63,7 @@ class Sponsor extends React.Component {
                       <th scope="col">Name</th>
                       <th scope="col">Hashtag</th>
                       <th scope="col">Image</th>
-                      <th scope="col"></th>
+                      <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -94,35 +97,10 @@ class Sponsor extends React.Component {
                         </Media>
                       </th>
                       
-                      <td className="text-right">
-                        <UncontrolledDropdown>
-                          <DropdownToggle
-                            className="btn-icon-only text-light"
-                            href="#pablo"
-                            role="button"
-                            size="sm"
-                            color=""
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            <i className="fas fa-ellipsis-v" />
-                          </DropdownToggle>
-                          <DropdownMenu className="dropdown-menu-arrow" right>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              Edit
-                            </DropdownItem>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              Delete
-                            </DropdownItem>
-                            
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
-                      </td>
+                      <th scope='row'>
+                        <EditSponsorModal/>
+                        <DeleteSponsorModal/>
+                      </th>
                     </tr>
                     
                     

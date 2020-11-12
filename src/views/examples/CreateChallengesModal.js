@@ -91,7 +91,7 @@ class CreateChallengesModal extends React.Component {
               <FormGroup>
                 <Input
                   id="exampleFormControlInput1"
-                  placeholder="sponsor id"
+                  placeholder="category id"
                   type="text"
                   onChange={e => this.handleChange(e)}
                   name="hashtagEntry"
@@ -104,7 +104,20 @@ class CreateChallengesModal extends React.Component {
               <FormGroup>
                 <Input
                   id="exampleFormControlInput1"
-                  placeholder="sponsor name"
+                  placeholder="name"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="hashtagEntry"
+                  value={hashtagEntry}
+                />
+              </FormGroup>
+            </Col>
+
+            <Col md="12">
+              <FormGroup>
+                <Input
+                  id="exampleFormControlInput1"
+                  placeholder="#hashtag"
                   type="text"
                   onChange={e => this.handleChange(e)}
                   name="hashtagEntry"
