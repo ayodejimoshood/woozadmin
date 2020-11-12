@@ -28,6 +28,7 @@ import { connect } from "react-redux";
 import { handleGetHashtags } from "redux/actions/hashtag";
 import DeleteHashtagModal from "./DeleteHashtagModal";
 import EditHashtagModal from "./EditHashtagModal";
+import { handleDeleteHashtag } from "redux/actions/hashtag";
 
 class Hashtag extends React.Component {
   state = {
@@ -41,6 +42,13 @@ class Hashtag extends React.Component {
       })
     })
   }
+
+  handleDelete(id) {
+    if (window.confirm("Are you sure you want to delete this hashtag?")) {
+      this.props.deleteHashtag(id)
+    }
+  }
+
   render() {
     const { hashtag } = this.props
     return (
@@ -106,8 +114,7 @@ class Hashtag extends React.Component {
                                   Edit
                             </DropdownItem>
                                 <DropdownItem
-                                  href="#pablo"
-                                  onClick={(e) => e.preventDefault()}
+                                  onClick={() => this.handleDelete(hash._id)}
                                 >
                                   Delete
                             </DropdownItem>
@@ -138,7 +145,8 @@ const mapStateToProps = ({ socials: { hashtag } }) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getHashtags: () => dispatch(handleGetHashtags())
+  getHashtags: () => dispatch(handleGetHashtags()),
+  deleteHashtag: (id) => dispatch(handleDeleteHashtag(id))
 })
 
 

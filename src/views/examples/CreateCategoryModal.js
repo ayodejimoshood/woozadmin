@@ -16,7 +16,6 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { handleAddCartegory } from "redux/actions/socials";
 
 class CreateMerchantModals extends React.Component {
   state = {
@@ -46,7 +45,7 @@ class CreateMerchantModals extends React.Component {
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addCartegory({name: cartegoryName, description: categoryDesc, hashtag}).then(res => {
+    this.props.createCategory({name: cartegoryName, description: categoryDesc, hashtag}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
@@ -152,7 +151,7 @@ class CreateMerchantModals extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addCartegory: (cartegory) => dispatch(handleAddCartegory(cartegory)) 
+  createCategory: (category) => dispatch(handleCreateCategory(category))
 }) 
 
 export default connect(null, mapDispatchToProps)(CreateMerchantModals);

@@ -51,6 +51,11 @@ class CreateHashtagModal extends React.Component {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
+      if (res === 'success') {
+        this.setState({
+          hashtagName: ''
+        })
+      }
     })
   }
 
@@ -129,7 +134,7 @@ class CreateHashtagModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  createHashtag: (hashtag) => dispatch(handleCreateHashtag(hashtag)) 
+  createHashtag: (hashtag) => dispatch(handleCreateHashtag(hashtag))
 }) 
 
 export default connect(null, mapDispatchToProps)(CreateHashtagModal);

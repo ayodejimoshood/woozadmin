@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { toastr } from 'react-redux-toastr'
 import { toastrOptions } from '../../utils/helpers'
-import { CREATE_HASHTAG, GET_HASHTAGS, GET_HASHTAG, DELETE_HASHTAG } from './types'
+import { CREATE_CATEGORY, GET_CATEGORIES, GET_CATEGORY, DELETE_CATEGORY } from './types'
 
 
 export const handleCreateHashtag = (data) => async (dispatch, getState) => {
@@ -9,7 +9,7 @@ export const handleCreateHashtag = (data) => async (dispatch, getState) => {
   const accessToken = state.auth.token;
   const config = {
     method: 'post',
-    url: `https://apis.woozeee.com/api/v1/hashtags    `,
+    url: `https://apis.woozeee.com/api/v1/categories/`,
     headers: {
       'Content-Type': 'application/json',
       'Authorization': accessToken
@@ -20,15 +20,15 @@ export const handleCreateHashtag = (data) => async (dispatch, getState) => {
     const response = await axios(config)
     console.log(response)
     dispatch({
-      type: CREATE_HASHTAG,
+      type: CREATE_CATEGORY,
       payload: response.data.data
     })
-    toastr.success('', 'Hashtag created successfully', toastrOptions)
+    toastr.success('', 'Category created successfully', toastrOptions)
     return 'success';
   } catch (error) {
     console.log(error.response);
-    if (error.response.data.message === 'hashtag already exists') {
-      toastr.error('', `Hashtag already exists`, toastrOptions)
+    if (error.response.data.message === 'category already exists') {
+      toastr.error('', `Category already exists`, toastrOptions)
       return;
     }
     toastr.error(`An error occured`, toastrOptions)
@@ -36,12 +36,12 @@ export const handleCreateHashtag = (data) => async (dispatch, getState) => {
   }
 }
 
-export const handleGetHashtags = () => async (dispatch, getState) => {
+export const handleGetCategories = () => async (dispatch, getState) => {
   const state = getState();
   const accessToken = state.auth.token;
   const config = {
     method: 'get',
-    url: `https://apis.woozeee.com/api/v1/hashtags?pageNumber=1&pageSize=10&name`,
+    url: `https://apis.woozeee.com/api/v1/categories?pageNumber=1&pageSize=50`,
     headers: {
       'Authorization': accessToken
     },
@@ -50,25 +50,25 @@ export const handleGetHashtags = () => async (dispatch, getState) => {
     const response = await axios(config)
     console.log(response)
     dispatch({
-      type: GET_HASHTAGS,
+      type: GET_CATEGORIES,
       payload: response.data.data
     })
     return;
   } catch (error) {
     console.log(error.response);
-    toastr.error(`An error occured getting the hashtags`, toastrOptions)
+    toastr.error(`An error occured getting the categorues`, toastrOptions)
     return
   }
 }
 
 
 // to handle delete an hashtag
-export const handleDeleteHashtag = (data) => async (dispatch, getState) => {
+export const handleDeleteCategory = (data) => async (dispatch, getState) => {
   const state = getState();
   const accessToken = state.auth.token;
   const config = {
     method: 'delete',
-    url: `https://apis.woozeee.com/api/v1/hashtags/${data}`,
+    url: `https://apis.woozeee.com/api/v1/categories/${data}`,
     headers: {
       'Authorization': accessToken,
       'Content-Type': 'application/json',
@@ -78,14 +78,14 @@ export const handleDeleteHashtag = (data) => async (dispatch, getState) => {
     const response = await axios(config)
     console.log(data)
     dispatch({
-      type: DELETE_HASHTAG,
+      type: DELETE_CATEGORY,
       payload: data
     })
-    toastr.success('', 'Hashtag deleted successfully', toastrOptions)
+    toastr.success('', 'Category deleted successfully', toastrOptions)
     return;
   } catch (error) {
     console.log(error.response);
-    toastr.error(`An error occured in deleting hashtag`, toastrOptions)
+    toastr.error(`An error occured in deleting category`, toastrOptions)
     return
   }
 }
