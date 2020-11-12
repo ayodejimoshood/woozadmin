@@ -24,6 +24,7 @@ class CreateChallengesModal extends React.Component {
     id: '',
     name: '',
     imageURL: '',
+    hashtag: '',
     isMakingRequest: false
   };
   toggleModal = (state) => {
@@ -54,7 +55,7 @@ class CreateChallengesModal extends React.Component {
   }
 
   render() {
-    const { name, id, imageURL, isMakingRequest } = this.state
+    const { name, id, imageURL, hashtag, isMakingRequest } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -109,8 +110,8 @@ class CreateChallengesModal extends React.Component {
                   placeholder="name"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="name"
+                  value={name}
                 />
               </FormGroup>
             </Col>
@@ -122,8 +123,8 @@ class CreateChallengesModal extends React.Component {
                   placeholder="#hashtag"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="name"
-                  value={name}
+                  name="hashtag"
+                  value={hashtag}
                 />
               </FormGroup>
             </Col>

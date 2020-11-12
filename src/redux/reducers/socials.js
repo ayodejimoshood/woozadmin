@@ -1,4 +1,4 @@
-import { ADD_CARTEGORY, ADD_HASHTAG, ADD_HASHTAG_ENTRY, GET_HASHTAGS, GET_SPONSORS, CREATE_SPONSOR } from '../actions/types'
+import { ADD_CARTEGORY, ADD_HASHTAG, ADD_HASHTAG_ENTRY, GET_HASHTAGS, GET_SPONSORS, CREATE_SPONSOR, DELETE_SPONSOR } from '../actions/types'
 
 const INITIAL_STATE = {
   cartegory: [],
@@ -22,7 +22,15 @@ export default function socials(state = INITIAL_STATE, action) {
     case CREATE_SPONSOR:
       return {
         ...state,
-        sponsors: [...state.sponsors, ...action.payload]
+        sponsors: [...state.sponsors, action.payload]
+      }
+    case DELETE_SPONSOR:
+      return {
+        ...state,
+        sponsors: state.sponsors.filter(sp => {
+          console.log(sp._id)
+          return sp._id !== action.payload
+        })
       }
     case GET_HASHTAGS:
       return {

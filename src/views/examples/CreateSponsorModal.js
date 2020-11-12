@@ -10,7 +10,6 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { handleAddHashtagEntry } from "redux/actions/socials";
 import { handleCreateSponsor } from "redux/actions/sponsors";
 
 class CreateSponsorModal extends React.Component {
@@ -45,6 +44,13 @@ class CreateSponsorModal extends React.Component {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
+      if (res === 'success') {
+        this.setState({
+          sponsorName: '',
+          sponsorDesc: '',
+          hashTag: ''
+        })
+      }
     })
   }
 

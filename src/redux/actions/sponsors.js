@@ -5,7 +5,7 @@ import { CREATE_SPONSOR, GET_SPONSORS, GET_SPONSOR, DELETE_SPONSOR } from './typ
 
 
 // to handle create a new sponsor
-export const handleCreateSponsor = (data) => async (dispatch, getState) => {
+export const handleCreateSponsor = (body) => async (dispatch, getState) => {
   const state = getState();
   const accessToken = state.auth.token;
   const config = {
@@ -15,17 +15,17 @@ export const handleCreateSponsor = (data) => async (dispatch, getState) => {
       'Content-Type': 'application/json',
       'Authorization': accessToken
     },
-    data: JSON.stringify(data)
+    data: JSON.stringify(body)
   }
   try {
     const response = await axios(config)
-    console.log(response)
+    console.log(response.data.data)
     dispatch({
       type: CREATE_SPONSOR,
       payload: response.data.data
     })
     toastr.success('', 'Sponsor created successfully', toastrOptions)
-    return;
+    return 'success';
   } catch (error) {
     console.log(error.response);
     if (error.response.data.message === 'sponsor already exists') {
@@ -73,20 +73,22 @@ export const handleDeleteSponsor = (data) => async (dispatch, getState) => {
     method: 'delete',
     url: `https://apis.woozeee.com/api/v1/sponsors/${data}`,
     headers: {
-      'Authorization': accessToken
+      'Authorization': accessToken,
+      'Content-Type': 'application/json',
     },
   }
   try {
     const response = await axios(config)
-    console.log(response)
+    console.log(data)
     dispatch({
       type: DELETE_SPONSOR,
+      payload: data
     })
     toastr.success('', 'Sponsor deleted successfully', toastrOptions)
     return;
   } catch (error) {
     console.log(error.response);
-    toastr.error(`An error occured`, toastrOptions)
+    toastr.error(`An error occured in deleting sponsor`, toastrOptions)
     return
   }
 }

@@ -30,6 +30,7 @@ import DeleteSponsorModal from "./DeleteSponsorModal";
 // import { handleGetSponsor } from "redux/actions/Sponsor";
 import { connect } from "react-redux";
 import { handleGetSponsors } from "redux/actions/sponsors";
+import { handleDeleteSponsor } from "redux/actions/sponsors";
 
 class Sponsor extends React.Component {
   state = {
@@ -41,6 +42,12 @@ class Sponsor extends React.Component {
         loading: false
       })
     })
+  }
+
+  handleDelete(id) {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      this.props.deleteSponsor(id)
+    }
   }
 
   render() {
@@ -81,7 +88,7 @@ class Sponsor extends React.Component {
                   <tbody>
                     {
                       sponsors.map(sponsor => (
-                        <tr>
+                        <tr key={sponsor._id}>
                           <td>
                             <span className="mb-0 text-sm">{sponsor._id}</span>
                           </td>
@@ -130,8 +137,7 @@ class Sponsor extends React.Component {
                                   Edit
                             </DropdownItem>
                                 <DropdownItem
-                                  href="#pablo"
-                                  onClick={(e) => e.preventDefault()}
+                                  onClick={() => this.handleDelete(sponsor._id)}
                                 >
                                   Delete
                             </DropdownItem>
@@ -160,7 +166,8 @@ const mapStateToProps = ({ socials: { sponsors } }) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getSponsors: () => dispatch(handleGetSponsors())
+  getSponsors: () => dispatch(handleGetSponsors()),
+  deleteSponsor: (id) => dispatch(handleDeleteSponsor(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sponsor);
