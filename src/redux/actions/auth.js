@@ -27,23 +27,19 @@ const toastrOptions = {
 //  LOGIN USER
 export const login = (payload, history) =>  (dispatch) => {
 
-  console.log(payload, history)
-  fetch("https://scalable-commerce-backend.herokuapp.com/api/v1/auth/signin", {
+  fetch("https://apis.woozeee.com/api/v1/user/login", {
     method: "POST",
     body: JSON.stringify(payload),
     headers: {
-      "Content-Type": "application/json; charset=utf-8"
+      "Content-Type": "application/json"
     },
-    credentials: "same-origin"
   }).then(response => response.json())
   .then(data => {
-    if (data.message !== 'User updated successfully') {
+    if (data.message !== 'user logedin successfully') {
       toastr.error('', 'Incorrect email or password', toastrOptions)
       return;
     }
-    console.log(data)
-    const {email} = payload
-    data['email'] = email
+    console.log({token: data.token})
     toastr.success('', 'Login Success', toastrOptions)
     
     dispatch({

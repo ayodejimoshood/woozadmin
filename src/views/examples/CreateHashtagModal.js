@@ -16,7 +16,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { handleAddHashtag } from "redux/actions/socials";
+import { handleCreateHashtag } from "redux/actions/hashtag";
 
 class CreateHashtagModal extends React.Component {
 
@@ -43,15 +43,19 @@ class CreateHashtagModal extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { hashtagName } = this.state;
-    console.log(hashtagName)
     if (hashtagName === '') return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addHashtag({name: hashtagName}).then(res => {
+    this.props.createHashtag({name: hashtagName}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
+      if (res === 'success') {
+        this.setState({
+          hashtagName: ''
+        })
+      }
     })
   }
 
@@ -130,7 +134,7 @@ class CreateHashtagModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addHashtag: (hashtag) => dispatch(handleAddHashtag(hashtag)) 
+  createHashtag: (hashtag) => dispatch(handleCreateHashtag(hashtag))
 }) 
 
 export default connect(null, mapDispatchToProps)(CreateHashtagModal);

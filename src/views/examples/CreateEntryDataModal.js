@@ -21,7 +21,8 @@ import { handleAddHashtagEntry } from "redux/actions/socials";
 class CreateEntryDataModal extends React.Component {
   state = {
     CreateEntryDataModal: false,
-    hashtagEntry: '',
+    entryId: '',
+    isLike: undefined,
     isMakingRequest: false
   };
   toggleModal = (state) => {
@@ -39,12 +40,12 @@ class CreateEntryDataModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { hashtagEntry } = this.state;
-    if (hashtagEntry === '') return;
+    const { entryId, isLike } = this.state;
+    if (!entryId, !isLike) return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addHashtagEntry({name: hashtagEntry}).then(res => {
+    this.props.addHashtagEntry({entryId, isLike}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
@@ -52,7 +53,7 @@ class CreateEntryDataModal extends React.Component {
   }
 
   render() {
-    const { hashtagEntry, isMakingRequest } = this.state
+    const { isMakingRequest, entryId, isLike } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -86,32 +87,36 @@ class CreateEntryDataModal extends React.Component {
           <Form onSubmit={this.handleSubmit}>
           <div className="modal-body">
           
-            <Row>
-              <Col md="12">
-                <FormGroup>
-                  <Input
-                    id="exampleFormControlInput1"
-                    placeholder="entry id"
-                    type="text"
-                    onChange={e => this.handleChange(e)}
-                    name="hashtagEntry"
-                    value={hashtagEntry}
-                  />
-                </FormGroup>
-              </Col>
-              <Col md="3" className="custom-control custom-radio mb-3 ml-3">
-                {/* <FormGroup> */}
-                  <input className="custom-control-input" id="customRadio5" name="custom-radio-2" type="radio" />
-                  <label className="custom-control-label" htmlFor="customRadio5"> True </label>
-                {/* </FormGroup> */}
-              </Col>
-              <Col md="3" className="custom-control custom-radio mb-3">
-                {/* <FormGroup> */}
-                  <input className="custom-control-input" id="customRadio6" name="custom-radio-2" type="radio" />
-                  <label className="custom-control-label" htmlFor="customRadio6"> False </label>
-                {/* </FormGroup> */}
-              </Col>
-            </Row>
+          <Row>
+            <Col md="12">
+              <FormGroup>
+                <Input
+                  id="exampleFormControlInput1"
+                  placeholder="entry id"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="entryId"
+                  value={entryId}
+                />
+              </FormGroup>
+            </Col>
+            <Col md="3" className="custom-control custom-radio mb-3 ml-3">
+              {/* <FormGroup> */}
+                <input className="custom-control-input" id="customRadio5" name="isLike" type="radio" value="true"
+                checked={isLike === "true"}
+                onChange={(e) => this.handleChange(e)} />
+                <label className="custom-control-label" htmlFor="customRadio5"> True </label>
+              {/* </FormGroup> */}
+            </Col>
+            <Col md="3" className="custom-control custom-radio mb-3">
+              {/* <FormGroup> */}
+                <input className="custom-control-input" id="customRadio6" name="isLike" type="radio" value="false"
+                checked={isLike === "false"}
+                onChange={(e) => this.handleChange(e)} />
+                <label className="custom-control-label" htmlFor="customRadio6"> False </label>
+              {/* </FormGroup> */}
+            </Col>
+          </Row>
           </div>
           <div className="modal-footer">
             <Button
@@ -125,7 +130,7 @@ class CreateEntryDataModal extends React.Component {
             <Button 
               color="primary" 
               type="submit"
-              disabled={hashtagEntry === '' || isMakingRequest === true}
+              disabled={!entryId || !isLike || isMakingRequest === true}
             >
               Create
             </Button>

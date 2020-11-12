@@ -18,3 +18,8 @@ const dateArr = {
 export const convertDateToNumber = (dateString) => {
   return dateArr[dateString];
 }
+
+export const toastrOptions = {
+  timeOut: 6000, 
+  showCloseButton: true, 
+}

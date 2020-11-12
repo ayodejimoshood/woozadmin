@@ -107,13 +107,10 @@ class AdminNavbar extends React.Component {
 
 const mapStateToProps = ({ auth }) => {
   if (auth.user) {
-    const {user: { firstName, lastName}} = auth;
-    const capitalise = (name) => {
-      return name[0].toUpperCase() + name.slice(1)
-    }
+    const {user: { fName, sName}} = auth;
     return {
-      firstName: capitalise(firstName),
-      lastName: capitalise(lastName)
+      firstName: fName,
+      lastName: sName
     }
   }
   

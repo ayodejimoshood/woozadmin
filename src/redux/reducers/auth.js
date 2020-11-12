@@ -30,12 +30,13 @@ export default function(state = initialState, action){
         user: action.payload
       }
     case LOGIN_SUCCESS:
+      console.log({payload: action.payload})
       return {
         ...state,
         ...action.payload,
         isAuthenticated:true,
         isLoading:false,
-        token: action.payload.user.accessToken
+        token: action.payload.token
       }
     case LOGOUT_SUCCESS:
       return {

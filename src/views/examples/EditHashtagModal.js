@@ -16,6 +16,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { handleEditHashtag } from "redux/actions/hashtag";
 import { handleAddHashtagEntry } from "redux/actions/socials";
 
 class EditHashtagModal extends React.Component {
@@ -24,6 +25,13 @@ class EditHashtagModal extends React.Component {
     hashtagEntry: '',
     isMakingRequest: false
   };
+
+  componentDidMount() {
+    const { hash } = this.props;
+    this.setState({
+      hashtagEntry: hash.name
+    })
+  }
   toggleModal = (state) => {
     this.setState({
       [state]: !this.state[state],
@@ -44,7 +52,7 @@ class EditHashtagModal extends React.Component {
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addHashtagEntry({name: hashtagEntry}).then(res => {
+    this.props.editHashtag({name: hashtagEntry}, this.props.hash._id).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
@@ -53,6 +61,7 @@ class EditHashtagModal extends React.Component {
 
   render() {
     const { hashtagEntry, isMakingRequest } = this.state
+    const { hash } = this.props
     return (
       <>
         {/* Button trigger modal */}
@@ -96,7 +105,6 @@ class EditHashtagModal extends React.Component {
               </FormGroup>
             </Col>
           </Row>
-       
           </div>
           <div className="modal-footer">
             <Button
@@ -123,7 +131,7 @@ class EditHashtagModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addHashtagEntry: (hashtag) => dispatch(handleAddHashtagEntry(hashtag)) 
+  editHashtag: (hashtag, id) => dispatch(handleEditHashtag(hashtag, id)) 
 }) 
 
 

@@ -21,7 +21,10 @@ import { handleAddHashtagEntry } from "redux/actions/socials";
 class CreateChallengesModal extends React.Component {
   state = {
     CreateChallengesModal: false,
-    hashtagEntry: '',
+    id: '',
+    name: '',
+    imageURL: '',
+    hashtag: '',
     isMakingRequest: false
   };
   toggleModal = (state) => {
@@ -39,12 +42,12 @@ class CreateChallengesModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { hashtagEntry } = this.state;
-    if (hashtagEntry === '') return;
+    const { id, name, imageURL } = this.state;
+    if (id === '' || name === '' || imageURL === '') return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addHashtagEntry({name: hashtagEntry}).then(res => {
+    this.props.addHashtagEntry({name, categoryId:id, imageURL}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
@@ -52,7 +55,7 @@ class CreateChallengesModal extends React.Component {
   }
 
   render() {
-    const { hashtagEntry, isMakingRequest } = this.state
+    const { name, id, imageURL, hashtag, isMakingRequest } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -94,8 +97,8 @@ class CreateChallengesModal extends React.Component {
                   placeholder="category id"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="id"
+                  value={id}
                 />
               </FormGroup>
             </Col>
@@ -107,8 +110,8 @@ class CreateChallengesModal extends React.Component {
                   placeholder="name"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="name"
+                  value={name}
                 />
               </FormGroup>
             </Col>
@@ -120,8 +123,8 @@ class CreateChallengesModal extends React.Component {
                   placeholder="#hashtag"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="hashtag"
+                  value={hashtag}
                 />
               </FormGroup>
             </Col>
@@ -133,8 +136,8 @@ class CreateChallengesModal extends React.Component {
                   placeholder="image url"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="imageURL"
+                  value={imageURL}
                 />
               </FormGroup>
             </Col>
@@ -153,7 +156,7 @@ class CreateChallengesModal extends React.Component {
             <Button 
               color="primary" 
               type="submit"
-              disabled={hashtagEntry === '' || isMakingRequest === true}
+              disabled={id === '' || name === '' || imageURL === '' || isMakingRequest === true}
             >
               Create
             </Button>
