@@ -25,25 +25,37 @@ import {
 import Header from "components/Headers/Header.js";
 import { Link } from "react-router-dom";
 // import { handleGetSponsor } from "redux/actions/Sponsor";
-// import { connect } from "react-redux";
+import { connect } from "react-redux";
+import { handleGetSponsors } from "redux/actions/sponsors";
 
 class Sponsor extends React.Component {
-  
+  state = {
+    loading: true
+  }
+  componentDidMount() {
+    this.props.getSponsors().then(res => {
+      this.setState({
+        loading: false
+      })
+    })
+  }
+
   render() {
-    // const { Sponsor} = this.props
+    const { sponsors } = this.props
+    console.log({ sponsors })
     return (
       <>
         <Header />
         {/* Page content */}
         <Container className="mt--7" fluid>
           {/* Dark table */}
-          
+
           {/* <Link to='socials'> */}
-            <Button href='socials' variant='outline-danger'  type="button"> Back to socials </Button>
+          <Button href='socials' variant='outline-danger' type="button"> Back to socials </Button>
           {/* </Link> */}
           {/* <Button color="primary" type="button" onClick={() => this.toggleModal("CreateCategoryModal")} > <i fa fa-arrow-left></i> Back </Button> */}
           <Row className="mt-5">
-          
+
             <div className="col">
               <Card className="bg-default shadow">
                 <CardHeader className="bg-transparent border-0">
@@ -64,68 +76,72 @@ class Sponsor extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                  
-                    <tr>
-                      <td>
-                        <span className="mb-0 text-sm">1</span>
-                      </td>
-                      
-                      <td>
-                        <span className="mb-0 text-sm">Sponsor Description</span>
-                      </td>
-                      <td>
-                        <span className="mb-0 text-sm">Sponsor Name</span>
-                      </td>
-                      <td>
-                        <span className="mb-0 text-sm">Sponsor Hashtag</span>
-                      </td>
-                      <th scope="row">
-                        <Media className="align-items-center">
-                          <a
-                            className="avatar rounded-circle mr-3"
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            <img
-                              alt="..."
-                              src={require("assets/img/brand/shoprite.jpg")}
-                            />
-                          </a>
-                        </Media>
-                      </th>
-                      
-                      <td className="text-right">
-                        <UncontrolledDropdown>
-                          <DropdownToggle
-                            className="btn-icon-only text-light"
-                            href="#pablo"
-                            role="button"
-                            size="sm"
-                            color=""
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            <i className="fas fa-ellipsis-v" />
-                          </DropdownToggle>
-                          <DropdownMenu className="dropdown-menu-arrow" right>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              Edit
+                    {
+                      sponsors.map(sponsor => (
+                        <tr>
+                          <td>
+                            <span className="mb-0 text-sm">{sponsor._id}</span>
+                          </td>
+
+                          <td>
+                            <span className="mb-0 text-sm">{sponsor.description}</span>
+                          </td>
+                          <td>
+                            <span className="mb-0 text-sm">{sponsor.name}</span>
+                          </td>
+                          <td>
+                            <span className="mb-0 text-sm">{sponsor.hashtag}</span>
+                          </td>
+                          <th scope="row">
+                            <Media className="align-items-center">
+                              <a
+                                className="avatar rounded-circle mr-3"
+                                href="#pablo"
+                                onClick={(e) => e.preventDefault()}
+                              >
+                                <img
+                                  alt="..."
+                                  src={sponsor.imageURL}
+                                />
+                              </a>
+                            </Media>
+                          </th>
+
+                          <td className="text-right">
+                            <UncontrolledDropdown>
+                              <DropdownToggle
+                                className="btn-icon-only text-light"
+                                href="#pablo"
+                                role="button"
+                                size="sm"
+                                color=""
+                                onClick={(e) => e.preventDefault()}
+                              >
+                                <i className="fas fa-ellipsis-v" />
+                              </DropdownToggle>
+                              <DropdownMenu className="dropdown-menu-arrow" right>
+                                <DropdownItem
+                                  href="#pablo"
+                                  onClick={(e) => e.preventDefault()}
+                                >
+                                  Edit
                             </DropdownItem>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              Delete
+                                <DropdownItem
+                                  href="#pablo"
+                                  onClick={(e) => e.preventDefault()}
+                                >
+                                  Delete
                             </DropdownItem>
-                            
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
-                      </td>
-                    </tr>
-                    
-                    
+
+                              </DropdownMenu>
+                            </UncontrolledDropdown>
+                          </td>
+                        </tr>
+                      ))
+                    }
+
+
+
                   </tbody>
                 </Table>
               </Card>
@@ -137,4 +153,14 @@ class Sponsor extends React.Component {
   }
 }
 
-export default Sponsor;
+const mapStateToProps = ({ socials: { sponsors } }) => {
+  return {
+    sponsors
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  getSponsors: () => dispatch(handleGetSponsors())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sponsor);

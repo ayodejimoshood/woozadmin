@@ -21,7 +21,10 @@ import { handleAddHashtagEntry } from "redux/actions/socials";
 class CreateEntriesModal extends React.Component {
   state = {
     CreateEntriesModal: false,
-    hashtagEntry: '',
+    imageURL: '',
+    mediaURL: '',
+    challengeId: '',
+    categoryId: '',
     isMakingRequest: false
   };
   toggleModal = (state) => {
@@ -39,12 +42,12 @@ class CreateEntriesModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { hashtagEntry } = this.state;
-    if (hashtagEntry === '') return;
+    const { imageURL, mediaURL, challengeId, categoryId } = this.state;
+    if (!imageURL || !mediaURL || !challengeId || !categoryId) return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addHashtagEntry({name: hashtagEntry}).then(res => {
+    this.props.addHashtagEntry({imageURL, mediaURL, challengeId, categoryId}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
@@ -52,7 +55,7 @@ class CreateEntriesModal extends React.Component {
   }
 
   render() {
-    const { hashtagEntry, isMakingRequest } = this.state
+    const { isMakingRequest, imageURL, mediaURL, challengeId, categoryId } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -94,8 +97,8 @@ class CreateEntriesModal extends React.Component {
                   placeholder="image url"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="imageURL"
+                  value={imageURL}
                 />
               </FormGroup>
             </Col>
@@ -107,8 +110,8 @@ class CreateEntriesModal extends React.Component {
                   placeholder="media url"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="mediaURL"
+                  value={mediaURL}
                 />
               </FormGroup>
             </Col>
@@ -120,8 +123,8 @@ class CreateEntriesModal extends React.Component {
                   placeholder="challenge id"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="challengeId"
+                  value={challengeId}
                 />
               </FormGroup>
             </Col>
@@ -133,8 +136,8 @@ class CreateEntriesModal extends React.Component {
                   placeholder="category id"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="categoryId"
+                  value={categoryId}
                 />
               </FormGroup>
             </Col>
@@ -153,7 +156,7 @@ class CreateEntriesModal extends React.Component {
             <Button 
               color="primary" 
               type="submit"
-              disabled={hashtagEntry === '' || isMakingRequest === true}
+              disabled={isMakingRequest === true || !mediaURL || !imageURL || !challengeId || !categoryId}
             >
               Create
             </Button>

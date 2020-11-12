@@ -24,27 +24,37 @@ import {
 // core components
 import Header from "components/Headers/Header.js";
 import { Link } from "react-router-dom";
-// import { handleGetHashtag } from "redux/actions/Hashtag";
-// import { connect } from "react-redux";
+import { connect } from "react-redux";
+import { handleGetHashtags } from "redux/actions/hashtag";
 
 class Hashtag extends React.Component {
-  
+  state = {
+    loading: true
+  }
+
+  componentDidMount() {
+    this.props.getHashtags().then(res => {
+      this.setState({
+        loading: false
+      })
+    })
+  }
   render() {
-    // const { Hashtag} = this.props
+    const { hashtag } = this.props
     return (
       <>
         <Header />
         {/* Page content */}
         <Container className="mt--7" fluid>
           {/* Dark table */}
-          
+
           {/* <Link to='socials'>
             <Button color="warning" type="button"> Back </Button>
           </Link> */}
-          <Button href='socials' variant='outline-danger'  type="button"> Back to socials </Button>
+          <Button href='socials' variant='outline-danger' type="button"> Back to socials </Button>
           {/* <Button color="primary" type="button" onClick={() => this.toggleModal("CreateCategoryModal")} > <i fa fa-arrow-left></i> Back </Button> */}
           <Row className="mt-5">
-          
+
             <div className="col">
               <Card className="bg-default shadow">
                 <CardHeader className="bg-transparent border-0">
@@ -62,49 +72,53 @@ class Hashtag extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                  
-                    <tr>
-                      <td>
-                        <span className="mb-0 text-sm">1</span>
-                      </td>
-                      
-                      <td>
-                        <span className="mb-0 text-sm">Hashtag Name</span>
-                      </td>
-                      
-                      
-                      <td className="text-right">
-                        <UncontrolledDropdown>
-                          <DropdownToggle
-                            className="btn-icon-only text-light"
-                            href="#pablo"
-                            role="button"
-                            size="sm"
-                            color=""
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            <i className="fas fa-ellipsis-v" />
-                          </DropdownToggle>
-                          <DropdownMenu className="dropdown-menu-arrow" right>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              Edit
+                    {
+                      hashtag.map(hash => (
+                        <tr key={hash._id}>
+                          <td>
+                            <span className="mb-0 text-sm">{hash._id}</span>
+                          </td>
+
+                          <td>
+                            <span className="mb-0 text-sm">{hash.name}</span>
+                          </td>
+
+
+                          <td className="text-right">
+                            <UncontrolledDropdown>
+                              <DropdownToggle
+                                className="btn-icon-only text-light"
+                                href="#pablo"
+                                role="button"
+                                size="sm"
+                                color=""
+                                onClick={(e) => e.preventDefault()}
+                              >
+                                <i className="fas fa-ellipsis-v" />
+                              </DropdownToggle>
+                              <DropdownMenu className="dropdown-menu-arrow" right>
+                                <DropdownItem
+                                  href="#pablo"
+                                  onClick={(e) => e.preventDefault()}
+                                >
+                                  Edit
                             </DropdownItem>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              Delete
+                                <DropdownItem
+                                  href="#pablo"
+                                  onClick={(e) => e.preventDefault()}
+                                >
+                                  Delete
                             </DropdownItem>
-                            
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
-                      </td>
-                    </tr>
-                    
-                    
+
+                              </DropdownMenu>
+                            </UncontrolledDropdown>
+                          </td>
+                        </tr>
+
+                      ))
+                    }
+
+
                   </tbody>
                 </Table>
               </Card>
@@ -116,4 +130,16 @@ class Hashtag extends React.Component {
   }
 }
 
-export default Hashtag;
+
+const mapStateToProps = ({ socials: { hashtag } }) => {
+  return {
+    hashtag
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  getHashtags: () => dispatch(handleGetHashtags())
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Hashtag);
