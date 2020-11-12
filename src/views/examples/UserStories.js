@@ -24,6 +24,8 @@ import {
 // core components
 import Header from "components/Headers/Header.js";
 import { Link } from "react-router-dom";
+import EditUsersStoriesModal from "./EditUsersStoriesModal";
+import DeleteUsersStoriesModal from "./DeleteUsersStoriesModal";
 
 class UserStories extends React.Component {
   
@@ -111,35 +113,10 @@ class UserStories extends React.Component {
                         </Media>
                       </th>
                       
-                      <td className="text-right">
-                        <UncontrolledDropdown>
-                          <DropdownToggle
-                            className="btn-icon-only text-light"
-                            href="#pablo"
-                            role="button"
-                            size="sm"
-                            color=""
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            <i className="fas fa-ellipsis-v" />
-                          </DropdownToggle>
-                          <DropdownMenu className="dropdown-menu-arrow" right>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              Edit
-                            </DropdownItem>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              Delete
-                            </DropdownItem>
-                            
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
-                      </td>
+                      <th scope='row'>
+                        <EditUsersStoriesModal/>
+                        <DeleteUsersStoriesModal/>
+                      </th>
                     </tr>
                     
                     
