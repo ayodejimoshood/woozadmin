@@ -40,7 +40,7 @@ class CreateSponsorModal extends React.Component {
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.createSponsor({name: sponsorName, description: sponsorDesc}).then(res => {
+    this.props.createSponsor({name: sponsorName, description: sponsorDesc, hashtag: hashTag}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))

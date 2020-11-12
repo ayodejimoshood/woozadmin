@@ -44,12 +44,6 @@ class Sponsor extends React.Component {
     })
   }
 
-  handleDelete(id) {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      this.props.deleteSponsor(id)
-    }
-  }
-
   render() {
     const { sponsors } = this.props
     console.log({ sponsors })
@@ -116,35 +110,10 @@ class Sponsor extends React.Component {
                               </a>
                             </Media>
                           </th>
-
-                          <td className="text-right">
-                            <UncontrolledDropdown>
-                              <DropdownToggle
-                                className="btn-icon-only text-light"
-                                href="#pablo"
-                                role="button"
-                                size="sm"
-                                color=""
-                                onClick={(e) => e.preventDefault()}
-                              >
-                                <i className="fas fa-ellipsis-v" />
-                              </DropdownToggle>
-                              <DropdownMenu className="dropdown-menu-arrow" right>
-                                <DropdownItem
-                                  href="#pablo"
-                                  onClick={(e) => e.preventDefault()}
-                                >
-                                  Edit
-                            </DropdownItem>
-                                <DropdownItem
-                                  onClick={() => this.handleDelete(sponsor._id)}
-                                >
-                                  Delete
-                            </DropdownItem>
-
-                              </DropdownMenu>
-                            </UncontrolledDropdown>
-                          </td>
+                          <th scope='row'>
+                            <EditSponsorModal sponsor={sponsor} />
+                            <DeleteSponsorModal id={sponsor._id} />
+                          </th>
                         </tr>
                       ))
                     }

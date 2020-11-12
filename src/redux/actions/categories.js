@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { toastr } from 'react-redux-toastr'
 import { toastrOptions } from '../../utils/helpers'
-import { CREATE_CATEGORY, GET_CATEGORIES, GET_CATEGORY, DELETE_CATEGORY } from './types'
+import { CREATE_CATEGORY, GET_CATEGORIES, GET_CATEGORY, DELETE_CATEGORY, EDIT_CATEGORY } from './types'
 
 
-export const handleCreateHashtag = (data) => async (dispatch, getState) => {
+export const handleCreateCategory = (data) => async (dispatch, getState) => {
   const state = getState();
   const accessToken = state.auth.token;
   const config = {
@@ -31,7 +31,7 @@ export const handleCreateHashtag = (data) => async (dispatch, getState) => {
       toastr.error('', `Category already exists`, toastrOptions)
       return;
     }
-    toastr.error(`An error occured`, toastrOptions)
+    toastr.error(`${error.response.data.message}`, toastrOptions)
     return
   }
 }
@@ -89,3 +89,34 @@ export const handleDeleteCategory = (data) => async (dispatch, getState) => {
     return
   }
 }
+
+
+export const handleEditcategory = (data, id) => async (dispatch, getState) => {
+  const state = getState();
+  const accessToken = state.auth.token;
+  const config = {
+    method: 'put',
+    url: `https://apis.woozeee.com/api/v1/categories/${id}`,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': accessToken
+    },
+    data: JSON.stringify(data)
+  }
+  try {
+    const response = await axios(config)
+    console.log(response)
+    dispatch({
+      type: EDIT_CATEGORY,
+      payload: response.data.data
+    })
+    toastr.success('', 'Hashtag edited successfully', toastrOptions)
+    return 'success';
+  } catch (error) {
+    console.log(error.response);
+    toastr.error(`An error occured editing the hashtag`, toastrOptions)
+    return
+  }
+}
+
+

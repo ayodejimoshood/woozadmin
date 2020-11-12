@@ -16,6 +16,8 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { handleCreateCategory } from "redux/actions/categories";
+import { handleAddCartegory } from "redux/actions/socials";
 
 class CreateMerchantModals extends React.Component {
   state = {
@@ -23,7 +25,7 @@ class CreateMerchantModals extends React.Component {
     cartegoryName: '',
     categoryDesc: '',
     hashtag: '',
-    isMakingRequest: ''
+    isMakingRequest: false
   };
   toggleModal = (state) => {
     this.setState({
@@ -45,10 +47,18 @@ class CreateMerchantModals extends React.Component {
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.createCategory({name: cartegoryName, description: categoryDesc, hashtag}).then(res => {
+    console.log({name: cartegoryName, description: categoryDesc, hashtag: hashtag})
+    this.props.createCategory({name: cartegoryName, description: categoryDesc, hashtag: hashtag}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
+      if (res === 'success') {
+        this.setState({
+          cartegoryName: '',
+          categoryDesc: '',
+          hashtag: ''
+        })
+      }
     })
   }
 

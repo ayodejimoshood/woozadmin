@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { toastr } from 'react-redux-toastr'
 import { toastrOptions } from '../../utils/helpers'
-import { CREATE_SPONSOR, GET_SPONSORS, GET_SPONSOR, DELETE_SPONSOR } from './types'
+import { CREATE_SPONSOR, GET_SPONSORS, GET_SPONSOR, DELETE_SPONSOR, EDIT_SPONSOR } from './types'
 
 
 // to handle create a new sponsor
@@ -89,6 +89,35 @@ export const handleDeleteSponsor = (data) => async (dispatch, getState) => {
   } catch (error) {
     console.log(error.response);
     toastr.error(`An error occured in deleting sponsor`, toastrOptions)
+    return
+  }
+}
+
+
+export const handleEditSponsor = (data, id) => async (dispatch, getState) => {
+  const state = getState();
+  const accessToken = state.auth.token;
+  const config = {
+    method: 'put',
+    url: `https://apis.woozeee.com/api/v1/sponsors/${id}`,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': accessToken
+    },
+    data: JSON.stringify(data)
+  }
+  try {
+    const response = await axios(config)
+    console.log(response)
+    dispatch({
+      type: EDIT_SPONSOR,
+      payload: response.data.data
+    })
+    toastr.success('', 'Sponsor edited successfully', toastrOptions)
+    return 'success';
+  } catch (error) {
+    console.log(error.response);
+    toastr.error(`An error occured editing the sponsor`, toastrOptions)
     return
   }
 }

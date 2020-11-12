@@ -1,13 +1,19 @@
-import { ADD_CARTEGORY,  
+import { CREATE_CATEGORY,  
           GET_HASHTAGS, 
           GET_SPONSORS, 
           CREATE_SPONSOR, 
           DELETE_SPONSOR,
           CREATE_HASHTAG,
-          DELETE_HASHTAG } from '../actions/types'
+          DELETE_HASHTAG, 
+          GET_CATEGORIES,
+          DELETE_CATEGORY,
+          EDIT_HASHTAG,
+          EDIT_CATEGORY,
+          EDIT_SPONSOR
+} from '../actions/types'
 
 const INITIAL_STATE = {
-  cartegory: [],
+  category: [],
   hashtag: [],
   hashTagEntry: [],
   sponsors: []
@@ -15,11 +21,28 @@ const INITIAL_STATE = {
 
 export default function socials(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case ADD_CARTEGORY:
+    case CREATE_CATEGORY:
       return {
         ...state,
-        cartegory: [...state.cartegory, ...action.payload]
+        category: [...state.category, action.payload]
       };
+    case GET_CATEGORIES:
+      return {
+        ...state,
+        category: [...action.payload]
+      }
+    case DELETE_CATEGORY:
+      return {
+        ...state,
+        category: state.category.filter(sp => {
+          return sp._id !== action.payload
+        })
+      }
+    case EDIT_CATEGORY:
+      return {
+        ...state,
+        category: state.category.filter(cat => cat._id !== action.payload._id).concat([action.payload])
+      }
     case GET_SPONSORS:
       return {
         ...state,
@@ -34,9 +57,14 @@ export default function socials(state = INITIAL_STATE, action) {
       return {
         ...state,
         sponsors: state.sponsors.filter(sp => {
-          console.log(sp._id)
           return sp._id !== action.payload
         })
+      }
+    case EDIT_SPONSOR:
+      console.log(action.payload._id)
+      return {
+        ...state,
+        sponsors: state.sponsors.filter(spo => spo._id !== action.payload._id).concat([action.payload])
       }
     case GET_HASHTAGS:
       return {
@@ -56,7 +84,17 @@ export default function socials(state = INITIAL_STATE, action) {
           return sp._id !== action.payload
         })
       }
+    case EDIT_HASHTAG:
+      return {
+        ...state,
+        hashtag: state.hashtag.filter(hash => hash._id !== action.payload._id).concat([action.payload])
+      }
     default:
       return state;
   }
 }
+
+
+
+
+

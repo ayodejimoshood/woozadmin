@@ -16,13 +16,11 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { handleAddHashtagEntry } from "redux/actions/socials";
+import { handleDeleteHashtag } from "redux/actions/hashtag";
 
 class DeleteHashtagModal extends React.Component {
   state = {
     DeleteHashtagModal: false,
-    hashtagEntry: '',
-    isMakingRequest: false
   };
   toggleModal = (state) => {
     this.setState({
@@ -30,29 +28,14 @@ class DeleteHashtagModal extends React.Component {
     });
   };
 
-  handleChange = (e) => {
-    const { name, value } = e.target;
-    this.setState({
-      [name]: value
-    })
+  handleDelete() {
+    const { id, deleteHashtag } = this.props
+    deleteHashtag(id)
+    this.toggleModal("DeleteHashtagModal")
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const { hashtagEntry } = this.state;
-    if (hashtagEntry === '') return;
-    this.setState(prevState => ({
-      isMakingRequest: !prevState.isMakingRequest
-    }))
-    this.props.addHashtagEntry({name: hashtagEntry}).then(res => {
-      this.setState(prevState => ({
-        isMakingRequest: !prevState.isMakingRequest
-      }))
-    })
-  }
 
   render() {
-    const { hashtagEntry, isMakingRequest } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -84,10 +67,9 @@ class DeleteHashtagModal extends React.Component {
             </button>
           </div>
           <div className="modal-body">
-          
           <Row>
             <Col md="6">
-              <Button style={{width: '100%'}} color="danger" type="button" onClick={() => this.toggleModal("DeleteHashtagModal")}> Yes </Button>
+              <Button style={{width: '100%'}} color="danger" type="button" onClick={() => this.handleDelete()}> Yes </Button>
             </Col>
 
             <Col md="6">
@@ -103,7 +85,7 @@ class DeleteHashtagModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addHashtagEntry: (hashtag) => dispatch(handleAddHashtagEntry(hashtag)) 
+  deleteHashtag: (hashtag) => dispatch(handleDeleteHashtag(hashtag)) 
 }) 
 
 

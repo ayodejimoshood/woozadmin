@@ -16,7 +16,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { handleAddHashtagEntry } from "redux/actions/socials";
+import { handleDeleteSponsor } from "redux/actions/sponsors";
 
 class DeleteSponsorModal extends React.Component {
   state = {
@@ -30,29 +30,14 @@ class DeleteSponsorModal extends React.Component {
     });
   };
 
-  handleChange = (e) => {
-    const { name, value } = e.target;
-    this.setState({
-      [name]: value
-    })
-  }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const { hashtagEntry } = this.state;
-    if (hashtagEntry === '') return;
-    this.setState(prevState => ({
-      isMakingRequest: !prevState.isMakingRequest
-    }))
-    this.props.addHashtagEntry({name: hashtagEntry}).then(res => {
-      this.setState(prevState => ({
-        isMakingRequest: !prevState.isMakingRequest
-      }))
-    })
+  handleDelete() {
+    const { id, deleteSponsor } = this.props
+    deleteSponsor(id)
+    this.toggleModal("DeleteHashtagModal")
   }
 
   render() {
-    const { hashtagEntry, isMakingRequest } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -87,7 +72,7 @@ class DeleteSponsorModal extends React.Component {
           
           <Row>
             <Col md="6">
-              <Button style={{width: '100%'}} color="danger" type="button" onClick={() => this.toggleModal("DeleteSponsorModal")}> Yes </Button>
+              <Button style={{width: '100%'}} color="danger" type="button" onClick={() => this.handleDelete()}> Yes </Button>
             </Col>
 
             <Col md="6">
@@ -103,7 +88,7 @@ class DeleteSponsorModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addHashtagEntry: (hashtag) => dispatch(handleAddHashtagEntry(hashtag)) 
+  deleteSponsor: (id) => dispatch(handleDeleteSponsor(id)) 
 }) 
 
 

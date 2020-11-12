@@ -16,14 +16,26 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { handleEditcategory } from "redux/actions/categories";
 import { handleAddHashtagEntry } from "redux/actions/socials";
 
 class EditCategoryModal extends React.Component {
   state = {
     EditCategoryModal: false,
-    hashtagEntry: '',
+    cartegoryName: '',
+    categoryDesc: '',
+    hashtag: '',
     isMakingRequest: false
   };
+
+  componentDidMount() {
+    const { cat } = this.props;
+    this.setState({
+      categoryDesc: cat.description,
+      cartegoryName: cat.name,
+      hashtag: cat.hashtagName
+    })
+  }
   toggleModal = (state) => {
     this.setState({
       [state]: !this.state[state],
@@ -39,20 +51,27 @@ class EditCategoryModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { hashtagEntry } = this.state;
-    if (hashtagEntry === '') return;
+    const { cartegoryName, categoryDesc, hashtag } = this.state;
+    if (cartegoryName === '', categoryDesc === '', hashtag === '') return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addHashtagEntry({name: hashtagEntry}).then(res => {
+    this.props.editCategory({name: cartegoryName, description: categoryDesc, hashtag: hashtag}, this.props.cat._id).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
+      if (res === 'success') {
+        this.setState({
+          cartegoryName: '',
+          categoryDesc: '',
+          hashtag: ''
+        })
+      }
     })
   }
 
   render() {
-    const { hashtagEntry, isMakingRequest } = this.state
+    const { cartegoryName, isMakingRequest, categoryDesc, hashtag} = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -90,8 +109,8 @@ class EditCategoryModal extends React.Component {
                   placeholder="category description"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="categoryDesc"
+                  value={categoryDesc}
                 />
               </FormGroup>
             </Col>
@@ -103,8 +122,8 @@ class EditCategoryModal extends React.Component {
                   placeholder="category name"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="cartegoryName"
+                  value={cartegoryName}
                 />
               </FormGroup>
             </Col>
@@ -116,8 +135,8 @@ class EditCategoryModal extends React.Component {
                   placeholder="#hashtag"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="hashtag"
+                  value={hashtag}
                 />
               </FormGroup>
             </Col>
@@ -136,7 +155,7 @@ class EditCategoryModal extends React.Component {
             <Button 
               color="primary" 
               type="submit"
-              disabled={hashtagEntry === '' || isMakingRequest === true}
+              disabled={cartegoryName === '' || isMakingRequest === true, categoryDesc === '', hashtag === ''}
             >
               Create
             </Button>
@@ -148,8 +167,10 @@ class EditCategoryModal extends React.Component {
   }
 }
 
+
+
 const mapDispatchToProps = (dispatch) => ({
-  addHashtagEntry: (hashtag) => dispatch(handleAddHashtagEntry(hashtag)) 
+  editCategory: (category, id) => dispatch(handleEditcategory(category, id)) 
 }) 
 
 

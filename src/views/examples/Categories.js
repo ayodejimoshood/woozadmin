@@ -26,13 +26,17 @@ import Header from "components/Headers/Header.js";
 import { Link } from "react-router-dom";
 import DeleteCategoryModal from "./DeleteCategoryModal";
 import EditCategoryModal from "./EditCategoryModal";
+import { connect } from "react-redux";
+import { handleGetCategories } from "redux/actions/categories";
 // import { handleGetCategories } from "redux/actions/Categories";
 // import { connect } from "react-redux";
 
 class Categories extends React.Component {
-  
+  componentDidMount() {
+    this.props.getCategories();
+  }
   render() {
-    // const { Categories} = this.props
+    const { category } = this.props
     return (
       <>
         <Header />
@@ -66,20 +70,21 @@ class Categories extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                  
-                    <tr>
+                    {
+                      category.map((cat, i) => (
+                        <tr>
                       <td>
-                        <span className="mb-0 text-sm">1</span>
+                        <span className="mb-0 text-sm">{i}</span>
                       </td>
                       
                       <td>
-                        <span className="mb-0 text-sm">Categories Description</span>
+                        <span className="mb-0 text-sm">{cat.description}</span>
                       </td>
                       <td>
-                        <span className="mb-0 text-sm">Categories Name</span>
+                        <span className="mb-0 text-sm">{cat.name}</span>
                       </td>
                       <td>
-                        <span className="mb-0 text-sm">Categories Hashtag</span>
+                        <span className="mb-0 text-sm">{cat.hashtagName}</span>
                       </td>
                       <th scope="row">
                         <Media className="align-items-center">
@@ -90,17 +95,20 @@ class Categories extends React.Component {
                           >
                             <img
                               alt="..."
-                              src={require("assets/img/brand/shoprite.jpg")}
+                              src={cat.userImageURL}
                             />
                           </a>
                         </Media>
                       </th>
 
                       <th scope='row'>
-                        <EditCategoryModal/>
-                        <DeleteCategoryModal/>
+                        <EditCategoryModal cat={cat}/>
+                        <DeleteCategoryModal id={cat._id}/>
                       </th>
                     </tr>
+                      ))
+                    }
+                    
                     
                     
                   </tbody>
@@ -114,4 +122,15 @@ class Categories extends React.Component {
   }
 }
 
-export default Categories;
+const mapStateToProps = ({ socials: { category } }) => {
+  return {
+    category
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  getCategories: () => dispatch(handleGetCategories()),
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Categories);
