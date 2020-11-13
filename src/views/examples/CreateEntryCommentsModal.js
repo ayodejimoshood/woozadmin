@@ -56,7 +56,7 @@ class CreateEntryCommentsModal extends React.Component {
           type="button"
           onClick={() => this.toggleModal("CreateEntryCommentsModal")}
         >
-          CreateEntryComments
+          Create
         </Button>
         {/* Modal */}
         <Modal

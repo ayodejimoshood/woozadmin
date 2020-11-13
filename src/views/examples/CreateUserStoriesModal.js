@@ -61,7 +61,7 @@ class CreateUserStoriesModal extends React.Component {
           type="button"
           onClick={() => this.toggleModal("CreateUserStoriesModal")}
         >
-          Create User Stories
+          Create
         </Button>
         {/* Modal */}
         <Modal

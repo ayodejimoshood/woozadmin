@@ -182,7 +182,7 @@ class Socials extends React.Component {
               {/* User Stories */}
 
               {/* Entry Comments */}
-              <Col lg="6" xl="5">
+              <Col lg="6" xl="4">
                 <Card className="shadow mb-4">
                   <CardHeader className="bg-transparent">
                     <Row className="align-items-center">

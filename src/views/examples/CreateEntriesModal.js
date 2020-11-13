@@ -9,6 +9,7 @@ import {
   FormGroup,
   Form,
   Input,
+  Label,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
@@ -16,9 +17,27 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import ImageUploader from 'react-images-upload';
 import { handleAddHashtagEntry } from "redux/actions/socials";
+// import UploadImage from '../examples/UploadImage';
 
 class CreateEntriesModal extends React.Component {
+
+  // upload image
+  constructor(props) {
+    // super(props);
+    super(props);
+    this.state = { pictures: [] };
+    this.onDrop = this.onDrop.bind(this);
+  }
+
+  onDrop(pictureFiles, pictureDataURLs) {
+    this.setState({
+        pictures: pictureFiles
+    });
+  }
+  // upload image
+
   state = {
     CreateEntriesModal: false,
     imageURL: '',
@@ -64,7 +83,7 @@ class CreateEntriesModal extends React.Component {
           type="button"
           onClick={() => this.toggleModal("CreateEntriesModal")}
         >
-          Create Entries
+          Create
         </Button>
         {/* Modal */}
         <Modal
@@ -73,9 +92,7 @@ class CreateEntriesModal extends React.Component {
           toggle={() => this.toggleModal("CreateEntriesModal")}
         >
           <div className="modal-header">
-            <h5 className="modal-title" id="CreateEntriesModalLabel">
-            Create Entries
-            </h5>
+            <h4 className="modal-title" id="CreateEntriesModalLabel"> Create Entries </h4>
             <button
               aria-label="Close"
               className="close"
@@ -90,21 +107,40 @@ class CreateEntriesModal extends React.Component {
           <div className="modal-body">
           
           <Row>
+          
             <Col md="12">
               <FormGroup>
-                <Input
+                <Label for="exampleSelect"> <h5>Upload Image</h5> </Label>
+                <ImageUploader
+                  withIcon={false}
+                  buttonText='Upload image'
+                  onChange={this.onDrop}
+                  // imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                  // maxFileSize={5242880}
+                />
+                {/* <UploadImage/> */}
+              </FormGroup>
+              {/* <FormGroup>
+                <Label for="exampleSelect">Upload Image</Label>
+                <input type="file" onChange={this.handleChange}/> */}
+                {/* <Input
                   id="exampleFormControlInput1"
                   placeholder="image url"
                   type="text"
                   onChange={e => this.handleChange(e)}
                   name="imageURL"
                   value={imageURL}
-                />
-              </FormGroup>
+                /> */}
+              {/* </FormGroup> */}
             </Col>
 
             <Col md="12">
               <FormGroup>
+                <Label for="exampleSelect"> <h5>Upload Video</h5> </Label>
+                <ImageUploader withIcon={false} buttonText='Upload video' onChange={this.onDrop} />
+              </FormGroup>
+              {/* <FormGroup>
+                <Label for="exampleSelect">Upload Video</Label>
                 <Input
                   id="exampleFormControlInput1"
                   placeholder="media url"
@@ -113,11 +149,11 @@ class CreateEntriesModal extends React.Component {
                   name="mediaURL"
                   value={mediaURL}
                 />
-              </FormGroup>
+              </FormGroup> */}
             </Col>
 
             <Col md="12">
-              <FormGroup>
+              {/* <FormGroup>
                 <Input
                   id="exampleFormControlInput1"
                   placeholder="challenge id"
@@ -126,10 +162,20 @@ class CreateEntriesModal extends React.Component {
                   name="challengeId"
                   value={challengeId}
                 />
+              </FormGroup> */}
+              <FormGroup>
+                <Label for="exampleSelect"> <h5>Challenge ID</h5> </Label>
+                <Input type="select" name="select" id="exampleSelect">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </Input>
               </FormGroup>
             </Col>
 
-            <Col md="12">
+            {/* <Col md="12">
               <FormGroup>
                 <Input
                   id="exampleFormControlInput1"
@@ -140,7 +186,7 @@ class CreateEntriesModal extends React.Component {
                   value={categoryId}
                 />
               </FormGroup>
-            </Col>
+            </Col> */}
           </Row>
        
           </div>
