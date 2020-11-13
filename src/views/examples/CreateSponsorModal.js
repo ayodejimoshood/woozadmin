@@ -3,25 +3,21 @@ import { connect } from "react-redux";
 // reactstrap components
 import {
   Button,
-  Card,
-  CardHeader,
-  CardBody,
   FormGroup,
   Form,
   Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Modal,
   Row,
   Col,
 } from "reactstrap";
-import { handleAddHashtagEntry } from "redux/actions/socials";
+import { handleCreateSponsor } from "redux/actions/sponsors";
 
 class CreateSponsorModal extends React.Component {
   state = {
     CreateSponsorModal: false,
-    hashtagEntry: '',
+    sponsorName: '',
+    sponsorDesc: '',
+    hashTag: '',
     isMakingRequest: false
   };
   toggleModal = (state) => {
@@ -39,20 +35,27 @@ class CreateSponsorModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { hashtagEntry } = this.state;
-    if (hashtagEntry === '') return;
+    const { sponsorName, sponsorDesc, hashTag } = this.state;
+    if (sponsorName === '' || sponsorDesc === '' || hashTag === '') return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addHashtagEntry({name: hashtagEntry}).then(res => {
+    this.props.createSponsor({name: sponsorName, description: sponsorDesc, hashtag: hashTag}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
+      if (res === 'success') {
+        this.setState({
+          sponsorName: '',
+          sponsorDesc: '',
+          hashTag: ''
+        })
+      }
     })
   }
 
   render() {
-    const { hashtagEntry, isMakingRequest } = this.state
+    const { sponsorName, sponsorDesc, hashTag, isMakingRequest } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -94,8 +97,8 @@ class CreateSponsorModal extends React.Component {
                   placeholder="sponsor name"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="sponsorName"
+                  value={sponsorName}
                 />
               </FormGroup>
             </Col>
@@ -107,8 +110,8 @@ class CreateSponsorModal extends React.Component {
                   placeholder="sponsor description"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="sponsorDesc"
+                  value={sponsorDesc}
                 />
               </FormGroup>
             </Col>
@@ -120,8 +123,8 @@ class CreateSponsorModal extends React.Component {
                   placeholder="#hashtag"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="hashTag"
+                  value={hashTag}
                 />
               </FormGroup>
             </Col>
@@ -140,7 +143,7 @@ class CreateSponsorModal extends React.Component {
             <Button 
               color="primary" 
               type="submit"
-              disabled={hashtagEntry === '' || isMakingRequest === true}
+              disabled={sponsorName === '' || sponsorDesc === '' || hashTag === '' || isMakingRequest === true}
             >
               Create
             </Button>
@@ -153,7 +156,7 @@ class CreateSponsorModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addHashtagEntry: (hashtag) => dispatch(handleAddHashtagEntry(hashtag)) 
+  createSponsor: (sponsor) => dispatch(handleCreateSponsor(sponsor)) 
 }) 
 
 

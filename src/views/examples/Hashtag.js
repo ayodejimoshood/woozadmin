@@ -13,23 +13,47 @@ import {
 // core components
 import Header from "components/Headers/Header.js";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { handleGetHashtags } from "redux/actions/hashtag";
 import DeleteHashtagModal from "./DeleteHashtagModal";
 import EditHashtagModal from "./EditHashtagModal";
+import { handleDeleteHashtag } from "redux/actions/hashtag";
 
 class Hashtag extends React.Component {
-  
+  state = {
+    loading: true
+  }
+
+  componentDidMount() {
+    this.props.getHashtags().then(res => {
+      this.setState({
+        loading: false
+      })
+    })
+  }
+
+  handleDelete(id) {
+    if (window.confirm("Are you sure you want to delete this hashtag?")) {
+      this.props.deleteHashtag(id)
+    }
+  }
+
   render() {
-    // const { Hashtag} = this.props
+    const { hashtag } = this.props
     return (
       <>
         <Header />
         {/* Page content */}
         <Container className="mt--7" fluid>
           {/* Dark table */}
-          
-          <Button href='socials' variant='outline-danger'  type="button"> Back to socials </Button>
+
+          {/* <Link to='socials'>
+            <Button color="warning" type="button"> Back </Button>
+          </Link> */}
+          <Button href='socials' variant='outline-danger' type="button"> Back to socials </Button>
+          {/* <Button color="primary" type="button" onClick={() => this.toggleModal("CreateCategoryModal")} > <i fa fa-arrow-left></i> Back </Button> */}
           <Row className="mt-5">
-          
+
             <div className="col">
               <Card className="bg-default shadow">
                 <CardHeader className="bg-transparent border-0">
@@ -47,24 +71,24 @@ class Hashtag extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                  
-                    <tr>
-                      <td>
-                        <span className="mb-0 text-sm">1</span>
-                      </td>
-                      
-                      <td>
-                        <span className="mb-0 text-sm">Hashtag Name</span>
-                      </td>
+                    {
+                      hashtag.map(hash => (
+                        <tr key={hash._id}>
+                          <td>
+                            <span className="mb-0 text-sm">{hash._id}</span>
+                          </td>
 
-                      <th scope='row'>
-                        <EditHashtagModal/>
-                        <DeleteHashtagModal/>
-                      </th>
-                      
-                    </tr>
-                    
-                    
+                          <td>
+                            <span className="mb-0 text-sm">{hash.name}</span>
+                          </td>
+                          <th scope='row'>
+                            <EditHashtagModal  hash={hash}/>
+                            <DeleteHashtagModal id={hash._id} />
+                          </th>
+                        </tr>
+
+                      ))
+                    }
                   </tbody>
                 </Table>
               </Card>
@@ -76,4 +100,17 @@ class Hashtag extends React.Component {
   }
 }
 
-export default Hashtag;
+
+const mapStateToProps = ({ socials: { hashtag } }) => {
+  return {
+    hashtag
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  getHashtags: () => dispatch(handleGetHashtags()),
+  deleteHashtag: (id) => dispatch(handleDeleteHashtag(id))
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Hashtag);

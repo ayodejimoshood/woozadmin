@@ -16,13 +16,16 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { handleCreateCategory } from "redux/actions/categories";
 import { handleAddCartegory } from "redux/actions/socials";
 
 class CreateMerchantModals extends React.Component {
   state = {
     CreateCategoryModal: false,
     cartegoryName: '',
-    isMakingRequest: ''
+    categoryDesc: '',
+    hashtag: '',
+    isMakingRequest: false
   };
   toggleModal = (state) => {
     this.setState({
@@ -39,20 +42,28 @@ class CreateMerchantModals extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { cartegoryName } = this.state;
-    if (cartegoryName === '') return;
+    const { cartegoryName, categoryDesc, hashtag } = this.state;
+    if (cartegoryName === '', categoryDesc === '', hashtag === '') return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addCartegory({name: cartegoryName}).then(res => {
+    console.log({name: cartegoryName, description: categoryDesc, hashtag: hashtag})
+    this.props.createCategory({name: cartegoryName, description: categoryDesc, hashtag: hashtag}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
+      if (res === 'success') {
+        this.setState({
+          cartegoryName: '',
+          categoryDesc: '',
+          hashtag: ''
+        })
+      }
     })
   }
 
   render() {
-    const { cartegoryName, isMakingRequest} = this.state
+    const { cartegoryName, isMakingRequest, categoryDesc, hashtag} = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -105,8 +116,8 @@ class CreateMerchantModals extends React.Component {
                       id="exampleFormControlInput1"
                       placeholder="category name"
                       type="text"
-                      name="cartegoryName"
-                      value={cartegoryName}
+                      name="categoryDesc"
+                      value={categoryDesc}
                       onChange={e => this.handleChange(e)}
                     />
                   </FormGroup>
@@ -117,8 +128,8 @@ class CreateMerchantModals extends React.Component {
                       id="exampleFormControlInput1"
                       placeholder="#hashtag"
                       type="text"
-                      name="cartegoryName"
-                      value={cartegoryName}
+                      name="hashtag"
+                      value={hashtag}
                       onChange={e => this.handleChange(e)}
                     />
                   </FormGroup>
@@ -138,7 +149,7 @@ class CreateMerchantModals extends React.Component {
               <Button 
                 color="primary" 
                 type="submit"
-                disabled={cartegoryName === '' || isMakingRequest === true}>
+                disabled={cartegoryName === '' || isMakingRequest === true, categoryDesc === '', hashtag === ''}>
                 Create
             </Button>
             </div>
@@ -150,7 +161,7 @@ class CreateMerchantModals extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addCartegory: (cartegory) => dispatch(handleAddCartegory(cartegory)) 
+  createCategory: (category) => dispatch(handleCreateCategory(category))
 }) 
 
 export default connect(null, mapDispatchToProps)(CreateMerchantModals);

@@ -3,15 +3,9 @@ import { connect } from "react-redux";
 // reactstrap components
 import {
   Button,
-  Card,
-  CardHeader,
-  CardBody,
   FormGroup,
   Form,
   Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Modal,
   Row,
   Col,
@@ -21,7 +15,8 @@ import { handleAddHashtagEntry } from "redux/actions/socials";
 class CreateEntryCommentsModal extends React.Component {
   state = {
     CreateEntryCommentsModal: false,
-    hashtagEntry: '',
+    comment: '',
+    entryId: '',
     isMakingRequest: false
   };
   toggleModal = (state) => {
@@ -39,12 +34,12 @@ class CreateEntryCommentsModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { hashtagEntry } = this.state;
-    if (hashtagEntry === '') return;
+    const { comment, entryId } = this.state;
+    if (!comment || !entryId) return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addHashtagEntry({name: hashtagEntry}).then(res => {
+    this.props.addHashtagEntry({comment, entryId}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
@@ -52,7 +47,7 @@ class CreateEntryCommentsModal extends React.Component {
   }
 
   render() {
-    const { hashtagEntry, isMakingRequest } = this.state
+    const { isMakingRequest, comment, entryId } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -94,8 +89,8 @@ class CreateEntryCommentsModal extends React.Component {
                   placeholder="comment"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="comment"
+                  value={comment}
                 />
               </FormGroup>
             </Col>
@@ -107,8 +102,8 @@ class CreateEntryCommentsModal extends React.Component {
                   placeholder="entry id"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="entryId"
+                  value={entryId}
                 />
               </FormGroup>
             </Col>
@@ -127,7 +122,7 @@ class CreateEntryCommentsModal extends React.Component {
             <Button 
               color="primary" 
               type="submit"
-              disabled={hashtagEntry === '' || isMakingRequest === true}
+              disabled={!comment || !entryId || isMakingRequest === true}
             >
               Create
             </Button>
