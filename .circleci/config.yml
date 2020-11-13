@@ -1,0 +1,19 @@
+version: 2
+jobs:
+  woo-dev:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - run:
+          name: Deploy Admin Staging
+          command: ssh -o "StrictHostKeyChecking no" ubuntu@ec2-3-17-6-220.us-east-2.compute.amazonaws.com "cd ~/app/admin; git pull; yarn install --production; yarn build; sudo systemctl restart admin"
+
+workflows:
+  version: 2
+
+  staging:
+    jobs:
+      - woo-dev:
+          filters:
+            branches:
+              only: woozeeeadmin-dev
