@@ -6,34 +6,19 @@ import {
   Card,
   Button,
   CardHeader,
-  CardFooter,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  DropdownToggle,
   Media,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Progress,
   Table,
   Container,
   Row,
-  UncontrolledTooltip,
-  Col,
 } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.js";
-import { Link } from "react-router-dom";
 import EditSponsorModal from "./EditSponsorModal";
 import DeleteSponsorModal from "./DeleteSponsorModal";
-// import { handleGetSponsor } from "redux/actions/Sponsor";
-// import { connect } from "react-redux";
 
 class Sponsor extends React.Component {
   
   render() {
-    // const { Sponsor} = this.props
     return (
       <>
         <Header />

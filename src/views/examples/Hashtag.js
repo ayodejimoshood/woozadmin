@@ -6,28 +6,15 @@ import {
   Card,
   Button,
   CardHeader,
-  CardFooter,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  Media,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Progress,
   Table,
   Container,
   Row,
-  UncontrolledTooltip,
 } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.js";
 import { Link } from "react-router-dom";
 import DeleteHashtagModal from "./DeleteHashtagModal";
 import EditHashtagModal from "./EditHashtagModal";
-// import { handleGetHashtag } from "redux/actions/Hashtag";
-// import { connect } from "react-redux";
 
 class Hashtag extends React.Component {
   
@@ -40,11 +27,7 @@ class Hashtag extends React.Component {
         <Container className="mt--7" fluid>
           {/* Dark table */}
           
-          {/* <Link to='socials'>
-            <Button color="warning" type="button"> Back </Button>
-          </Link> */}
           <Button href='socials' variant='outline-danger'  type="button"> Back to socials </Button>
-          {/* <Button color="primary" type="button" onClick={() => this.toggleModal("CreateCategoryModal")} > <i fa fa-arrow-left></i> Back </Button> */}
           <Row className="mt-5">
           
             <div className="col">
