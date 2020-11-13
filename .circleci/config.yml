@@ -13,7 +13,7 @@ workflows:
 
   staging:
     jobs:
-      - woo-dev:
+      - wooadmin-dev:
           filters:
             branches:
               only: woozeeeadmin-dev
