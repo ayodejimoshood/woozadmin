@@ -9,9 +9,7 @@ import {
   FormGroup,
   Form,
   Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
+  Label,
   Modal,
   Row,
   Col,
@@ -70,7 +68,7 @@ class CreateHashtagModal extends React.Component {
           type="button"
           onClick={() => this.toggleModal("CreateHashtagModal")}
         >
-          Add Hashtag
+          Create
         </Button>
         {/* Modal */}
         <Modal
@@ -79,9 +77,7 @@ class CreateHashtagModal extends React.Component {
           toggle={() => this.toggleModal("CreateHashtagModal")}
         >
           <div className="modal-header">
-            <h5 className="modal-title" id="CreateHashtagModalLabel">
-              Add Hashtag
-            </h5>
+            <h4 className="modal-title" id="CreateHashtagModalLabel"> Add Hashtag </h4>
             <button
               aria-label="Close"
               className="close"
@@ -97,6 +93,7 @@ class CreateHashtagModal extends React.Component {
               <Row>
                 <Col md="12">
                   <FormGroup>
+                    <Label for="exampleSelect"> <h5>Hashtag Name</h5> </Label>
                     <Input
                       id="exampleFormControlInput1"
                       placeholder="hashtag name"

@@ -65,7 +65,7 @@ class CreateVerticalsModal extends React.Component {
           type="button"
           onClick={() => this.toggleModal("CreateVerticalsForm")}
         >
-          Create Vertical
+          Create
         </Button>
         {/* Modal */}
         <Modal

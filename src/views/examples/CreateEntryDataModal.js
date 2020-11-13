@@ -62,7 +62,7 @@ class CreateEntryDataModal extends React.Component {
           type="button"
           onClick={() => this.toggleModal("CreateEntryDataModal")}
         >
-          Create Entry Data
+          Create
         </Button>
         {/* Modal */}
         <Modal

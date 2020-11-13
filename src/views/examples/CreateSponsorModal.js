@@ -9,7 +9,9 @@ import {
   Modal,
   Row,
   Col,
+  Label
 } from "reactstrap";
+import ImageUploader from 'react-images-upload';
 import { handleCreateSponsor } from "redux/actions/sponsors";
 
 class CreateSponsorModal extends React.Component {
@@ -64,7 +66,7 @@ class CreateSponsorModal extends React.Component {
           type="button"
           onClick={() => this.toggleModal("CreateSponsorModal")}
         >
-          Create Sponsor
+          Create
         </Button>
         {/* Modal */}
         <Modal
@@ -73,9 +75,7 @@ class CreateSponsorModal extends React.Component {
           toggle={() => this.toggleModal("CreateSponsorModal")}
         >
           <div className="modal-header">
-            <h5 className="modal-title" id="CreateSponsorModalLabel">
-            Create Sponsor
-            </h5>
+            <h4 className="modal-title" id="CreateSponsorModalLabel"> Create Sponsor </h4>
             <button
               aria-label="Close"
               className="close"
@@ -90,8 +90,10 @@ class CreateSponsorModal extends React.Component {
           <div className="modal-body">
           
           <Row>
+
             <Col md="12">
               <FormGroup>
+                <Label for="exampleSelect"> <h5>Sponsor Name</h5> </Label>
                 <Input
                   id="exampleFormControlInput1"
                   placeholder="sponsor name"
@@ -105,6 +107,7 @@ class CreateSponsorModal extends React.Component {
 
             <Col md="12">
               <FormGroup>
+                <Label for="exampleSelect"> <h5>Sponsor Description</h5> </Label>
                 <Input
                   id="exampleFormControlInput1"
                   placeholder="sponsor description"
@@ -115,17 +118,17 @@ class CreateSponsorModal extends React.Component {
                 />
               </FormGroup>
             </Col>
-
-            <Col md="12">
+            
+            <Col>
               <FormGroup>
-                <Input
-                  id="exampleFormControlInput1"
-                  placeholder="#hashtag"
-                  type="text"
-                  onChange={e => this.handleChange(e)}
-                  name="hashTag"
-                  value={hashTag}
-                />
+                <Label for="exampleSelect"> <h5>Upload Sponsor Image</h5> </Label>
+                <ImageUploader
+                withIcon={false}
+                buttonText='Upload Sponsor image'
+                onChange={this.onDrop}
+                // imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                // maxFileSize={5242880}
+              />
               </FormGroup>
             </Col>
           </Row>

@@ -9,13 +9,12 @@ import {
   FormGroup,
   Form,
   Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
+  Label,
   Modal,
   Row,
   Col,
 } from "reactstrap";
+import ImageUploader from 'react-images-upload';
 import { handleAddHashtagEntry } from "redux/actions/socials";
 
 class CreateChallengesModal extends React.Component {
@@ -64,7 +63,7 @@ class CreateChallengesModal extends React.Component {
           type="button"
           onClick={() => this.toggleModal("CreateChallengesModal")}
         >
-          Create Challenges
+          Create
         </Button>
         {/* Modal */}
         <Modal
@@ -73,9 +72,7 @@ class CreateChallengesModal extends React.Component {
           toggle={() => this.toggleModal("CreateChallengesModal")}
         >
           <div className="modal-header">
-            <h5 className="modal-title" id="CreateChallengesModalLabel">
-            Create Challenges
-            </h5>
+            <h4 className="modal-title" id="CreateChallengesModalLabel"> Create Challenges </h4>
             <button
               aria-label="Close"
               className="close"
@@ -91,23 +88,25 @@ class CreateChallengesModal extends React.Component {
           
           <Row>
             <Col md="12">
+              
               <FormGroup>
-                <Input
-                  id="exampleFormControlInput1"
-                  placeholder="category id"
-                  type="text"
-                  onChange={e => this.handleChange(e)}
-                  name="id"
-                  value={id}
-                />
+                <Label for="exampleSelect"> <h5>Category ID</h5> </Label>
+                <Input type="select" name="select" id="exampleSelect">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </Input>
               </FormGroup>
             </Col>
 
             <Col md="12">
               <FormGroup>
+                <Label for="exampleSelect"><h5>Challenge Name</h5></Label>
                 <Input
                   id="exampleFormControlInput1"
-                  placeholder="name"
+                  placeholder="Challenge Name"
                   type="text"
                   onChange={e => this.handleChange(e)}
                   name="name"
@@ -118,9 +117,10 @@ class CreateChallengesModal extends React.Component {
 
             <Col md="12">
               <FormGroup>
+                <Label for="exampleSelect"><h5>Challenge Hashtag</h5></Label>
                 <Input
                   id="exampleFormControlInput1"
-                  placeholder="#hashtag"
+                  placeholder="Hashtag"
                   type="text"
                   onChange={e => this.handleChange(e)}
                   name="hashtag"
@@ -131,13 +131,13 @@ class CreateChallengesModal extends React.Component {
 
             <Col md="12">
               <FormGroup>
-                <Input
-                  id="exampleFormControlInput1"
-                  placeholder="image url"
-                  type="text"
-                  onChange={e => this.handleChange(e)}
-                  name="imageURL"
-                  value={imageURL}
+                <Label for="exampleSelect"><h5>Upload Challenge Image</h5></Label>
+                <ImageUploader
+                  withIcon={false}
+                  buttonText='Upload Challenge image'
+                  onChange={this.onDrop}
+                  // imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                  // maxFileSize={5242880}
                 />
               </FormGroup>
             </Col>

@@ -9,9 +9,7 @@ import {
   FormGroup,
   Form,
   Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
+  Label,
   Modal,
   Row,
   Col,
@@ -72,7 +70,7 @@ class CreateMerchantModals extends React.Component {
           type="button"
           onClick={() => this.toggleModal("CreateCategoryModal")}
         >
-          Add Category
+          Create 
         </Button>
         {/* Modal */}
         <Modal
@@ -81,9 +79,7 @@ class CreateMerchantModals extends React.Component {
           toggle={() => this.toggleModal("CreateCategoryModal")}
         >
           <div className="modal-header">
-            <h5 className="modal-title" id="CreateCategoryModalLabel">
-              Add Category
-            </h5>
+            <h4 className="modal-title" id="CreateCategoryModalLabel"> Add Category </h4>
             <button
               aria-label="Close"
               className="close"
@@ -100,6 +96,7 @@ class CreateMerchantModals extends React.Component {
               <Row>
                 <Col md="12">
                   <FormGroup>
+                    <Label for="exampleSelect"> <h5>Category Description</h5> </Label>
                     <Input
                       id="exampleFormControlInput1"
                       placeholder="category description"
@@ -112,6 +109,7 @@ class CreateMerchantModals extends React.Component {
                 </Col>
                 <Col md="12">
                   <FormGroup>
+                    <Label for="exampleSelect"> <h5>Category Name</h5> </Label>
                     <Input
                       id="exampleFormControlInput1"
                       placeholder="category name"
@@ -124,9 +122,10 @@ class CreateMerchantModals extends React.Component {
                 </Col>
                 <Col md="12">
                   <FormGroup>
+                    <Label for="exampleSelect"> <h5>Hashtag</h5> </Label>
                     <Input
                       id="exampleFormControlInput1"
-                      placeholder="#hashtag"
+                      placeholder="hashtag"
                       type="text"
                       name="hashtag"
                       value={hashtag}
