@@ -19,6 +19,7 @@ import {
 } from "reactstrap";
 import ImageUploader from 'react-images-upload';
 import { handleAddHashtagEntry } from "redux/actions/socials";
+import { handleCreateEntry } from "redux/actions/entries";
 // import UploadImage from '../examples/UploadImage';
 
 class CreateEntriesModal extends React.Component {
@@ -62,11 +63,11 @@ class CreateEntriesModal extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { imageURL, mediaURL, challengeId, categoryId } = this.state;
-    if (!imageURL || !mediaURL || !challengeId || !categoryId) return;
+    if (!challengeId || !categoryId) return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addHashtagEntry({imageURL, mediaURL, challengeId, categoryId}).then(res => {
+    this.props.createEntry({imageURL, mediaURL, challengeId, categoryId}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
@@ -153,17 +154,18 @@ class CreateEntriesModal extends React.Component {
             </Col>
 
             <Col md="12">
-              {/* <FormGroup>
+              <FormGroup>
+              <Label for="exampleFormControlInput6"> <h5>Challenge Id</h5> </Label>
                 <Input
-                  id="exampleFormControlInput1"
+                  id="exampleFormControlInput6"
                   placeholder="challenge id"
                   type="text"
                   onChange={e => this.handleChange(e)}
                   name="challengeId"
                   value={challengeId}
                 />
-              </FormGroup> */}
-              <FormGroup>
+              </FormGroup>
+              {/* <FormGroup>
                 <Label for="exampleSelect"> <h5>Challenge ID</h5> </Label>
                 <Input type="select" name="select" id="exampleSelect">
                   <option>1</option>
@@ -172,11 +174,12 @@ class CreateEntriesModal extends React.Component {
                   <option>4</option>
                   <option>5</option>
                 </Input>
-              </FormGroup>
+              </FormGroup> */}
             </Col>
 
-            {/* <Col md="12">
+            <Col md="12">
               <FormGroup>
+              <Label for="exampleFormControlInput1"> <h5>Category Id</h5> </Label>
                 <Input
                   id="exampleFormControlInput1"
                   placeholder="category id"
@@ -186,7 +189,7 @@ class CreateEntriesModal extends React.Component {
                   value={categoryId}
                 />
               </FormGroup>
-            </Col> */}
+            </Col>
           </Row>
        
           </div>
@@ -202,7 +205,7 @@ class CreateEntriesModal extends React.Component {
             <Button 
               color="primary" 
               type="submit"
-              disabled={isMakingRequest === true || !mediaURL || !imageURL || !challengeId || !categoryId}
+              disabled={isMakingRequest === true || !challengeId || !categoryId}
             >
               Create
             </Button>
@@ -215,7 +218,7 @@ class CreateEntriesModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addHashtagEntry: (hashtag) => dispatch(handleAddHashtagEntry(hashtag)) 
+  createEntry: (entry) => dispatch(handleCreateEntry(entry)) 
 }) 
 
 

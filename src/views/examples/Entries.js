@@ -24,14 +24,18 @@ import {
 // core components
 import Header from "components/Headers/Header.js";
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux'
 import EditEntryDataModal from "./EditEntryDataModal";
 import EditEntriesModal from "./EditEntriesModal";
 import DeleteEntriesModal from "./DeleteEntriesModal";
+import { handleGetEntries } from "redux/actions/entries";
 
 class Entries extends React.Component {
-  
+  componentDidMount() {
+    this.props.getEntries();
+  }
   render() {
-    // const { Entries} = this.props
+    const { entries} = this.props
     return (
       <>
         <Header />
@@ -57,33 +61,30 @@ class Entries extends React.Component {
                   <thead className="thead-dark">
                     <tr>
                       <th scope="col">ID</th>
-                      <th scope="col">Hashtag</th>
+                      <th scope="col">User Name</th>
                       <th scope="col">Category ID</th>
                       <th scope="col">Category Name</th>
-                      <th scope="col">Category Image</th>
-                      <th scope="col">Sponsor ID</th>
-                      <th scope="col">Sponsor Name</th>
-                      <th scope="col">Sponsor Image</th>
+                      <th scope="col">Image URL</th>
+                      <th scope="col">Media Image URL</th>
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                  
-                    <tr>
+                  {
+                    entries.map((ent, i) => (
+                      <tr key={ent._id}>
                       <td>
-                        <span className="mb-0 text-sm">1</span>
+                        <span className="mb-0 text-sm">{i + 1}</span>
                       </td>
-                      
                       <td>
-                        <span className="mb-0 text-sm">Hashtag</span>
+                        <span className="mb-0 text-sm">{ent.userFirstName + ' ' + ent.userLastName}</span>
+                      </td>
+                      <td>
+                        <span className="mb-0 text-sm">{ent.categoryId}</span>
                       </td>
 
                       <td>
-                        <span className="mb-0 text-sm">Category ID</span>
-                      </td>
-
-                      <td>
-                        <span className="mb-0 text-sm">Category Name</span>
+                        <span className="mb-0 text-sm">{ent.categoryName}</span>
                       </td>
 
                       <th scope="row">
@@ -95,20 +96,11 @@ class Entries extends React.Component {
                           >
                             <img
                               alt="..."
-                              src={require("assets/img/brand/shoprite.jpg")}
+                              src={ent.imageURL}
                             />
                           </a>
                         </Media>
                       </th>
-
-                      <td>
-                        <span className="mb-0 text-sm">Sponsor ID</span>
-                      </td>
-
-                      <td>
-                        <span className="mb-0 text-sm">Sponsor Name</span>
-                      </td>
-                      
                       <th scope="row">
                         <Media className="align-items-center">
                           <a
@@ -118,20 +110,20 @@ class Entries extends React.Component {
                           >
                             <img
                               alt="..."
-                              src={require("assets/img/brand/shoprite.jpg")}
+                              src={ent.mediaURL}
                             />
                           </a>
                         </Media>
                       </th>
 
                       <th scope='row'>
-                        <EditEntriesModal/>
-                        <DeleteEntriesModal/>
+                        <EditEntriesModal ent={ent}/>
+                        <DeleteEntriesModal id={ent._id}/>
                       </th>
                       
                     </tr>
-                    
-                    
+                    ))
+                  }
                   </tbody>
                 </Table>
               </Card>
@@ -143,4 +135,14 @@ class Entries extends React.Component {
   }
 }
 
-export default Entries;
+const mapStateToProps = ({ socials: { entries } }) => {
+  return {
+    entries
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  getEntries: () => dispatch(handleGetEntries()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Entries);

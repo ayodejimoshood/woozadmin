@@ -16,6 +16,7 @@ import {
 } from "reactstrap";
 import ImageUploader from 'react-images-upload';
 import { handleAddHashtagEntry } from "redux/actions/socials";
+import { handleCreateChallenge } from "redux/actions/challenges";
 
 class CreateChallengesModal extends React.Component {
   state = {
@@ -41,15 +42,23 @@ class CreateChallengesModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { id, name, imageURL } = this.state;
-    if (id === '' || name === '' || imageURL === '') return;
+    const { id, name, hashtag, imageURL } = this.state;
+    if (id === '' || name === '' || hashtag === '') return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addHashtagEntry({name, categoryId:id, imageURL}).then(res => {
+    this.props.createChallenge({name, categoryId:id, hashtag}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
+      if (res === "success") {
+        this.setState({
+          id: '',
+          name: '',
+          hashtag: '',
+          imageURL: ''
+        })
+      }
     })
   }
 
@@ -91,13 +100,14 @@ class CreateChallengesModal extends React.Component {
               
               <FormGroup>
                 <Label for="exampleSelect"> <h5>Category ID</h5> </Label>
-                <Input type="select" name="select" id="exampleSelect">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </Input>
+                <Input
+                  id="exampleFormControlInput1"
+                  placeholder="Category Id"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="id"
+                  value={id}
+                />
               </FormGroup>
             </Col>
 
@@ -156,7 +166,7 @@ class CreateChallengesModal extends React.Component {
             <Button 
               color="primary" 
               type="submit"
-              disabled={id === '' || name === '' || imageURL === '' || isMakingRequest === true}
+              disabled={id === '' || name === '' || hashtag === '' || isMakingRequest === true}
             >
               Create
             </Button>
@@ -169,7 +179,7 @@ class CreateChallengesModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addHashtagEntry: (hashtag) => dispatch(handleAddHashtagEntry(hashtag)) 
+  createChallenge: (challenge) => dispatch(handleCreateChallenge(challenge)) 
 }) 
 
 

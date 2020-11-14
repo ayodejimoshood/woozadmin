@@ -25,21 +25,23 @@ const toastrOptions = {
 
 
 //  LOGIN USER
-export const login = (payload, history) =>  (dispatch) => {
+export const login = (payload, history) => async (dispatch) => {
 
-  fetch("https://apis.woozeee.com/api/v1/user/login", {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: {
-      "Content-Type": "application/json"
-    },
-  }).then(response => response.json())
-  .then(data => {
+
+  try {
+    const response = await fetch("https://apis.woozeee.com/api/v1/user/login", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+
+    const data = await response.json()
     if (data.message !== 'user logedin successfully') {
       toastr.error('', 'Incorrect email or password', toastrOptions)
       return;
     }
-    console.log({token: data.token})
     toastr.success('', 'Login Success', toastrOptions)
     
     dispatch({
@@ -47,12 +49,13 @@ export const login = (payload, history) =>  (dispatch) => {
       payload: data
     })
     history.push("/admin/index")
-  }).catch(function(error) {
+    return
+
+  } catch (error) {
     toastr.error(error.message, toastrOptions)
     console.log(error)
-
-  })
-
+    return 
+  }
 }
 
 
@@ -60,6 +63,7 @@ export const login = (payload, history) =>  (dispatch) => {
 
 
 export const logOut = () => {
+  toastr.success('', 'Logout Successful', toastrOptions)
   return {
     type: LOGOUT_SUCCESS
   }

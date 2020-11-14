@@ -1,5 +1,5 @@
 import React from "react";
-
+import Loader from 'react-loader-spinner'
 // reactstrap components
 import {
   Badge,
@@ -47,13 +47,16 @@ class Sponsor extends React.Component {
           {/* </Link> */}
           {/* <Button color="primary" type="button" onClick={() => this.toggleModal("CreateCategoryModal")} > <i fa fa-arrow-left></i> Back </Button> */}
           <Row className="mt-5">
-
             <div className="col">
               <Card className="bg-default shadow">
                 <CardHeader className="bg-transparent border-0">
                   <h3 className="text-white mb-0">All Sponsor Data</h3>
                 </CardHeader>
-                <Table
+                {
+                  sponsors.length <= 1 ? <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', zIndex: '10', marginTop: '80px' }}>
+                    <Loader type="TailSpin" color="#00BFFF" height={90} width={80} />
+                  </div> :
+                  <Table
                   className="align-items-center table-dark table-flush"
                   responsive
                 >
@@ -68,6 +71,8 @@ class Sponsor extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
+                 
+
                     {
                       sponsors.map(sponsor => (
                         <tr key={sponsor._id}>
@@ -107,6 +112,7 @@ class Sponsor extends React.Component {
                     }
                   </tbody>
                 </Table>
+                }
               </Card>
             </div>
           </Row>
