@@ -72,7 +72,7 @@ class Categories extends React.Component {
                   <tbody>
                     {
                       category.map((cat, i) => (
-                        <tr>
+                        <tr key={cat._id}>
                       <td>
                         <span className="mb-0 text-sm">{i}</span>
                       </td>

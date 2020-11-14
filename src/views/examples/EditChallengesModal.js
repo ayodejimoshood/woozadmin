@@ -16,12 +16,12 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { handleAddHashtagEntry } from "redux/actions/socials";
+import { handleEditChallenge } from "redux/actions/challenges";
 
 class EditChallengesModal extends React.Component {
   state = {
     EditChallengesModal: false,
-    hashtagEntry: '',
+    name: '',
     isMakingRequest: false
   };
   toggleModal = (state) => {
@@ -39,20 +39,25 @@ class EditChallengesModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { hashtagEntry } = this.state;
-    if (hashtagEntry === '') return;
+    const { name } = this.state;
+    if (name === '') return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addHashtagEntry({name: hashtagEntry}).then(res => {
+    this.props.editChallenge({name}, this.props.chal._id).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
+      if (res === "success") {
+        this.setState({
+          name: '',
+        })
+      }
     })
   }
 
   render() {
-    const { hashtagEntry, isMakingRequest } = this.state
+    const { name, isMakingRequest } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -90,8 +95,8 @@ class EditChallengesModal extends React.Component {
                   placeholder="challenge name"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="name"
+                  value={name}
                 />
               </FormGroup>
             </Col>
@@ -112,7 +117,7 @@ class EditChallengesModal extends React.Component {
             <Button 
               color="primary" 
               type="submit"
-              disabled={hashtagEntry === '' || isMakingRequest === true}
+              disabled={name === '' || isMakingRequest === true}
             >
               Create
             </Button>
@@ -125,7 +130,7 @@ class EditChallengesModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addHashtagEntry: (hashtag) => dispatch(handleAddHashtagEntry(hashtag)) 
+  editChallenge: (challenge, id) => dispatch(handleEditChallenge(challenge, id)) 
 }) 
 
 

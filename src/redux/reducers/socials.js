@@ -9,14 +9,24 @@ import { CREATE_CATEGORY,
           DELETE_CATEGORY,
           EDIT_HASHTAG,
           EDIT_CATEGORY,
-          EDIT_SPONSOR
+          EDIT_SPONSOR,
+          CREATE_CHALLENGE,
+          GET_CHALLENGES,
+          EDIT_CHALLENGE,
+          DELETE_CHALLENGE,
+          EDIT_ENTRY,
+          CREATE_ENTRY,
+          GET_ENTRIES,
+          DELETE_ENTRY
 } from '../actions/types'
 
 const INITIAL_STATE = {
   category: [],
   hashtag: [],
   hashTagEntry: [],
-  sponsors: []
+  sponsors: [],
+  challenges: [],
+  entries: []
 }
 
 export default function socials(state = INITIAL_STATE, action) {
@@ -89,6 +99,50 @@ export default function socials(state = INITIAL_STATE, action) {
         ...state,
         hashtag: state.hashtag.filter(hash => hash._id !== action.payload._id).concat([action.payload])
       }
+    case CREATE_CHALLENGE:
+      return {
+        ...state,
+        challenges: [...state.challenges, action.payload]
+      }
+      case GET_CHALLENGES:
+        return {
+          ...state,
+          challenges: [...action.payload]
+        }
+      case DELETE_CHALLENGE:
+        return {
+          ...state,
+          challenges: state.challenges.filter(chal => {
+            return chal._id !== action.payload
+          })
+        }
+      case EDIT_ENTRY:
+        return {
+          ...state,
+          entries: state.entries.filter(chal => chal._id !== action.payload._id).concat([action.payload])
+        }
+        case CREATE_ENTRY:
+          return {
+            ...state,
+            entries: [...state.entries, action.payload]
+          }
+          case GET_ENTRIES:
+            return {
+              ...state,
+              entries: [...action.payload]
+            }
+          case DELETE_ENTRY:
+            return {
+              ...state,
+              entries: state.entries.filter(ent => {
+                return ent._id !== action.payload
+              })
+            }
+          case EDIT_ENTRY:
+            return {
+              ...state,
+              entries: state.entries.filter(ent => ent._id !== action.payload._id).concat([action.payload])
+            }
     default:
       return state;
   }

@@ -18,6 +18,7 @@ import {
   InputGroup,
   Row,
   Col,
+  Spinner
 } from "reactstrap";
 import { JsxEmit } from "typescript";
 
@@ -25,6 +26,7 @@ class Login extends React.Component {
   state = {
     email: "",
     password: "",
+    isMakingRequest: false
   };
 
   handleChange = (e) => {
@@ -37,9 +39,17 @@ class Login extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    this.setState(prevState => ({
+      isMakingRequest: !prevState.isMakingRequest
+    }))
     const { email, password } = this.state;
+    if (!email || !password) return
     const { history, loginUser } = this.props;
-    loginUser({ email, password }, history);
+    loginUser({ email, password }, history).then(res => {
+      this.setState(prevState => ({
+        isMakingRequest: !prevState.isMakingRequest
+      }))
+    })
   };
 
   render() {
@@ -47,7 +57,7 @@ class Login extends React.Component {
       return <Redirect to="/" />;
     }
 
-    const { email, password } = this.state;
+    const { email, password, isMakingRequest } = this.state;
     return (
       <>
         <Col lg="5" md="7">
@@ -114,8 +124,13 @@ class Login extends React.Component {
                   </label>
                 </div>
                 <div className="text-center">
-                  <Button style={{backgroundColor: '#043f7c'}} className="my-4" color="primary" type="submit">
-                    Sign in
+                  <Button style={{backgroundColor: '#043f7c'}} className="my-4" color="primary" type="submit"
+                    disabled={!isMakingRequest, !email, !password}
+                  >
+                  { 
+                    isMakingRequest && <Spinner color="light" size="sm" style={{marginRight: '5px'}}/>
+                  }
+                  Sign in
                   </Button>
                 </div>
               </Form>

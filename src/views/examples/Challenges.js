@@ -26,13 +26,15 @@ import Header from "components/Headers/Header.js";
 import { Link } from "react-router-dom";
 import EditChallengesModal from "./EditChallengesModal";
 import DeleteChallengesModal from "./DeleteChallengesModal";
-// import { handleGetChallenges } from "redux/actions/Challenges";
-// import { connect } from "react-redux";
+import { handleGetChallenges } from "redux/actions/challenges";
+import { connect } from "react-redux";
 
 class Challenges extends React.Component {
-  
+  componentDidMount() {
+    this.props.getChallenges();
+  }
   render() {
-    // const { Challenges} = this.props
+    const { challenges} = this.props
     return (
       <>
         <Header />
@@ -69,22 +71,23 @@ class Challenges extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                  
-                    <tr>
+                  {
+                    challenges.map((chal, i) => (
+                      <tr key={chal._id}>
                       <td>
-                        <span className="mb-0 text-sm">1</span>
+                        <span className="mb-0 text-sm">{i + 1}</span>
                       </td>
                       
                       <td>
-                        <span className="mb-0 text-sm">Hashtag</span>
+                        <span className="mb-0 text-sm">{chal.hashtagName}</span>
                       </td>
 
                       <td>
-                        <span className="mb-0 text-sm">Category ID</span>
+                        <span className="mb-0 text-sm">{chal.categoryId}</span>
                       </td>
 
                       <td>
-                        <span className="mb-0 text-sm">Category Name</span>
+                        <span className="mb-0 text-sm">{chal.categoryName}</span>
                       </td>
 
                       <th scope="row">
@@ -96,18 +99,18 @@ class Challenges extends React.Component {
                           >
                             <img
                               alt="..."
-                              src={require("assets/img/brand/shoprite.jpg")}
+                              src={chal.categoryimageURL}
                             />
                           </a>
                         </Media>
                       </th>
 
                       <td>
-                        <span className="mb-0 text-sm">Sponsor ID</span>
+                        <span className="mb-0 text-sm">{chal.sponsorId}</span>
                       </td>
 
                       <td>
-                        <span className="mb-0 text-sm">Sponsor Name</span>
+                        <span className="mb-0 text-sm">{chal.sponsorName}</span>
                       </td>
                       
                       <th scope="row">
@@ -119,17 +122,20 @@ class Challenges extends React.Component {
                           >
                             <img
                               alt="..."
-                              src={require("assets/img/brand/shoprite.jpg")}
+                              src={chal.sponsorImageURL}
                             />
                           </a>
                         </Media>
                       </th>
                       
                       <th scope='row'>
-                        <EditChallengesModal/>
-                        <DeleteChallengesModal/>
+                        <EditChallengesModal chal={chal}/>
+                        <DeleteChallengesModal id={chal._id}/>
                       </th>
                     </tr>
+                    
+                    ))
+                  }
                     
                     
                   </tbody>
@@ -143,4 +149,14 @@ class Challenges extends React.Component {
   }
 }
 
-export default Challenges;
+const mapStateToProps = ({ socials: { challenges } }) => {
+  return {
+    challenges
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  getChallenges: () => dispatch(handleGetChallenges()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Challenges);

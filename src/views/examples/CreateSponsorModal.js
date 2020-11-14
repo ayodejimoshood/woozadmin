@@ -19,7 +19,6 @@ class CreateSponsorModal extends React.Component {
     CreateSponsorModal: false,
     sponsorName: '',
     sponsorDesc: '',
-    hashTag: '',
     isMakingRequest: false
   };
   toggleModal = (state) => {
@@ -38,11 +37,11 @@ class CreateSponsorModal extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { sponsorName, sponsorDesc, hashTag } = this.state;
-    if (sponsorName === '' || sponsorDesc === '' || hashTag === '') return;
+    if (sponsorName === '' || sponsorDesc === '') return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.createSponsor({name: sponsorName, description: sponsorDesc, hashtag: hashTag}).then(res => {
+    this.props.createSponsor({name: sponsorName, description: sponsorDesc}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
@@ -50,14 +49,13 @@ class CreateSponsorModal extends React.Component {
         this.setState({
           sponsorName: '',
           sponsorDesc: '',
-          hashTag: ''
         })
       }
     })
   }
 
   render() {
-    const { sponsorName, sponsorDesc, hashTag, isMakingRequest } = this.state
+    const { sponsorName, sponsorDesc, isMakingRequest } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -146,7 +144,7 @@ class CreateSponsorModal extends React.Component {
             <Button 
               color="primary" 
               type="submit"
-              disabled={sponsorName === '' || sponsorDesc === '' || hashTag === '' || isMakingRequest === true}
+              disabled={sponsorName === '' || sponsorDesc === '' || isMakingRequest === true}
             >
               Create
             </Button>

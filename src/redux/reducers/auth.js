@@ -39,6 +39,7 @@ export default function(state = initialState, action){
         token: action.payload.token
       }
     case LOGOUT_SUCCESS:
+      localStorage.removeItem('persist:root')
       return {
         ...state,
         isLoading:false,
