@@ -1,5 +1,5 @@
 import React from "react";
-
+import { connect } from 'react-redux'
 // reactstrap components
 import {
   Badge,
@@ -26,21 +26,32 @@ import Header from "components/Headers/Header.js";
 import { Link } from "react-router-dom";
 import DeleteEntryCommentsModal from "./DeleteEntryCommentsModal";
 import EditEntryCommentsModal from "./EditEntryCommentsModal";
+import { handleGetEntriesComment } from "redux/actions/entriesComment";
 
 class EntryComments extends React.Component {
-  
+  state ={
+    request: true
+  }
+  componentDidMount() {
+    this.props.getEntryComments().then(res => {
+      this.setState(prev => ({
+        request: !prev.request
+      }))
+    });
+  }
   render() {
-    // const { EntryComments} = this.props
+    const { entryComments } = this.props
+    const { request } = this.state
     return (
       <>
         <Header />
         {/* Page content */}
         <Container className="mt--7" fluid>
-          
-          <Button href='socials' variant='outline-danger'  type="button"> Back to socials </Button>
-          
+
+          <Button href='socials' variant='outline-danger' type="button"> Back to socials </Button>
+
           <Row className="mt-5">
-          
+
             <div className="col">
               <Card className="bg-default shadow">
                 <CardHeader className="bg-transparent border-0">
@@ -58,22 +69,30 @@ class EntryComments extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                  
-                    <tr>
-                      <td>
-                        <span className="mb-0 text-sm">1</span>
-                      </td>
-                      
-                      <td>
-                        <span className="mb-0 text-sm">Entry Comment ID</span>
-                      </td>
+                    {
+                      entryComments.length > 0 && request === false ? entryComments.map((ent, i) => (
+                        <tr key={ent._id}>
+                          <td>
+                            <span className="mb-0 text-sm">{i + 1}</span>
+                          </td>
 
-                      <th scope='row'>
-                        <EditEntryCommentsModal/>
-                        <DeleteEntryCommentsModal/>
-                      </th>
-                    </tr>
-                    
+                          <td>
+                            <span className="mb-0 text-sm">{ent.entryId}</span>
+                          </td>
+
+                          <th scope='row'>
+                            <EditEntryCommentsModal ent={ent} />
+                            <DeleteEntryCommentsModal id={ent._id} />
+                          </th>
+                        </tr>
+
+                      )) : 
+                      <tr>
+                        <td> There is no entry comments data. Try creating one
+                        </td>
+                      </tr>
+                    }
+
                   </tbody>
                 </Table>
               </Card>
@@ -84,5 +103,14 @@ class EntryComments extends React.Component {
     );
   }
 }
+const mapStateToProps = ({ socials: { entryComments } }) => {
+  return {
+    entryComments
+  }
+}
 
-export default EntryComments;
+const mapDispatchToProps = (dispatch) => ({
+  getEntryComments: () => dispatch(handleGetEntriesComment()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(EntryComments);

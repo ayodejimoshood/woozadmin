@@ -16,12 +16,12 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { handleDeleteEntryComment } from "redux/actions/entriesComment";
 import { handleAddHashtagEntry } from "redux/actions/socials";
 
 class DeleteEntryCommentsModal extends React.Component {
   state = {
     DeleteEntryCommentsModal: false,
-    hashtagEntry: '',
     isMakingRequest: false
   };
   toggleModal = (state) => {
@@ -37,22 +37,15 @@ class DeleteEntryCommentsModal extends React.Component {
     })
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const { hashtagEntry } = this.state;
-    if (hashtagEntry === '') return;
-    this.setState(prevState => ({
-      isMakingRequest: !prevState.isMakingRequest
-    }))
-    this.props.addHashtagEntry({name: hashtagEntry}).then(res => {
-      this.setState(prevState => ({
-        isMakingRequest: !prevState.isMakingRequest
-      }))
-    })
+
+  handleDelete() {
+    const { id, deleteEntryComment } = this.props
+    deleteEntryComment(id)
+    this.toggleModal("DeleteHashtagModal")
   }
 
+
   render() {
-    const { hashtagEntry, isMakingRequest } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -87,7 +80,7 @@ class DeleteEntryCommentsModal extends React.Component {
           
           <Row>
             <Col md="6">
-              <Button style={{width: '100%'}} color="danger" type="button" onClick={() => this.toggleModal("DeleteEntryCommentsModal")}> Yes </Button>
+              <Button style={{width: '100%'}} color="danger" type="button" onClick={() => this.handleDelete()}> Yes </Button>
             </Col>
 
             <Col md="6">
@@ -103,7 +96,7 @@ class DeleteEntryCommentsModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addHashtagEntry: (hashtag) => dispatch(handleAddHashtagEntry(hashtag)) 
+  deleteEntryComment: (id) => dispatch(handleDeleteEntryComment(id)) 
 }) 
 
 

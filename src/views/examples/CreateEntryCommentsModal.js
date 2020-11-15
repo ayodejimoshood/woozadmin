@@ -10,6 +10,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { handleCreateEntryComment } from "redux/actions/entriesComment";
 import { handleAddHashtagEntry } from "redux/actions/socials";
 
 class CreateEntryCommentsModal extends React.Component {
@@ -39,7 +40,7 @@ class CreateEntryCommentsModal extends React.Component {
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addHashtagEntry({comment, entryId}).then(res => {
+    this.props.createEntryComment({comment, entryId}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
@@ -135,7 +136,7 @@ class CreateEntryCommentsModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addHashtagEntry: (hashtag) => dispatch(handleAddHashtagEntry(hashtag)) 
+  createEntryComment: (comment) => dispatch(handleCreateEntryComment(comment)) 
 }) 
 
 

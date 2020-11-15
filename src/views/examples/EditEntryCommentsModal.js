@@ -16,12 +16,12 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { handleAddHashtagEntry } from "redux/actions/socials";
+import { handleEditEntryComment } from "redux/actions/entriesComment";
 
 class EditEntryCommentsModal extends React.Component {
   state = {
     EditEntryCommentsModal: false,
-    hashtagEntry: '',
+    comment: '',
     isMakingRequest: false
   };
   toggleModal = (state) => {
@@ -39,12 +39,12 @@ class EditEntryCommentsModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { hashtagEntry } = this.state;
-    if (hashtagEntry === '') return;
+    const { comment } = this.state;
+    if (comment=== '') return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addHashtagEntry({name: hashtagEntry}).then(res => {
+    this.props.editEntryComment({comment}, this.props.ent._id).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
@@ -52,7 +52,7 @@ class EditEntryCommentsModal extends React.Component {
   }
 
   render() {
-    const { hashtagEntry, isMakingRequest } = this.state
+    const { comment, isMakingRequest } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -87,11 +87,11 @@ class EditEntryCommentsModal extends React.Component {
               <FormGroup>
                 <Input
                   id="exampleFormControlInput1"
-                  placeholder="entry comments id"
+                  placeholder="entry comment"
                   type="text"
                   onChange={e => this.handleChange(e)}
-                  name="hashtagEntry"
-                  value={hashtagEntry}
+                  name="comment"
+                  value={comment}
                 />
               </FormGroup>
             </Col>
@@ -112,7 +112,7 @@ class EditEntryCommentsModal extends React.Component {
             <Button 
               color="primary" 
               type="submit"
-              disabled={hashtagEntry === '' || isMakingRequest === true}
+              disabled={comment === '' || isMakingRequest === true}
             >
               Create
             </Button>
@@ -125,7 +125,7 @@ class EditEntryCommentsModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addHashtagEntry: (hashtag) => dispatch(handleAddHashtagEntry(hashtag)) 
+  editEntryComment: (comment, id) => dispatch(handleEditEntryComment(comment, id)) 
 }) 
 
 
