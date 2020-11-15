@@ -16,7 +16,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { handleAddHashtagEntry } from "redux/actions/socials";
+import { handleCreateEntryData } from "redux/actions/entryData";
 
 class CreateEntryDataModal extends React.Component {
   state = {
@@ -41,14 +41,23 @@ class CreateEntryDataModal extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { entryId, isLike } = this.state;
-    if (!entryId, !isLike) return;
+    console.log(entryId, isLike)
+    if (entryId.length < 1 || typeof(isLike) !== 'string') {
+      return
+    } 
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.addHashtagEntry({entryId, isLike}).then(res => {
+    this.props.createEntryData({entryId, isLike}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
+      if (res === 'success') {
+        this.setState({
+          entryId: '',
+          isLike: undefined
+        })
+      }
     })
   }
 
@@ -143,7 +152,7 @@ class CreateEntryDataModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addHashtagEntry: (hashtag) => dispatch(handleAddHashtagEntry(hashtag)) 
+  createEntryData: (entryData) => dispatch(handleCreateEntryData(entryData)) 
 }) 
 
 
