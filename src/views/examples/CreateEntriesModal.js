@@ -119,20 +119,7 @@ class CreateEntriesModal extends React.Component {
                   // imgExtension={['.jpg', '.gif', '.png', '.gif']}
                   // maxFileSize={5242880}
                 />
-                {/* <UploadImage/> */}
               </FormGroup>
-              {/* <FormGroup>
-                <Label for="exampleSelect">Upload Image</Label>
-                <input type="file" onChange={this.handleChange}/> */}
-                {/* <Input
-                  id="exampleFormControlInput1"
-                  placeholder="image url"
-                  type="text"
-                  onChange={e => this.handleChange(e)}
-                  name="imageURL"
-                  value={imageURL}
-                /> */}
-              {/* </FormGroup> */}
             </Col>
 
             <Col md="12">
@@ -140,17 +127,6 @@ class CreateEntriesModal extends React.Component {
                 <Label for="exampleSelect"> <h5>Upload Video</h5> </Label>
                 <ImageUploader withIcon={false} buttonText='Upload video' onChange={this.onDrop} />
               </FormGroup>
-              {/* <FormGroup>
-                <Label for="exampleSelect">Upload Video</Label>
-                <Input
-                  id="exampleFormControlInput1"
-                  placeholder="media url"
-                  type="text"
-                  onChange={e => this.handleChange(e)}
-                  name="mediaURL"
-                  value={mediaURL}
-                />
-              </FormGroup> */}
             </Col>
 
             <Col md="12">
