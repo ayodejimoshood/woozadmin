@@ -20,38 +20,43 @@ import {
 import ImageUploader from 'react-images-upload';
 import { handleAddHashtagEntry } from "redux/actions/socials";
 import { handleCreateEntry } from "redux/actions/entries";
+import { handleGetCategories } from "redux/actions/categories";
 // import UploadImage from '../examples/UploadImage';
 
 class CreateEntriesModal extends React.Component {
 
-  // upload image
-  constructor(props) {
-    // super(props);
-    super(props);
-    this.state = { pictures: [] };
-    this.onDrop = this.onDrop.bind(this);
-  }
-
-  onDrop(pictureFiles, pictureDataURLs) {
-    this.setState({
-        pictures: pictureFiles
-    });
-  }
-  // upload image
-
-  state = {
+  state = { 
     CreateEntriesModal: false,
     imageURL: '',
     mediaURL: '',
     challengeId: '',
     categoryId: '',
-    isMakingRequest: false
-  };
+    isMakingRequest: false };
+  
+  
+    componentDidMount() {
+    this.props.getCategories()
+  }
+
+  onDropPicture = (pictureFiles, pictureDataURLs, name = "imageURL") => {
+    this.setState({
+        [name]: pictureDataURLs[0]
+    });
+  }
+
+  onDropVideo = (pictureFiles, pictureDataURLs, name = "mediaURL") => {
+    this.setState({
+        [name]: pictureDataURLs[0]
+    });
+  }
+  // upload image
   toggleModal = (state) => {
     this.setState({
       [state]: !this.state[state],
     });
   };
+
+
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,7 +68,8 @@ class CreateEntriesModal extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { imageURL, mediaURL, challengeId, categoryId } = this.state;
-    if (!challengeId || !categoryId) return;
+    console.log({ imageURL, mediaURL, challengeId, categoryId })
+    if (!categoryId) return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
@@ -76,6 +82,7 @@ class CreateEntriesModal extends React.Component {
 
   render() {
     const { isMakingRequest, imageURL, mediaURL, challengeId, categoryId } = this.state
+    const {category} = this.props
     return (
       <>
         {/* Button trigger modal */}
@@ -115,7 +122,8 @@ class CreateEntriesModal extends React.Component {
                 <ImageUploader
                   withIcon={false}
                   buttonText='Upload image'
-                  onChange={this.onDrop}
+                  onChange={this.onDropPicture}
+                  name="imageURL"
                   // imgExtension={['.jpg', '.gif', '.png', '.gif']}
                   // maxFileSize={5242880}
                 />
@@ -125,7 +133,7 @@ class CreateEntriesModal extends React.Component {
             <Col md="12">
               <FormGroup>
                 <Label for="exampleSelect"> <h5>Upload Video</h5> </Label>
-                <ImageUploader withIcon={false} buttonText='Upload video' onChange={this.onDrop} />
+                <ImageUploader withIcon={false} buttonText='Upload video' onChange={this.onDropVideo} />
               </FormGroup>
             </Col>
 
@@ -141,19 +149,20 @@ class CreateEntriesModal extends React.Component {
                   value={challengeId}
                 />
               </FormGroup>
-              {/* <FormGroup>
-                <Label for="exampleSelect"> <h5>Challenge ID</h5> </Label>
-                <Input type="select" name="select" id="exampleSelect">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
+              <FormGroup>
+                <Label for="exampleSelect"> <h5>Category</h5> </Label>
+                <Input type="select" name="categoryId" id="exampleSelect" value={categoryId} onChange={e => this.handleChange(e)}>
+                  <option value="">Select a category</option>
+                {
+                  category.map((cat) => (
+                    <option key={cat._id} value={cat._id}>{cat.name[0].toUpperCase() + cat.name.slice(1)}</option>
+                  ))
+                }
                 </Input>
-              </FormGroup> */}
+              </FormGroup>
             </Col>
 
-            <Col md="12">
+            {/* <Col md="12">
               <FormGroup>
               <Label for="exampleFormControlInput1"> <h5>Category Id</h5> </Label>
                 <Input
@@ -165,7 +174,7 @@ class CreateEntriesModal extends React.Component {
                   value={categoryId}
                 />
               </FormGroup>
-            </Col>
+            </Col> */}
           </Row>
        
           </div>
@@ -181,7 +190,7 @@ class CreateEntriesModal extends React.Component {
             <Button 
               color="primary" 
               type="submit"
-              disabled={isMakingRequest === true || !challengeId || !categoryId}
+              disabled={isMakingRequest === true || !categoryId}
             >
               Create
             </Button>
@@ -193,9 +202,14 @@ class CreateEntriesModal extends React.Component {
   }
 }
 
+const mapStateToProps = ({socials: {category}}) => ({
+  category
+})
+
 const mapDispatchToProps = (dispatch) => ({
-  createEntry: (entry) => dispatch(handleCreateEntry(entry)) 
+  createEntry: (entry) => dispatch(handleCreateEntry(entry)),
+  getCategories: () => dispatch(handleGetCategories()) 
 }) 
 
 
-export default connect(null, mapDispatchToProps)(CreateEntriesModal);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateEntriesModal);
