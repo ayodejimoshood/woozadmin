@@ -13,14 +13,23 @@ import {
 } from "reactstrap";
 import ImageUploader from 'react-images-upload';
 import { handleCreateSponsor } from "redux/actions/sponsors";
+import S3FileUpload from 'react-s3'
+import { config } from '../../utils/react-s3-config'
+import { toastr } from 'react-redux-toastr'
+import { toastrOptions } from '../../utils/helpers'
+import Loader from 'react-loader-spinner'
 
 class CreateSponsorModal extends React.Component {
   state = {
     CreateSponsorModal: false,
     sponsorName: '',
     sponsorDesc: '',
-    isMakingRequest: false
+    isMakingRequest: false,
+    pictureLoading: 'unloaded',
+    pictureKey: '',
+    imageURL: ''
   };
+
   toggleModal = (state) => {
     this.setState({
       [state]: !this.state[state],
@@ -34,14 +43,36 @@ class CreateSponsorModal extends React.Component {
     })
   }
 
+  onDropPicture = (pictureFiles, pictureDataURLs, name = "imageURL") => {
+    this.setState(prev => ({
+      pictureLoading: 'loading'
+    }))
+    S3FileUpload.uploadFile(pictureFiles[0], config)
+      .then(data => {
+        console.log(data)
+        this.setState({
+          [name]: data.location,
+          pictureLoading: 'loaded',
+          pictureKey: data.key
+        }, () => console.log(this.state));
+      })
+      .catch(err => {
+        this.setState({
+          pictureLoading: 'unloaded'
+        })
+        console.log(err)
+        toastr.warning('Error occured uploading the image', toastrOptions)
+      })
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
-    const { sponsorName, sponsorDesc, hashTag } = this.state;
+    const { sponsorName, sponsorDesc, imageURL } = this.state;
     if (sponsorName === '' || sponsorDesc === '') return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.createSponsor({name: sponsorName, description: sponsorDesc}).then(res => {
+    this.props.createSponsor({name: sponsorName, description: sponsorDesc, imageURL}).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
@@ -49,13 +80,16 @@ class CreateSponsorModal extends React.Component {
         this.setState({
           sponsorName: '',
           sponsorDesc: '',
+          imageURL: '',
+          pictureLoading: 'unloaded',
+          pictureKey: ''
         })
       }
     })
   }
 
   render() {
-    const { sponsorName, sponsorDesc, isMakingRequest } = this.state
+    const { sponsorName, sponsorDesc, isMakingRequest, pictureLoading, imageURL } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -120,13 +154,29 @@ class CreateSponsorModal extends React.Component {
             <Col>
               <FormGroup>
                 <Label for="exampleSelect"> <h5>Upload Sponsor Image</h5> </Label>
-                <ImageUploader
-                withIcon={false}
-                buttonText='Upload Sponsor image'
-                onChange={this.onDrop}
-                // imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                // maxFileSize={5242880}
-              />
+                {
+                  pictureLoading === 'unloaded' ?
+                  <ImageUploader
+                    withIcon={false}
+                    buttonText='Upload Sponsor image'
+                    onChange={this.onDropPicture}
+                    imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                    maxFileSize={5242880} 
+                  /> :
+                  pictureLoading === 'loading' ?
+                    <div style={{ textAlign: 'center' }}>
+                      <Loader
+                        type="ThreeDots"
+                        color="#000000"
+                        height={50}
+                        width={50}
+                      />
+                    </div>
+                    : <div style={{ textAlign: 'center' }}>
+                      Image uploaded successfully
+                    </div>
+                }
+                
               </FormGroup>
             </Col>
           </Row>
@@ -144,7 +194,7 @@ class CreateSponsorModal extends React.Component {
             <Button 
               color="primary" 
               type="submit"
-              disabled={sponsorName === '' || sponsorDesc === '' || isMakingRequest === true}
+              disabled={sponsorName === '' || sponsorDesc === '' || isMakingRequest === true || !imageURL}
             >
               Create
             </Button>
