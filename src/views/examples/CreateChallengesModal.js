@@ -1,5 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
+import S3FileUpload from 'react-s3'
+import { config } from '../../utils/react-s3-config'
+import { toastr } from 'react-redux-toastr'
+import { toastrOptions } from '../../utils/helpers'
+import Loader from 'react-loader-spinner'
+
 // reactstrap components
 import {
   Button,
@@ -25,8 +31,10 @@ class CreateChallengesModal extends React.Component {
     name: '',
     imageURL: '',
     hashtag: '',
-    isMakingRequest: false
+    isMakingRequest: false,
+    pictureLoading: 'unloaded'
   };
+
   toggleModal = (state) => {
     this.setState({
       [state]: !this.state[state],
@@ -40,6 +48,28 @@ class CreateChallengesModal extends React.Component {
     })
   }
 
+  onDropPicture = (pictureFiles, pictureDataURLs, name = "imageURL") => {
+    this.setState(prev => ({
+      pictureLoading: 'loading'
+    }))
+    S3FileUpload.uploadFile(pictureFiles[0], config)
+      .then(data => {
+        console.log(data)
+        this.setState({
+          [name]: data.location,
+          pictureLoading: 'loaded',
+          pictureKey: data.key
+        }, () => console.log(this.state));
+      })
+      .catch(err => {
+        this.setState({
+          pictureLoading: 'unloaded'
+        })
+        console.log(err)
+        toastr.warning('Error occured uploading the image', toastrOptions)
+      })
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     const { id, name, hashtag, imageURL } = this.state;
@@ -47,7 +77,7 @@ class CreateChallengesModal extends React.Component {
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.createChallenge({name, categoryId:id, hashtag}).then(res => {
+    this.props.createChallenge({ name, categoryId: id, hashtag, imageURL }).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
@@ -56,14 +86,15 @@ class CreateChallengesModal extends React.Component {
           id: '',
           name: '',
           hashtag: '',
-          imageURL: ''
+          imageURL: '',
+          pictureLoading: 'unloaded'
         })
       }
     })
   }
 
   render() {
-    const { name, id, imageURL, hashtag, isMakingRequest } = this.state
+    const { name, id, imageURL, hashtag, isMakingRequest, pictureLoading } = this.state
     return (
       <>
         {/* Button trigger modal */}
@@ -93,84 +124,100 @@ class CreateChallengesModal extends React.Component {
             </button>
           </div>
           <Form onSubmit={this.handleSubmit}>
-          <div className="modal-body">
-          
-          <Row>
-            <Col md="12">
-              
-              <FormGroup>
-                <Label for="exampleSelect"> <h5>Category ID</h5> </Label>
-                <Input
-                  id="exampleFormControlInput1"
-                  placeholder="Category Id"
-                  type="text"
-                  onChange={e => this.handleChange(e)}
-                  name="id"
-                  value={id}
-                />
-              </FormGroup>
-            </Col>
+            <div className="modal-body">
 
-            <Col md="12">
-              <FormGroup>
-                <Label for="exampleSelect"><h5>Challenge Name</h5></Label>
-                <Input
-                  id="exampleFormControlInput1"
-                  placeholder="Challenge Name"
-                  type="text"
-                  onChange={e => this.handleChange(e)}
-                  name="name"
-                  value={name}
-                />
-              </FormGroup>
-            </Col>
+              <Row>
+                <Col md="12">
 
-            <Col md="12">
-              <FormGroup>
-                <Label for="exampleSelect"><h5>Challenge Hashtag</h5></Label>
-                <Input
-                  id="exampleFormControlInput1"
-                  placeholder="Hashtag"
-                  type="text"
-                  onChange={e => this.handleChange(e)}
-                  name="hashtag"
-                  value={hashtag}
-                />
-              </FormGroup>
-            </Col>
+                  <FormGroup>
+                    <Label for="exampleSelect"> <h5>Category ID</h5> </Label>
+                    <Input
+                      id="exampleFormControlInput1"
+                      placeholder="Category Id"
+                      type="text"
+                      onChange={e => this.handleChange(e)}
+                      name="id"
+                      value={id}
+                    />
+                  </FormGroup>
+                </Col>
 
-            <Col md="12">
-              <FormGroup>
-                <Label for="exampleSelect"><h5>Upload Challenge Image</h5></Label>
-                <ImageUploader
-                  withIcon={false}
-                  buttonText='Upload Challenge image'
-                  onChange={this.onDrop}
-                  // imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                  // maxFileSize={5242880}
-                />
-              </FormGroup>
-            </Col>
-          </Row>
-       
-          </div>
-          <div className="modal-footer">
-            <Button
-              color="secondary"
-              data-dismiss="modal"
-              type="button"
-              onClick={() => this.toggleModal("CreateChallengesModal")}
-            >
-              Close
+                <Col md="12">
+                  <FormGroup>
+                    <Label for="exampleSelect"><h5>Challenge Name</h5></Label>
+                    <Input
+                      id="exampleFormControlInput1"
+                      placeholder="Challenge Name"
+                      type="text"
+                      onChange={e => this.handleChange(e)}
+                      name="name"
+                      value={name}
+                    />
+                  </FormGroup>
+                </Col>
+
+                <Col md="12">
+                  <FormGroup>
+                    <Label for="exampleSelect"><h5>Challenge Hashtag</h5></Label>
+                    <Input
+                      id="exampleFormControlInput1"
+                      placeholder="Hashtag"
+                      type="text"
+                      onChange={e => this.handleChange(e)}
+                      name="hashtag"
+                      value={hashtag}
+                    />
+                  </FormGroup>
+                </Col>
+
+                <Col md="12">
+                  <FormGroup>
+                    <Label for="exampleSelect"><h5>Upload Challenge Image</h5></Label>
+                    {
+                      pictureLoading === 'unloaded' ?
+                        <ImageUploader
+                          withIcon={false}
+                          buttonText='Upload Challenge image'
+                          onChange={this.onDropPicture}
+                          imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                          maxFileSize={5242880}
+                        /> :
+                        pictureLoading === 'loading' ?
+                          <div style={{ textAlign: 'center' }}>
+                            <Loader
+                              type="ThreeDots"
+                              color="#000000"
+                              height={50}
+                              width={50}
+                            />
+                          </div>
+                          : <div style={{ textAlign: 'center' }}>
+                            Image uploaded successfully
+                          </div>
+                    }
+
+                  </FormGroup>
+                </Col>
+              </Row>
+
+            </div>
+            <div className="modal-footer">
+              <Button
+                color="secondary"
+                data-dismiss="modal"
+                type="button"
+                onClick={() => this.toggleModal("CreateChallengesModal")}
+              >
+                Close
             </Button>
-            <Button 
-              color="primary" 
-              type="submit"
-              disabled={id === '' || name === '' || hashtag === '' || isMakingRequest === true}
-            >
-              Create
+              <Button
+                color="primary"
+                type="submit"
+                disabled={id === '' || name === '' || hashtag === '' || isMakingRequest === true || !imageURL}
+              >
+                Create
             </Button>
-          </div>
+            </div>
           </Form>
         </Modal>
       </>
@@ -179,8 +226,8 @@ class CreateChallengesModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  createChallenge: (challenge) => dispatch(handleCreateChallenge(challenge)) 
-}) 
+  createChallenge: (challenge) => dispatch(handleCreateChallenge(challenge))
+})
 
 
 export default connect(null, mapDispatchToProps)(CreateChallengesModal);
