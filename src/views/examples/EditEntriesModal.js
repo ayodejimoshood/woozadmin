@@ -9,13 +9,12 @@ import {
   FormGroup,
   Form,
   Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
+  Label,
   Modal,
   Row,
   Col,
 } from "reactstrap";
+import ImageUploader from 'react-images-upload';
 import { handleEditEntry } from "redux/actions/entries";
 
 class EditEntriesModal extends React.Component {
@@ -88,20 +87,78 @@ class EditEntriesModal extends React.Component {
           <div className="modal-body">
           
           <Row>
+          
             <Col md="12">
               <FormGroup>
-                <Input
-                  id="exampleFormControlInput1"
-                  placeholder="challenge name"
-                  type="text"
-                  onChange={e => this.handleChange(e)}
-                  name="name"
-                  value={name}
+                <Label for="exampleSelect"> <h5>Upload Image</h5> </Label>
+                <ImageUploader
+                  withIcon={false}
+                  buttonText='Upload image'
+                  onChange={this.onDrop}
+                  // imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                  // maxFileSize={5242880}
                 />
               </FormGroup>
             </Col>
 
-           
+            <Col md="12">
+              <FormGroup>
+                <Label for="exampleSelect"> <h5>Upload Video</h5> </Label>
+                <ImageUploader withIcon={false} buttonText='Upload video' onChange={this.onDrop} />
+              </FormGroup>
+            </Col>
+
+            <Col md="12">
+              {/* <FormGroup>
+              <Label for="exampleFormControlInput6"> <h5>Challenge Id</h5> </Label>
+                <Input
+                  id="exampleFormControlInput6"
+                  placeholder="challenge id"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="challengeId"
+                  value={challengeId}
+                />
+              </FormGroup> */}
+              <FormGroup>
+                <Label for="exampleSelect"> <h5>Challenge ID</h5> </Label>
+                {/* this dropdown is to display different challenge */}
+                <Input
+                  id="exampleFormControlInput1"
+                  placeholder="challenge id"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="categoryId"
+                  value=""
+                />
+              </FormGroup>
+            </Col>
+
+            <Col md="12">
+              <FormGroup>
+                <Label for="exampleSelect"> <h5>Category ID</h5> </Label>
+                {/* this dropdown is to display different categories */}
+                <Input type="select" name="select" id="exampleSelect">
+                  <option>Select Category</option>
+                  <option>Comedy</option>
+                  <option>Music</option>
+                  <option>Drama</option>
+                  <option>Politics</option>
+                  <option>Art</option>
+                </Input>
+              </FormGroup>
+              {/* <FormGroup>
+              <Label for="exampleFormControlInput1"> <h5>Category Id</h5> </Label>
+                <Input
+                  id="exampleFormControlInput1"
+                  placeholder="category id"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="categoryId"
+                  value=""
+                />
+              </FormGroup> */}
+            </Col>
           </Row>
        
           </div>
