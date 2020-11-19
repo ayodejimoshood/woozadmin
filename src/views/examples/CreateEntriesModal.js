@@ -224,7 +224,7 @@ class CreateEntriesModal extends React.Component {
                     {
                       videoLoading === 'unloaded' ?
                         <div>
-                          <input type="file" name="file" id="" onChange={this.onDropVideo} />
+                          <input type="file" name="file" id="" accept="video/mp4,.mkv, video/x-m4v,video/*" onChange={this.onDropVideo} />
                         </div> :
                         videoLoading === 'loading' ?
                           <div style={{ textAlign: 'center' }}>
