@@ -53,7 +53,6 @@ class CreateEntriesModal extends React.Component {
     }))
     S3FileUpload.uploadFile(pictureFiles[0], config)
       .then(data => {
-        console.log(data)
         this.setState({
           [name]: data.location,
           pictureLoading: 'loaded',
@@ -64,7 +63,7 @@ class CreateEntriesModal extends React.Component {
         this.setState({
           pictureLoading: 'unloaded'
         })
-        console.log(err)
+        console.error(err)
         toastr.warning('Error occured uploading the image', toastrOptions)
       })
   }
@@ -77,7 +76,6 @@ class CreateEntriesModal extends React.Component {
     }))
     S3FileUpload.uploadFile(videoFile, config)
       .then(data => {
-        console.log(data)
         this.setState({
           mediaURL: data.location,
           videoLoading: 'loaded',
@@ -88,7 +86,7 @@ class CreateEntriesModal extends React.Component {
         this.setState({
           videoLoading: 'unloaded'
         })
-        console.log(err)
+        console.error(err)
         toastr.warning('Error occured uploading the video', toastrOptions)
       })
   }
@@ -112,7 +110,6 @@ class CreateEntriesModal extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { imageURL, mediaURL, challengeId, categoryId } = this.state;
-    console.log({ imageURL, mediaURL, challengeId, categoryId })
     if (!categoryId) return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
