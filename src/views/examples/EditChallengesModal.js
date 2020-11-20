@@ -61,7 +61,7 @@ class EditChallengesModal extends React.Component {
     return (
       <>
         {/* Button trigger modal */}
-        <Button color="primary" type="button" onClick={() => this.toggleModal("EditChallengesModal")}>
+        <Button color="primary" type="button" style={{backgroundColor: '#033F7C'}} onClick={() => this.toggleModal("EditChallengesModal")}>
           Edit
         </Button>
         {/* Modal */}

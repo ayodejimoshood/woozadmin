@@ -17,7 +17,7 @@ class Footer extends React.Component {
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                Woozeee
+                woozeee
               </a>
             </div>
           </Col>

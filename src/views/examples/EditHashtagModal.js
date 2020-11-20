@@ -65,7 +65,7 @@ class EditHashtagModal extends React.Component {
     return (
       <>
         {/* Button trigger modal */}
-        <Button color="primary" type="button" onClick={() => this.toggleModal("EditHashtagModal")}>
+        <Button color="primary" type="button" style={{backgroundColor: '#033F7C'}} onClick={() => this.toggleModal("EditHashtagModal")}>
           Edit
         </Button>
         {/* Modal */}

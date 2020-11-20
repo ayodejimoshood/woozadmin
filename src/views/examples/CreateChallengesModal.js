@@ -98,7 +98,7 @@ class CreateChallengesModal extends React.Component {
     return (
       <>
         {/* Button trigger modal */}
-        <Button
+        <Button style={{backgroundColor: '#033F7C'}}
           color="primary"
           type="button"
           onClick={() => this.toggleModal("CreateChallengesModal")}
@@ -210,7 +210,7 @@ class CreateChallengesModal extends React.Component {
               >
                 Close
             </Button>
-              <Button
+              <Button style={{backgroundColor: '#033F7C'}}
                 color="primary"
                 type="submit"
                 disabled={id === '' || name === '' || hashtag === '' || isMakingRequest === true || !imageURL}

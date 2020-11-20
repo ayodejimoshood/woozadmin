@@ -66,7 +66,7 @@ class CreateEntryDataModal extends React.Component {
     return (
       <>
         {/* Button trigger modal */}
-        <Button
+        <Button style={{backgroundColor: '#033F7C'}}
           color="primary"
           type="button"
           onClick={() => this.toggleModal("CreateEntryDataModal")}
@@ -136,7 +136,7 @@ class CreateEntryDataModal extends React.Component {
             >
               Close
             </Button>
-            <Button 
+            <Button style={{backgroundColor: '#033F7C'}}
               color="primary" 
               type="submit"
               disabled={!entryId || !isLike || isMakingRequest === true}

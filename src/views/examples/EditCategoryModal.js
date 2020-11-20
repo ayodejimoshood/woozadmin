@@ -75,7 +75,7 @@ class EditCategoryModal extends React.Component {
     return (
       <>
         {/* Button trigger modal */}
-        <Button color="primary" type="button" onClick={() => this.toggleModal("EditCategoryModal")}>
+        <Button color="primary" type="button" style={{backgroundColor: '#033F7C'}} onClick={() => this.toggleModal("EditCategoryModal")}>
           Edit
         </Button>
         {/* Modal */}

@@ -56,7 +56,7 @@ class EditUsersStoriesModal extends React.Component {
     return (
       <>
         {/* Button trigger modal */}
-        <Button color="primary" type="button" onClick={() => this.toggleModal("EditUsersStoriesModal")}>
+        <Button color="primary" type="button" style={{backgroundColor: '#033F7C'}} onClick={() => this.toggleModal("EditUsersStoriesModal")}>
           Edit
         </Button>
         {/* Modal */}
