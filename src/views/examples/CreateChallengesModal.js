@@ -23,6 +23,7 @@ import {
 import ImageUploader from 'react-images-upload';
 import { handleAddHashtagEntry } from "redux/actions/socials";
 import { handleCreateChallenge } from "redux/actions/challenges";
+import { handleGetCategories } from "redux/actions/categories";
 
 class CreateChallengesModal extends React.Component {
   state = {
@@ -34,6 +35,21 @@ class CreateChallengesModal extends React.Component {
     isMakingRequest: false,
     pictureLoading: 'unloaded'
   };
+
+  componentDidMount() {
+    this.props.getCategories()
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      id: '',
+      name: '',
+      imageURL: '',
+      hashtag: '',
+      isMakingRequest: false,
+      pictureLoading: 'unloaded'
+    })
+  }
 
   toggleModal = (state) => {
     this.setState({
@@ -95,6 +111,7 @@ class CreateChallengesModal extends React.Component {
 
   render() {
     const { name, id, imageURL, hashtag, isMakingRequest, pictureLoading } = this.state
+    const { category } = this.props
     return (
       <>
         {/* Button trigger modal */}
@@ -132,14 +149,14 @@ class CreateChallengesModal extends React.Component {
 
                   <FormGroup>
                     <Label for="exampleSelect"> <h5>Category ID</h5> </Label>
-                    <Input
-                      id="exampleFormControlInput1"
-                      placeholder="Category Id"
-                      type="text"
-                      onChange={e => this.handleChange(e)}
-                      name="id"
-                      value={id}
-                    />
+                    <Input type="select" name="id" id="exampleSelect" value={id} onChange={e => this.handleChange(e)}>
+                      <option value="">Select a category</option>
+                      {
+                        category.map((cat) => (
+                          <option key={cat._id} value={cat._id}>{cat.name[0].toUpperCase() + cat.name.slice(1)}</option>
+                        ))
+                      }
+                    </Input>
                   </FormGroup>
                 </Col>
 
@@ -226,9 +243,14 @@ class CreateChallengesModal extends React.Component {
   }
 }
 
+const mapStateToProps = ({ socials: { category } }) => ({
+  category
+})
+
 const mapDispatchToProps = (dispatch) => ({
-  createChallenge: (challenge) => dispatch(handleCreateChallenge(challenge))
+  createChallenge: (challenge) => dispatch(handleCreateChallenge(challenge)),
+  getCategories: () => dispatch(handleGetCategories())
 })
 
 
-export default connect(null, mapDispatchToProps)(CreateChallengesModal);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateChallengesModal);

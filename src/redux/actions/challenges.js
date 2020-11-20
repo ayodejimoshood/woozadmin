@@ -28,11 +28,11 @@ export const handleCreateChallenge = (body) => async (dispatch, getState) => {
     return 'success';
   } catch (error) {
     console.log(error.response);
-    if (error.response.data.message === 'challenge already exists') {
+    if (error.response.data.message === 'challange already exists') {
       toastr.error('', `Challenge already exists`, toastrOptions)
       return;
     }
-    toastr.error(`An error occured`, toastrOptions)
+    toastr.error(`${error.response.data.message}`, toastrOptions)
     return
   }
 }
