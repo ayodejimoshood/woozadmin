@@ -56,7 +56,7 @@ class EditEntryDataModal extends React.Component {
     return (
       <>
         {/* Button trigger modal */}
-        <Button color="primary" type="button" onClick={() => this.toggleModal("EditEntryDataModal")}>
+        <Button color="primary" type="button" style={{backgroundColor: '#033F7C'}} onClick={() => this.toggleModal("EditEntryDataModal")}>
           Edit
         </Button>
         {/* Modal */}

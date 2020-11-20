@@ -52,7 +52,7 @@ class CreateEntryCommentsModal extends React.Component {
     return (
       <>
         {/* Button trigger modal */}
-        <Button
+        <Button style={{backgroundColor: '#033F7C'}}
           color="primary"
           type="button"
           onClick={() => this.toggleModal("CreateEntryCommentsModal")}
@@ -120,7 +120,7 @@ class CreateEntryCommentsModal extends React.Component {
             >
               Close
             </Button>
-            <Button 
+            <Button style={{backgroundColor: '#033F7C'}}
               color="primary" 
               type="submit"
               disabled={!comment || !entryId || isMakingRequest === true}

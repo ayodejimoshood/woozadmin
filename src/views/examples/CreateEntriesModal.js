@@ -139,7 +139,7 @@ class CreateEntriesModal extends React.Component {
     return (
       <>
         {/* Button trigger modal */}
-        <Button
+        <Button style={{backgroundColor: '#033F7C'}}
           color="primary"
           type="button"
           onClick={() => this.toggleModal("CreateEntriesModal")}
@@ -303,7 +303,7 @@ class CreateEntriesModal extends React.Component {
               >
                 Close
             </Button>
-              <Button
+              <Button style={{backgroundColor: '#033F7C'}}
                 color="primary"
                 type="submit"
                 disabled={isMakingRequest === true || !categoryId || !mediaURL || !imageURL}

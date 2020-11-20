@@ -69,7 +69,7 @@ class CreateMerchantModal extends React.Component {
     return (
       <>
         {/* Button trigger modal */}
-        <Button
+        <Button style={{backgroundColor: '#033F7C'}}
           color="primary"
           type="button"
           onClick={() => this.toggleModal("CreateMerchantsModal")}

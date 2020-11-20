@@ -40,7 +40,7 @@ class DeleteEntryDataModal extends React.Component {
     return (
       <>
         {/* Button trigger modal */}
-        <Button
+        <Button style={{backgroundColor: '#FF5757'}}
           color="danger"
           type="button"
           onClick={() => this.toggleModal("DeleteEntryDataModal")}

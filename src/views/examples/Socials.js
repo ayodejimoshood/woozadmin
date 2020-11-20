@@ -62,7 +62,7 @@ class Socials extends React.Component {
                       </div>
                       {/* <Col className="col-auto"> */}
                         
-                        <Button href='hashtag' color='danger'> View </Button>
+                        <Button href='hashtag' color='danger' style={{backgroundColor: '#FF5757'}}> View </Button>
                       {/* </Col> */}
                       <Col className="col-auto">
                           <CreateHashtagModal/>
@@ -81,7 +81,7 @@ class Socials extends React.Component {
                       <div className="col">
                         <h4 className="mb-0">Category</h4>
                       </div>
-                      <Button href='categories' color='danger'> View </Button>
+                      <Button href='categories' color='danger' style={{backgroundColor: '#FF5757'}}> View </Button>
                       <Col className="col-auto">
                           <CreateCategoryModal/>
                       </Col>
@@ -99,7 +99,7 @@ class Socials extends React.Component {
                       <div className="col">
                         <h4 className="mb-0">Sponsors</h4>
                       </div>
-                      <Button href='sponsor' color='danger'> View </Button>
+                      <Button href='sponsor' color='danger' style={{backgroundColor: '#FF5757'}}> View </Button>
                       <Col className="col-auto">
                           <CreateSponsorModal/>
                       </Col>
@@ -117,7 +117,7 @@ class Socials extends React.Component {
                       <div className="col">
                         <h4 className="mb-0">Challenges</h4>
                       </div>
-                      <Button href='challenges' color='danger'> View </Button>
+                      <Button href='challenges' color='danger' style={{backgroundColor: '#FF5757'}}> View </Button>
                       <Col className="col-auto">
                           <CreateChallengesModal/>
                       </Col>
@@ -135,7 +135,7 @@ class Socials extends React.Component {
                       <div className="col">
                         <h4 className="mb-0">Entries</h4>
                       </div>
-                      <Button href='entries' color='danger'> View </Button>
+                      <Button href='entries' color='danger' style={{backgroundColor: '#FF5757'}}> View </Button>
                       <Col className="col-auto">
                           <CreateEntriesModal/>
                       </Col>
@@ -153,7 +153,7 @@ class Socials extends React.Component {
                       <div className="col">
                         <h4 className="mb-0">Entry Data</h4>
                       </div>
-                      <Button href='entrydata' color='danger'> View </Button>
+                      <Button href='entrydata' color='danger' style={{backgroundColor: '#FF5757'}}> View </Button>
                       <Col className="col-auto">
                           <CreateEntryDataModal/>
                       </Col>
@@ -171,7 +171,7 @@ class Socials extends React.Component {
                       <div className="col">
                         <h4 className="mb-0">User Stories</h4>
                       </div>
-                      <Button href='userstories' color='danger'> View </Button>
+                      <Button href='userstories' color='danger' style={{backgroundColor: '#FF5757'}}> View </Button>
                       <Col className="col-auto">
                           <CreateUserStoriesModal/>
                       </Col>
@@ -189,7 +189,7 @@ class Socials extends React.Component {
                       <div className="col">
                         <h4 className="mb-0">EntryComments</h4>
                       </div>
-                      <Button href='entrycomments' color='danger'> View </Button>
+                      <Button href='entrycomments' color='danger' style={{backgroundColor: '#FF5757'}}> View </Button>
                       <Col className="col-auto">
                           <CreateEntryCommentsModal/>
                       </Col>

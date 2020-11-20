@@ -146,7 +146,7 @@ class Index extends React.Component {
                       <h2 className="mb-0">Airline</h2>
                     </div>
                     <Col className="col-auto">
-                      <Button color="danger" type="button">
+                      <Button color="danger" type="button" style={{backgroundColor: '#FF5757'}}>
                         Add New Airline
                       </Button>
                     </Col>

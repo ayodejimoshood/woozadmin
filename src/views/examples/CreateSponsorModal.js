@@ -93,7 +93,7 @@ class CreateSponsorModal extends React.Component {
     return (
       <>
         {/* Button trigger modal */}
-        <Button
+        <Button style={{backgroundColor: '#033F7C'}}
           color="primary"
           type="button"
           onClick={() => this.toggleModal("CreateSponsorModal")}
@@ -191,7 +191,7 @@ class CreateSponsorModal extends React.Component {
             >
               Close
             </Button>
-            <Button 
+            <Button style={{backgroundColor: '#033F7C'}}
               color="primary" 
               type="submit"
               disabled={sponsorName === '' || sponsorDesc === '' || isMakingRequest === true || !imageURL}
