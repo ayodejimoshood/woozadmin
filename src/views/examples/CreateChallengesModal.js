@@ -24,6 +24,7 @@ import ImageUploader from 'react-images-upload';
 import { handleAddHashtagEntry } from "redux/actions/socials";
 import { handleCreateChallenge } from "redux/actions/challenges";
 import { handleGetCategories } from "redux/actions/categories";
+import { handleGetSponsors } from "redux/actions/sponsors";
 
 class CreateChallengesModal extends React.Component {
   state = {
@@ -38,6 +39,7 @@ class CreateChallengesModal extends React.Component {
 
   componentDidMount() {
     this.props.getCategories()
+    this.props.getSponsors()
   }
 
   componentWillUnmount() {
@@ -46,6 +48,7 @@ class CreateChallengesModal extends React.Component {
       name: '',
       imageURL: '',
       hashtag: '',
+      sponsor: '',
       isMakingRequest: false,
       pictureLoading: 'unloaded'
     })
@@ -103,6 +106,7 @@ class CreateChallengesModal extends React.Component {
           name: '',
           hashtag: '',
           imageURL: '',
+          sponsor: '',
           pictureLoading: 'unloaded'
         })
       }
@@ -110,12 +114,12 @@ class CreateChallengesModal extends React.Component {
   }
 
   render() {
-    const { name, id, imageURL, hashtag, isMakingRequest, pictureLoading } = this.state
-    const { category } = this.props
+    const { name, id, imageURL, hashtag, isMakingRequest, pictureLoading, sponsor } = this.state
+    const { category, sponsors } = this.props
     return (
       <>
         {/* Button trigger modal */}
-        <Button style={{backgroundColor: '#033F7C'}}
+        <Button style={{ backgroundColor: '#033F7C' }}
           color="primary"
           type="button"
           onClick={() => this.toggleModal("CreateChallengesModal")}
@@ -145,7 +149,7 @@ class CreateChallengesModal extends React.Component {
 
               <Row>
                 <Col md="12">
-                  
+
 
                   <FormGroup>
                     <Label for="exampleSelect"> <h5>Category ID</h5> </Label>
@@ -159,7 +163,19 @@ class CreateChallengesModal extends React.Component {
                     </Input>
                   </FormGroup>
                 </Col>
-
+                <Col md="12">
+                  <FormGroup>
+                    <Label for="exampleSelect"> <h5>Sponsor ID</h5> </Label>
+                    <Input type="select" name="sponsor" id="exampleSelect" value={sponsor} onChange={e => this.handleChange(e)}>
+                      <option value="">Select a sponsor</option>
+                      {
+                        sponsors.map((spon) => (
+                          <option key={spon._id} value={spon._id}>{spon.name[0].toUpperCase() + spon.name.slice(1)}</option>
+                        ))
+                      }
+                    </Input>
+                  </FormGroup>
+                </Col>
                 <Col md="12">
                   <FormGroup>
                     <Label for="exampleSelect"><h5>Challenge Name</h5></Label>
@@ -228,7 +244,7 @@ class CreateChallengesModal extends React.Component {
               >
                 Close
             </Button>
-              <Button style={{backgroundColor: '#033F7C'}}
+              <Button style={{ backgroundColor: '#033F7C' }}
                 color="primary"
                 type="submit"
                 disabled={id === '' || name === '' || hashtag === '' || isMakingRequest === true || !imageURL}
@@ -243,13 +259,15 @@ class CreateChallengesModal extends React.Component {
   }
 }
 
-const mapStateToProps = ({ socials: { category } }) => ({
-  category
+const mapStateToProps = ({ socials: { category, sponsors } }) => ({
+  category,
+  sponsors
 })
 
 const mapDispatchToProps = (dispatch) => ({
   createChallenge: (challenge) => dispatch(handleCreateChallenge(challenge)),
-  getCategories: () => dispatch(handleGetCategories())
+  getCategories: () => dispatch(handleGetCategories()),
+  getSponsors: () => dispatch(handleGetSponsors())
 })
 
 
