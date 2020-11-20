@@ -128,6 +128,7 @@ class CreateChallengesModal extends React.Component {
 
               <Row>
                 <Col md="12">
+                  
 
                   <FormGroup>
                     <Label for="exampleSelect"> <h5>Category ID</h5> </Label>
