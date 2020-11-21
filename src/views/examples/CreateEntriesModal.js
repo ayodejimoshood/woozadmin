@@ -40,12 +40,191 @@ class CreateEntriesModal extends React.Component {
     categoryId: '',
     isMakingRequest: false,
     videoLoading: 'unloaded',
-    videoKey: ''
+    videoKey: '',
+    selectOptions:  [
+      {label: "Normal Entry", value: 'Normal Entry'},
+      {label: "Challenge Entry", value: 'Challenge Entry'},
+  ]
   }
 
   componentDidMount() {
     this.props.getCategories()
   }
+
+  handleFilteredContent = (condition, pictureLoading, videoLoading, challengeId, categoryId) => {
+    const { category } = this.props
+    if(condition === 'Normal Entry') {
+        return (
+            <div>
+                <Col md="12">
+                  <FormGroup>
+                    <Label for="exampleSelect"> <h5>Upload Image</h5> </Label>
+                    {
+                      pictureLoading === 'unloaded' ?
+                        <ImageUploader
+                          withIcon={false}
+                          withPreview={true}
+                          singleImage={true}
+
+                          buttonText='Upload image'
+                          onChange={this.onDropPicture}
+                          name="imageURL"
+                          imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                          maxFileSize={5242880}
+                        />
+
+                        : pictureLoading === 'loading' ?
+                          <div style={{textAlign: 'center'}}>
+                            <Loader
+                              type="ThreeDots"
+                              color="#000000"
+                              height={50}
+                              width={50}
+                            />
+                          </div>
+                        : <div style={{textAlign: 'center'}}>
+                            Image uploaded successfully
+                          </div>
+
+                    }
+                  </FormGroup>
+                </Col>
+
+                <Col md="12">
+                  <FormGroup>
+                    <Label for="exampleSelect"> <h5>Upload Video</h5> </Label>
+                    {
+                      videoLoading === 'unloaded' ?
+                        <div>
+                          <input type="file" name="file" id="" accept="video/mp4,.mkv, video/x-m4v,video/*" onChange={this.onDropVideo} />
+                        </div> :
+                        videoLoading === 'loading' ?
+                          <div style={{ textAlign: 'center' }}>
+                            <Loader
+                              type="ThreeDots"
+                              color="#000000"
+                              height={50}
+                              width={50}
+                            />
+                          </div> :
+                          <div style={{ textAlign: 'center' }}>
+                            Video uploaded successfully
+                          </div>
+
+                    }
+
+                  </FormGroup>
+                  
+                </Col>
+
+                <Col md="12">
+                  <FormGroup>
+                    <Label for="exampleFormControlInput6"> <h5>Hashtag</h5> </Label>
+                    <Input
+                      id="exampleFormControlInput6"
+                      placeholder="#hashtag"
+                      type="text"
+                      onChange={e => this.handleChange(e)}
+                      name="challengeId"
+                      value={challengeId}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="exampleSelect"> <h5>Category</h5> </Label>
+                    <Input type="select" name="categoryId" id="exampleSelect" value={categoryId} onChange={e => this.handleChange(e)}>
+                      <option value="">Select a category</option>
+                      {
+                        category && category.map((cat) => (
+                          <option key={cat._id} value={cat._id}>{cat.name[0].toUpperCase() + cat.name.slice(1)}</option>
+                        ))
+                      }
+                    </Input>
+                  </FormGroup>
+                </Col>
+            </div>
+        )
+    }else if(condition === 'Challenge Entry') {
+        return (
+            <div>
+                <Col md="12">
+                  <FormGroup>
+                    <Label for="exampleSelect"> <h5>Upload Image</h5> </Label>
+                    {
+                      pictureLoading === 'unloaded' ?
+                        <ImageUploader
+                          withIcon={false}
+                          withPreview={true}
+                          singleImage={true}
+
+                          buttonText='Upload image'
+                          onChange={this.onDropPicture}
+                          name="imageURL"
+                          imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                          maxFileSize={5242880}
+                        />
+
+                        : pictureLoading === 'loading' ?
+                          <div style={{textAlign: 'center'}}>
+                            <Loader
+                              type="ThreeDots"
+                              color="#000000"
+                              height={50}
+                              width={50}
+                            />
+                          </div>
+                        : <div style={{textAlign: 'center'}}>
+                            Image uploaded successfully
+                          </div>
+
+                    }
+                  </FormGroup>
+                </Col>
+
+                <Col md="12">
+                  <FormGroup>
+                    <Label for="exampleSelect"> <h5>Upload Video</h5> </Label>
+                    {
+                      videoLoading === 'unloaded' ?
+                        <div>
+                          <input type="file" name="file" id="" accept="video/mp4,.mkv, video/x-m4v,video/*" onChange={this.onDropVideo} />
+                        </div> :
+                        videoLoading === 'loading' ?
+                          <div style={{ textAlign: 'center' }}>
+                            <Loader
+                              type="ThreeDots"
+                              color="#000000"
+                              height={50}
+                              width={50}
+                            />
+                          </div> :
+                          <div style={{ textAlign: 'center' }}>
+                            Video uploaded successfully
+                          </div>
+
+                    }
+
+                  </FormGroup>
+                  
+                </Col>
+
+                <Col md="12">
+                  <FormGroup>
+                    <Label for="exampleSelect"> <h5>Challenge</h5> </Label>
+                    <Input type="select" name="categoryId" id="exampleSelect" value={categoryId} onChange={e => this.handleChange(e)}>
+                      <option value="">Select a challenge</option>
+                      {
+                        category && category.map((cat) => (
+                          <option key={cat._id} value={cat._id}>{cat.name[0].toUpperCase() + cat.name.slice(1)}</option>
+                        ))
+                      }
+                    </Input>
+                  </FormGroup>
+                </Col>
+            </div>
+        )
+    }
+}
+
 
   onDropPicture = (pictureFiles, pictureDataURLs, name = "imageURL") => {
     this.setState(prev => ({
@@ -255,8 +434,21 @@ class CreateEntriesModal extends React.Component {
                           <option key={cat._id} value={cat._id}>{cat.name[0].toUpperCase() + cat.name.slice(1)}</option>
                         ))
                       } */}
+                      <option value="">Select Entry</option>
+                      {this.state.selectOptions.map((option) => (
+                        <option value={option.value}>{option.label}</option>
+                      ))}
                     </Input>
+                    {/* <select value={this.state.otp} onChange={this.handleChange}>
+                        {this.state.selectOptions.map((option) => (
+                            <option value={option.value}>{option.label}</option>
+                        ))}
+                    </select> */}
                   </FormGroup>
+                </Col>
+
+                <Col>
+                    {this.handleFilteredContent(categoryId, pictureLoading, videoLoading, challengeId)}
                 </Col>
 
                 {/* <Col md="12">
