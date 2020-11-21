@@ -98,8 +98,6 @@ class CreateEntriesModal extends React.Component {
     });
   };
 
-  
-
 
 
   handleChange = (e) => {
@@ -171,7 +169,7 @@ class CreateEntriesModal extends React.Component {
 
               <Row>
 
-                {/* <Col md="12">
+                <Col md="12">
                   <FormGroup>
                     <Label for="exampleSelect"> <h5>Upload Image</h5> </Label>
                     {
@@ -203,6 +201,18 @@ class CreateEntriesModal extends React.Component {
 
                     }
                   </FormGroup>
+                  {/* <FormGroup>
+                <Label for="exampleSelect">Upload Image</Label>
+                <input type="file" onChange={this.handleChange}/> */}
+                  {/* <Input
+                  id="exampleFormControlInput1"
+                  placeholder="image url"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="imageURL"
+                  value={imageURL}
+                /> */}
+                  {/* </FormGroup> */}
                 </Col>
 
                 <Col md="12">
@@ -228,12 +238,23 @@ class CreateEntriesModal extends React.Component {
 
                     }
 
+                    {/* <ImageUploader withIcon={false} buttonText='Upload video' onChange={this.onDropVideo} /> */}
                   </FormGroup>
-                  
-                </Col> */}
+                  {/* <FormGroup>
+                <Label for="exampleSelect">Upload Video</Label>
+                <Input
+                  id="exampleFormControlInput1"
+                  placeholder="media url"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="mediaURL"
+                  value={mediaURL}
+                />
+              </FormGroup> */}
+                </Col>
 
                 <Col md="12">
-                  {/* <FormGroup>
+                  <FormGroup>
                     <Label for="exampleFormControlInput6"> <h5>Challenge Id</h5> </Label>
                     <Input
                       id="exampleFormControlInput6"
@@ -243,18 +264,16 @@ class CreateEntriesModal extends React.Component {
                       name="challengeId"
                       value={challengeId}
                     />
-                  </FormGroup> */}
+                  </FormGroup>
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Entry Type</h5> </Label>
+                    <Label for="exampleSelect"> <h5>Category</h5> </Label>
                     <Input type="select" name="categoryId" id="exampleSelect" value={categoryId} onChange={e => this.handleChange(e)}>
-                      {/* <option value="">Select Entry</option>
-                      <option value="">Normal Entry</option>
-                      <option value="">Challenge Entry</option> */}
-                      {/* {
+                      <option value="">Select a category</option>
+                      {
                         category.map((cat) => (
                           <option key={cat._id} value={cat._id}>{cat.name[0].toUpperCase() + cat.name.slice(1)}</option>
                         ))
-                      } */}
+                      }
                     </Input>
                   </FormGroup>
                 </Col>
