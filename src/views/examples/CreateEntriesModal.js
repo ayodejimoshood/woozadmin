@@ -27,6 +27,7 @@ import { config } from '../../utils/react-s3-config'
 import { toastr } from 'react-redux-toastr'
 import { toastrOptions } from '../../utils/helpers'
 import Loader from 'react-loader-spinner'
+import { handleGetChallenges } from "redux/actions/challenges";
 
 class CreateEntriesModal extends React.Component {
 
@@ -44,16 +45,19 @@ class CreateEntriesModal extends React.Component {
     selectOptions:  [
       {label: "Normal Entry", value: 'Normal Entry'},
       {label: "Challenge Entry", value: 'Challenge Entry'},
-  ]
+    ],
+    userSelect: '',
+    hashtag: ''
   }
 
   componentDidMount() {
     this.props.getCategories()
+    this.props.getChallenges()
   }
 
-  handleFilteredContent = (condition, pictureLoading, videoLoading, challengeId, categoryId) => {
-    const { category } = this.props
-    if(condition === 'Normal Entry') {
+  handleFilteredContent = (userSelect, categoryId, pictureLoading, videoLoading, challengeId, hashtag) => {
+    const { category, challenge } = this.props
+    if(userSelect === 'Normal Entry') {
         return (
             <div>
                 <Col md="12">
@@ -125,8 +129,8 @@ class CreateEntriesModal extends React.Component {
                       placeholder="#hashtag"
                       type="text"
                       onChange={e => this.handleChange(e)}
-                      name="challengeId"
-                      value={challengeId}
+                      name="hashtag"
+                      value={hashtag}
                     />
                   </FormGroup>
                   <FormGroup>
@@ -143,7 +147,7 @@ class CreateEntriesModal extends React.Component {
                 </Col>
             </div>
         )
-    }else if(condition === 'Challenge Entry') {
+    }else if(userSelect === 'Challenge Entry') {
         return (
             <div>
                 <Col md="12">
@@ -210,11 +214,11 @@ class CreateEntriesModal extends React.Component {
                 <Col md="12">
                   <FormGroup>
                     <Label for="exampleSelect"> <h5>Challenge</h5> </Label>
-                    <Input type="select" name="categoryId" id="exampleSelect" value={categoryId} onChange={e => this.handleChange(e)}>
+                    <Input type="select" name="challengeId" id="exampleSelect" value={challengeId} onChange={e => this.handleChange(e)}>
                       <option value="">Select a challenge</option>
                       {
-                        category && category.map((cat) => (
-                          <option key={cat._id} value={cat._id}>{cat.name[0].toUpperCase() + cat.name.slice(1)}</option>
+                        challenge && challenge.map((chal) => (
+                          <option key={chal._id} value={chal._id}>{chal.name[0].toUpperCase() + chal.name.slice(1)}</option>
                         ))
                       }
                     </Input>
@@ -290,32 +294,59 @@ class CreateEntriesModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { imageURL, mediaURL, challengeId, categoryId } = this.state;
-    if (!categoryId) return;
+    const { imageURL, mediaURL, challengeId, categoryId, hashtag, userSelect } = this.state;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.createEntry({ imageURL, mediaURL, challengeId, categoryId }).then(res => {
-      this.setState(prevState => ({
-        isMakingRequest: !prevState.isMakingRequest
-      }))
-      if (res === 'success') {
-        this.setState({
-          categoryId: '',
-          challengeId: '',
-          pictureLoading: 'unloaded',
-          pictureKey: '',
-          imageURL: '',
-          mediaURL: '',
-          videoLoading: 'unloaded',
-          videoKey: ''
-        })
+    console.log({ imageURL, mediaURL, challengeId, categoryId, hashtag, userSelect })
+    if (userSelect === 'Normal Entry') {
+      if (!imageURL || !mediaURL || !hashtag || !categoryId) {
+        alert("Please ensure to fill all fields")
+        return;
       }
-    })
+      this.props.createEntry({ imageURL, mediaURL, categoryId, hashtag }).then(res => {
+        this.setState(prevState => ({
+          isMakingRequest: !prevState.isMakingRequest
+        }))
+        if (res === 'success') {
+          this.setState({
+            categoryId: '',
+            pictureLoading: 'unloaded',
+            pictureKey: '',
+            imageURL: '',
+            mediaURL: '',
+            videoLoading: 'unloaded',
+            videoKey: '',
+          })
+        }
+      })
+    } else if (userSelect === 'Challenge Entry') {
+      if (!imageURL || !mediaURL || !challengeId) {
+        alert("Please ensure to fill all fields")
+        return;
+      }
+      this.props.createEntry({ imageURL, mediaURL, challengeId }).then(res => {
+        this.setState(prevState => ({
+          isMakingRequest: !prevState.isMakingRequest
+        }))
+        if (res === 'success') {
+          this.setState({
+            challengeId: '',
+            pictureLoading: 'unloaded',
+            pictureKey: '',
+            imageURL: '',
+            mediaURL: '',
+            videoLoading: 'unloaded',
+            videoKey: '',
+          })
+        }
+      })
+    }
+
   }
 
   render() {
-    const { isMakingRequest, pictureLoading, challengeId, categoryId, videoLoading, imageURL, mediaURL } = this.state
+    const { isMakingRequest, pictureLoading, challengeId, categoryId, videoLoading, imageURL, mediaURL, userSelect } = this.state
     const { category } = this.props
     return (
       <>
@@ -425,7 +456,7 @@ class CreateEntriesModal extends React.Component {
                   </FormGroup> */}
                   <FormGroup>
                     <Label for="exampleSelect"> <h5>Entry Type</h5> </Label>
-                    <Input type="select" name="categoryId" id="exampleSelect" value={categoryId} onChange={e => this.handleChange(e)}>
+                    <Input type="select" name="userSelect" id="exampleSelect" value={userSelect} onChange={e => this.handleChange(e)}>
                       {/* <option value="">Select Entry</option>
                       <option value="">Normal Entry</option>
                       <option value="">Challenge Entry</option> */}
@@ -448,7 +479,7 @@ class CreateEntriesModal extends React.Component {
                 </Col>
 
                 <Col>
-                    {this.handleFilteredContent(categoryId, pictureLoading, videoLoading, challengeId)}
+                    {this.handleFilteredContent(userSelect, categoryId, pictureLoading, videoLoading, challengeId)}
                 </Col>
 
                 {/* <Col md="12">
@@ -479,7 +510,7 @@ class CreateEntriesModal extends React.Component {
               <Button style={{backgroundColor: '#033F7C'}}
                 color="primary"
                 type="submit"
-                disabled={isMakingRequest === true || !categoryId || !mediaURL || !imageURL}
+                disabled={isMakingRequest === true || !mediaURL || !imageURL}
               >
                 Create
             </Button>
@@ -491,14 +522,17 @@ class CreateEntriesModal extends React.Component {
   }
 }
 
-const mapStateToProps = ({ socials: { category } }) => ({
-  category
+const mapStateToProps = ({ socials: { category, challenges } }) => ({
+  category,
+  challenge: challenges
 })
 
 const mapDispatchToProps = (dispatch) => ({
   createEntry: (entry) => dispatch(handleCreateEntry(entry)),
-  getCategories: () => dispatch(handleGetCategories())
+  getCategories: () => dispatch(handleGetCategories()),
+  getChallenges: () => dispatch(handleGetChallenges())
 })
+
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEntriesModal);
