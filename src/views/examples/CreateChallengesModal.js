@@ -62,7 +62,6 @@ class CreateChallengesModal extends React.Component {
 
   handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(value)
     this.setState({
       [name]: value
     })
@@ -74,7 +73,6 @@ class CreateChallengesModal extends React.Component {
     }))
     S3FileUpload.uploadFile(pictureFiles[0], config)
       .then(data => {
-        console.log(data)
         this.setState({
           [name]: data.location,
           pictureLoading: 'loaded',
