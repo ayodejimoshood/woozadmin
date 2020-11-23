@@ -207,12 +207,12 @@ class CreateChallengesModal extends React.Component {
 
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"><h5>Upload Challenge Image</h5></Label>
+                    <Label for="exampleSelect"><h5>Upload Challenge Background Image</h5></Label>
                     {
                       pictureLoading === 'unloaded' ?
                         <ImageUploader
                           withIcon={false}
-                          buttonText='Upload Challenge image'
+                          buttonText='Upload Challenge Background image'
                           onChange={this.onDropPicture}
                           imgExtension={['.jpg', '.gif', '.png', '.gif']}
                           maxFileSize={5242880}
