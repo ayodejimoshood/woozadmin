@@ -62,8 +62,9 @@ class Entries extends React.Component {
                     <tr>
                       <th scope="col">ID</th>
                       <th scope="col">User Name</th>
-                      <th scope="col">Category ID</th>
+                      <th scope="col">Challenge Name</th>
                       <th scope="col">Category Name</th>
+                      <th scope="col">Hashtag Name</th>
                       <th scope="col">Image URL</th>
                       <th scope="col">Media Image URL</th>
                       <th scope="col">Action</th>
@@ -80,13 +81,15 @@ class Entries extends React.Component {
                         <span className="mb-0 text-sm">{ent.userFirstName + ' ' + ent.userLastName}</span>
                       </td>
                       <td>
-                        <span className="mb-0 text-sm">{ent.categoryId}</span>
+                        <span className="mb-0 text-sm">{ent.challengeName}</span>
                       </td>
 
                       <td>
                         <span className="mb-0 text-sm">{ent.categoryName}</span>
                       </td>
-
+                      <td>
+                        <span className="mb-0 text-sm">{ent.hashtagName}</span>
+                      </td>
                       <th scope="row">
                         <Media className="align-items-center">
                           <a
