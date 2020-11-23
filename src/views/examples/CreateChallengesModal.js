@@ -153,7 +153,7 @@ class CreateChallengesModal extends React.Component {
 
 
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Category ID</h5> </Label>
+                    <Label for="exampleSelect"> <h5>Category</h5> </Label>
                     <Input type="select" name="id" id="exampleSelect" value={id} onChange={e => this.handleChange(e)}>
                       <option value="">Select a category</option>
                       {
@@ -166,7 +166,7 @@ class CreateChallengesModal extends React.Component {
                 </Col>
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Sponsor ID</h5> </Label>
+                    <Label for="exampleSelect"> <h5>Sponsor</h5> </Label>
                     <Input type="select" name="sponsor" id="exampleSelect" value={sponsor} onChange={e => this.handleChange(e)}>
                       <option value="">Select a sponsor</option>
                       {
