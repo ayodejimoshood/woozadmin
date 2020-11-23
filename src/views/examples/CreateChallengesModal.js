@@ -62,6 +62,7 @@ class CreateChallengesModal extends React.Component {
 
   handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(value)
     this.setState({
       [name]: value
     })
@@ -91,12 +92,12 @@ class CreateChallengesModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { id, name, hashtag, imageURL } = this.state;
+    const { id, name, hashtag, imageURL, sponsor } = this.state;
     if (id === '' || name === '' || hashtag === '') return;
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    this.props.createChallenge({ name, categoryId: id, hashtag, imageURL }).then(res => {
+    this.props.createChallenge({ name, categoryId: id, hashtag, imageURL, sponsorId: sponsor }).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
@@ -170,7 +171,7 @@ class CreateChallengesModal extends React.Component {
                       <option value="">Select a sponsor</option>
                       {
                         sponsors.map((spon) => (
-                          <option key={spon._id} value={spon._id}>{spon.name[0].toUpperCase() + spon.name.slice(1)}</option>
+                          <option key={spon._id} value={spon._id}>{spon.name}</option>
                         ))
                       }
                     </Input>
