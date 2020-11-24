@@ -60,14 +60,14 @@ class Challenges extends React.Component {
                   <thead className="thead-dark">
                     <tr>
                       <th scope="col">ID</th>
+                      <th scope="col">Category</th>
+                      <th scope="col">Sponsor</th>
+                      <th scope="col">Challenge Name</th>
                       <th scope="col">Challenge Hashtag</th>
                       {/* <th scope="col">Category ID</th> */}
-                      <th scope="col">Category Name</th>
                       {/* <th scope="col">Category Image</th> */}
                       {/* <th scope="col">Sponsor ID</th> */}
-                      <th scope="col">Sponsor Name</th>
-                      <th scope="col">Challenge Image</th>
-                      <th scope="col">Challenge Name</th>
+                      <th scope="col">Challenge Background Name</th>
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
@@ -78,18 +78,22 @@ class Challenges extends React.Component {
                       <td>
                         <span className="mb-0 text-sm">{i + 1}</span>
                       </td>
-                      
+
                       <td>
-                        <span className="mb-0 text-sm">{chal.hashtagName}</span>
+                        <span className="mb-0 text-sm">{chal.categoryName}</span>
                       </td>
+
+                      <td>
+                        <span className="mb-0 text-sm">{chal.sponsorName}</span>
+                      </td>
+                      
+                      
 
                       {/* <td>
                         <span className="mb-0 text-sm">{chal.categoryId}</span>
                       </td> */}
 
-                      <td>
-                        <span className="mb-0 text-sm">{chal.categoryName}</span>
-                      </td>
+                      
 
                       {/* <th scope="row">
                         <Media className="align-items-center">
@@ -109,9 +113,13 @@ class Challenges extends React.Component {
                       {/* <td>
                         <span className="mb-0 text-sm">{chal.sponsorId}</span>
                       </td> */}
+                      
+                      <td>
+                        <span className="mb-0 text-sm">{chal.name}</span>
+                      </td>
 
                       <td>
-                        <span className="mb-0 text-sm">{chal.sponsorName}</span>
+                        <span className="mb-0 text-sm">{chal.hashtagName}</span>
                       </td>
                       
                       <th scope="row">
@@ -129,9 +137,7 @@ class Challenges extends React.Component {
                         </Media>
                       </th>
 
-                      <td>
-                        <span className="mb-0 text-sm">{chal.name}</span>
-                      </td>
+                      
                       
                       <th scope='row'>
                         <EditChallengesModal chal={chal}/>

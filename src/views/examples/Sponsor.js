@@ -63,8 +63,8 @@ class Sponsor extends React.Component {
                   <thead className="thead-dark">
                     <tr>
                       <th scope="col">ID</th>
-                      <th scope="col">Description</th>
                       <th scope="col">Name</th>
+                      <th scope="col">Description</th>
                       {/* <th scope="col">Hashtag</th> */}
                       <th scope="col">Image</th>
                       <th scope="col">Actions</th>
@@ -81,10 +81,11 @@ class Sponsor extends React.Component {
                           </td>
 
                           <td>
-                            <span className="mb-0 text-sm">{sponsor.description}</span>
-                          </td>
-                          <td>
                             <span className="mb-0 text-sm">{sponsor.name}</span>
+                          </td>
+
+                          <td>
+                            <span className="mb-0 text-sm">{sponsor.description}</span>
                           </td>
                           {/* <td>
                             <span className="mb-0 text-sm">{sponsor.hashtag}</span>

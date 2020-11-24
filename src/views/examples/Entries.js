@@ -61,12 +61,12 @@ class Entries extends React.Component {
                   <thead className="thead-dark">
                     <tr>
                       <th scope="col">ID</th>
-                      <th scope="col">User Name</th>
-                      <th scope="col">Challenge Name</th>
-                      <th scope="col">Category Name</th>
-                      <th scope="col">Hashtag Name</th>
-                      <th scope="col">Image URL</th>
-                      <th scope="col">Media Image URL</th>
+                      <th scope="col">Username</th>
+                      <th scope="col">Image</th>
+                      <th scope="col">Video</th>
+                      <th scope="col">Hashtag</th>
+                      <th scope="col">Category</th>
+                      <th scope="col">Challenge</th>
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
@@ -79,16 +79,6 @@ class Entries extends React.Component {
                       </td>
                       <td>
                         <span className="mb-0 text-sm">{ent.userFirstName + ' ' + ent.userLastName}</span>
-                      </td>
-                      <td>
-                        <span className="mb-0 text-sm">{ent.challengeName}</span>
-                      </td>
-
-                      <td>
-                        <span className="mb-0 text-sm">{ent.categoryName}</span>
-                      </td>
-                      <td>
-                        <span className="mb-0 text-sm">{ent.hashtagName}</span>
                       </td>
                       <th scope="row">
                         <Media className="align-items-center">
@@ -118,7 +108,18 @@ class Entries extends React.Component {
                           </a>
                         </Media>
                       </th>
+                      <td>
+                        <span className="mb-0 text-sm">{ent.hashtagName}</span>
+                      </td>
 
+                      <td>
+                        <span className="mb-0 text-sm">{ent.categoryName}</span>
+                      </td>
+                      
+                      <td>
+                        <span className="mb-0 text-sm">{ent.challengeName}</span>
+                      </td>
+                      
                       <th scope='row'>
                         <EditEntriesModal ent={ent}/>
                         <DeleteEntriesModal id={ent._id}/>
