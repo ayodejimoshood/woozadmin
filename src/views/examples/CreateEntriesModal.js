@@ -300,7 +300,7 @@ class CreateEntriesModal extends React.Component {
     }))
     console.log({ imageURL, mediaURL, challengeId, categoryId, hashtag, userSelect })
     if (userSelect === 'Normal Entry') {
-      if (!imageURL || !mediaURL || !hashtag || !categoryId) {
+      if (!imageURL || !mediaURL || !categoryId) {
         alert("Please ensure to fill all fields")
         return;
       }
