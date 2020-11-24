@@ -15,7 +15,7 @@ class Footer extends React.Component {
                 className="font-weight-bold ml-1"
                 href="#"
                 rel="noopener noreferrer"
-                target="_blank"
+                target="_blank" style={{color: '#FF5757'}}
               >
                 woozeee
               </a>
