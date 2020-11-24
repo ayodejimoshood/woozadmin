@@ -65,7 +65,6 @@ class Categories extends React.Component {
                       <th scope="col">Description</th>
                       <th scope="col">Name</th>
                       <th scope="col">Hashtag</th>
-                      <th scope="col">Image</th>
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
@@ -86,7 +85,7 @@ class Categories extends React.Component {
                       <td>
                         <span className="mb-0 text-sm">{cat.hashtagName}</span>
                       </td>
-                      <th scope="row">
+                      {/* <th scope="row">
                         <Media className="align-items-center">
                           <a
                             className="avatar rounded-circle mr-3"
@@ -99,7 +98,7 @@ class Categories extends React.Component {
                             />
                           </a>
                         </Media>
-                      </th>
+                      </th> */}
 
                       <th scope='row'>
                         <EditCategoryModal cat={cat}/>
