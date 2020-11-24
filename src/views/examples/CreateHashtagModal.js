@@ -93,7 +93,7 @@ class CreateHashtagModal extends React.Component {
               <Row>
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Hashtag Name</h5> </Label>
+                    <Label for="exampleSelect"> <h5>Hashtag Name <span style={{color: '#ff0000'}}>*</span></h5> </Label>
                     <Input
                       id="exampleFormControlInput1"
                       placeholder="hashtag name"

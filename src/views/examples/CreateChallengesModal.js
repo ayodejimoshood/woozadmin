@@ -151,7 +151,7 @@ class CreateChallengesModal extends React.Component {
 
 
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Category</h5> </Label>
+                    <Label for="exampleSelect"> <h5>Category <span style={{color: '#ff0000'}}>*</span></h5> </Label>
                     <Input type="select" name="id" id="exampleSelect" value={id} onChange={e => this.handleChange(e)}>
                       <option value="">Select a category</option>
                       {
@@ -164,7 +164,7 @@ class CreateChallengesModal extends React.Component {
                 </Col>
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Sponsor</h5> </Label>
+                    <Label for="exampleSelect"> <h5>Sponsor <span style={{color: '#ff0000'}}>*</span></h5> </Label>
                     <Input type="select" name="sponsor" id="exampleSelect" value={sponsor} onChange={e => this.handleChange(e)}>
                       <option value="">Select a sponsor</option>
                       {
@@ -177,7 +177,7 @@ class CreateChallengesModal extends React.Component {
                 </Col>
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"><h5>Challenge Name</h5></Label>
+                    <Label for="exampleSelect"><h5>Challenge Name <span style={{color: '#ff0000'}}>*</span></h5></Label>
                     <Input
                       id="exampleFormControlInput1"
                       placeholder="Challenge Name"
@@ -191,7 +191,7 @@ class CreateChallengesModal extends React.Component {
 
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"><h5>Challenge Hashtag</h5></Label>
+                    <Label for="exampleSelect"><h5>Challenge Hashtag <span style={{color: '#ff0000'}}>*</span></h5></Label>
                     <Input
                       id="exampleFormControlInput1"
                       placeholder="Hashtag"
@@ -205,7 +205,7 @@ class CreateChallengesModal extends React.Component {
 
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"><h5>Upload Challenge Background Image</h5></Label>
+                    <Label for="exampleSelect"><h5>Upload Challenge Background Image <span style={{color: '#ff0000'}}>*</span></h5></Label>
                     {
                       pictureLoading === 'unloaded' ?
                         <ImageUploader

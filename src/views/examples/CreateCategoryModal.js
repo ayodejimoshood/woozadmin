@@ -96,7 +96,7 @@ class CreateMerchantModals extends React.Component {
               <Row>
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Category Description</h5> </Label>
+                    <Label for="exampleSelect"> <h5>Category Description <span style={{color: '#ff0000'}}>*</span></h5> </Label>
                     <Input
                       id="exampleFormControlInput1"
                       placeholder="category description"
@@ -109,7 +109,7 @@ class CreateMerchantModals extends React.Component {
                 </Col>
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Category Name</h5> </Label>
+                    <Label for="exampleSelect"> <h5>Category Name <span style={{color: '#ff0000'}}>*</span></h5> </Label>
                     <Input
                       id="exampleFormControlInput1"
                       placeholder="category name"
@@ -122,7 +122,7 @@ class CreateMerchantModals extends React.Component {
                 </Col>
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Hashtag</h5> </Label>
+                    <Label for="exampleSelect"> <h5>Hashtag <span style={{color: '#ff0000'}}>*</span></h5> </Label>
                     <Input
                       id="exampleFormControlInput1"
                       placeholder="hashtag"

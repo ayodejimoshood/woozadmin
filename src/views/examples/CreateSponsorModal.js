@@ -125,7 +125,7 @@ class CreateSponsorModal extends React.Component {
 
             <Col md="12">
               <FormGroup>
-                <Label for="exampleSelect"> <h5>Sponsor Name</h5> </Label>
+                <Label for="exampleSelect"> <h5>Sponsor Name <span style={{color: '#ff0000'}}>*</span></h5> </Label>
                 <Input
                   id="exampleFormControlInput1"
                   placeholder="sponsor name"
@@ -139,7 +139,7 @@ class CreateSponsorModal extends React.Component {
 
             <Col md="12">
               <FormGroup>
-                <Label for="exampleSelect"> <h5>Sponsor Description</h5> </Label>
+                <Label for="exampleSelect"> <h5>Sponsor Description <span style={{color: '#ff0000'}}>*</span></h5> </Label>
                 <Input
                   id="exampleFormControlInput1"
                   placeholder="sponsor description"
@@ -153,7 +153,7 @@ class CreateSponsorModal extends React.Component {
             
             <Col>
               <FormGroup>
-                <Label for="exampleSelect"> <h5>Upload Sponsor Image</h5> </Label>
+                <Label for="exampleSelect"> <h5>Upload Sponsor Image <span style={{color: '#ff0000'}}>*</span></h5> </Label>
                 {
                   pictureLoading === 'unloaded' ?
                   <ImageUploader

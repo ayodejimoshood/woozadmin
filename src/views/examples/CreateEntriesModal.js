@@ -96,7 +96,7 @@ class CreateEntriesModal extends React.Component {
 
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Upload Video</h5> </Label>
+                    <Label for="exampleSelect"> <h5>Upload Video <span style={{color: '#ff0000'}}>*</span></h5> </Label>
                     {
                       videoLoading === 'unloaded' ?
                         <div>
@@ -134,7 +134,7 @@ class CreateEntriesModal extends React.Component {
                     />
                   </FormGroup>
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Category</h5> </Label>
+                    <Label for="exampleSelect"> <h5>Category <span style={{color: '#ff0000'}}>*</span></h5> </Label>
                     <Input type="select" name="categoryId" id="exampleSelect" value={categoryId} onChange={e => this.handleChange(e)}>
                       <option value="">Select a category</option>
                       {
@@ -186,7 +186,7 @@ class CreateEntriesModal extends React.Component {
 
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Upload Video</h5> </Label>
+                    <Label for="exampleSelect"> <h5>Upload Video <span style={{color: '#ff0000'}}>*</span></h5> </Label>
                     {
                       videoLoading === 'unloaded' ?
                         <div>
@@ -213,7 +213,7 @@ class CreateEntriesModal extends React.Component {
 
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Challenge</h5> </Label>
+                    <Label for="exampleSelect"> <h5>Challenge <span style={{color: '#ff0000'}}>*</span> </h5> </Label>
                     <Input type="select" name="challengeId" id="exampleSelect" value={challengeId} onChange={e => this.handleChange(e)}>
                       <option value="">Select a challenge</option>
                       {
