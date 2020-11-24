@@ -28,6 +28,7 @@ import { toastr } from 'react-redux-toastr'
 import { toastrOptions } from '../../utils/helpers'
 import Loader from 'react-loader-spinner'
 import { handleGetChallenges } from "redux/actions/challenges";
+import { v4 as uuid } from 'uuid';
 
 class CreateEntriesModal extends React.Component {
 

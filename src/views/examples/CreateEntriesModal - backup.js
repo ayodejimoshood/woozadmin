@@ -27,6 +27,7 @@ import { config } from '../../utils/react-s3-config'
 import { toastr } from 'react-redux-toastr'
 import { toastrOptions } from '../../utils/helpers'
 import Loader from 'react-loader-spinner'
+import { v4 as uuid } from 'uuid';
 
 class CreateEntriesModal extends React.Component {
 
@@ -47,11 +48,25 @@ class CreateEntriesModal extends React.Component {
     this.props.getCategories()
   }
 
+  // rename file function
+  renameFile = (file) => {
+    const nameSplit = file.name.split('.');
+    const ext = nameSplit[nameSplit.length - 1];
+    const goodName = `${uuid()}.${ext}`.replace(/-/g, '_');
+    return new File([file], goodName, { type: file.type });
+  };
+  // end rename file function
+
   onDropPicture = (pictureFiles, pictureDataURLs, name = "imageURL") => {
     this.setState(prev => ({
       pictureLoading: 'loading'
     }))
-    S3FileUpload.uploadFile(pictureFiles[0], config)
+    
+    // update rename file
+    const updatedFile = this.renameFile(pictureFiles[0]);
+    // update rename file
+
+    S3FileUpload.uploadFile(updatedFile, config)
       .then(data => {
         this.setState({
           [name]: data.location,

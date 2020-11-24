@@ -2,6 +2,7 @@ import axios from 'axios'
 import { toastr } from 'react-redux-toastr'
 import { toastrOptions } from '../../utils/helpers'
 import { CREATE_ENTRY, GET_ENTRIES, GET_ENTRY, DELETE_ENTRY, EDIT_ENTRY } from './types'
+import { v4 as uuid } from 'uuid';
 
 
 // to handle create a new entry
