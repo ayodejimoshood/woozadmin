@@ -62,9 +62,9 @@ class CreateEntriesModal extends React.Component {
       pictureLoading: 'loading'
     }))
     
-    // update rename file
+    // update rename file for image
     const updatedFile = this.renameFile(pictureFiles[0]);
-    // update rename file
+    // update rename file for image
 
     S3FileUpload.uploadFile(updatedFile, config)
       .then(data => {
@@ -88,8 +88,13 @@ class CreateEntriesModal extends React.Component {
     const videoFile = files[0]
     this.setState(prev => ({
       videoLoading: 'loading'
-    }))
-    S3FileUpload.uploadFile(videoFile, config)
+  }))
+
+    // update rename file for video
+    const updatedFile = this.renameFile(videoFile);
+    // update rename file for video
+
+    S3FileUpload.uploadFile(updatedFile, config)
       .then(data => {
         this.setState({
           mediaURL: data.location,
@@ -236,7 +241,7 @@ class CreateEntriesModal extends React.Component {
                     {
                       videoLoading === 'unloaded' ?
                         <div>
-                          <input type="file" name="file" id="" accept="video/mp4,.mkv, video/x-m4v,video/*" onChange={this.onDropVideo} />
+                          <input type="file" name="file" id="" accept="video/*" onChange={this.onDropVideo} />
                         </div> :
                         videoLoading === 'loading' ?
                           <div style={{ textAlign: 'center' }}>

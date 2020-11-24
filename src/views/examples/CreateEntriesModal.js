@@ -17,264 +17,325 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import ImageUploader from 'react-images-upload';
+import ImageUploader from "react-images-upload";
 import { handleAddHashtagEntry } from "redux/actions/socials";
 import { handleCreateEntry } from "redux/actions/entries";
 import { handleGetCategories } from "redux/actions/categories";
 // import UploadImage from '../examples/UploadImage';
-import S3FileUpload from 'react-s3';
-import { config } from '../../utils/react-s3-config'
-import { toastr } from 'react-redux-toastr'
-import { toastrOptions } from '../../utils/helpers'
-import Loader from 'react-loader-spinner'
+import S3FileUpload from "react-s3";
+import { config } from "../../utils/react-s3-config";
+import { toastr } from "react-redux-toastr";
+import { toastrOptions } from "../../utils/helpers";
+import Loader from "react-loader-spinner";
 import { handleGetChallenges } from "redux/actions/challenges";
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 
 class CreateEntriesModal extends React.Component {
-
   state = {
-    pictureLoading: 'unloaded',
-    pictureKey: '',
+    pictureLoading: "unloaded",
+    pictureKey: "",
     CreateEntriesModal: false,
-    imageURL: '',
-    mediaURL: '',
-    challengeId: '',
-    categoryId: '',
+    imageURL: "",
+    mediaURL: "",
+    challengeId: "",
+    categoryId: "",
     isMakingRequest: false,
-    videoLoading: 'unloaded',
-    videoKey: '',
-    selectOptions:  [
-      {label: "Normal Entry", value: 'Normal Entry'},
-      {label: "Challenge Entry", value: 'Challenge Entry'},
+    videoLoading: "unloaded",
+    videoKey: "",
+    selectOptions: [
+      { label: "Normal Entry", value: "Normal Entry" },
+      { label: "Challenge Entry", value: "Challenge Entry" },
     ],
-    userSelect: '',
-    hashtag: ''
-  }
+    userSelect: "",
+    hashtag: "",
+  };
 
   componentDidMount() {
-    this.props.getCategories()
-    this.props.getChallenges()
+    this.props.getCategories();
+    this.props.getChallenges();
   }
 
-  handleFilteredContent = (userSelect, categoryId, pictureLoading, videoLoading, challengeId, hashtag) => {
-    const { category, challenge } = this.props
-    if(userSelect === 'Normal Entry') {
-        return (
-            <div>
-                <Col md="12">
-                  <FormGroup>
-                    <Label for="exampleSelect"> <h5>Upload Image</h5> </Label>
-                    {
-                      pictureLoading === 'unloaded' ?
-                        <ImageUploader
-                          withIcon={false}
-                          withPreview={true}
-                          singleImage={true}
+  handleFilteredContent = (
+    userSelect,
+    categoryId,
+    pictureLoading,
+    videoLoading,
+    challengeId,
+    hashtag
+  ) => {
+    const { category, challenge } = this.props;
+    if (userSelect === "Normal Entry") {
+      return (
+        <div>
+          <Col md="12">
+            <FormGroup>
+              <Label for="exampleSelect">
+                {" "}
+                <h5>Upload Image</h5>{" "}
+              </Label>
+              {pictureLoading === "unloaded" ? (
+                <ImageUploader
+                  withIcon={false}
+                  withPreview={true}
+                  singleImage={true}
+                  buttonText="Upload image"
+                  onChange={this.onDropPicture}
+                  name="imageURL"
+                  imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                  maxFileSize={5242880}
+                />
+              ) : pictureLoading === "loading" ? (
+                <div style={{ textAlign: "center" }}>
+                  <Loader
+                    type="ThreeDots"
+                    color="#000000"
+                    height={50}
+                    width={50}
+                  />
+                </div>
+              ) : (
+                <div style={{ textAlign: "center" }}>
+                  Image uploaded successfully
+                </div>
+              )}
+            </FormGroup>
+          </Col>
 
-                          buttonText='Upload image'
-                          onChange={this.onDropPicture}
-                          name="imageURL"
-                          imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                          maxFileSize={5242880}
-                        />
+          <Col md="12">
+            <FormGroup>
+              <Label for="exampleSelect">
+                {" "}
+                <h5>
+                  Upload Video <span style={{ color: "#ff0000" }}>*</span>
+                </h5>{" "}
+              </Label>
+              {videoLoading === "unloaded" ? (
+                <div>
+                  <input
+                    type="file"
+                    name="file"
+                    id=""
+                    accept="video/mp4,.mkv, video/x-m4v,video/*"
+                    onChange={this.onDropVideo}
+                  />
+                </div>
+              ) : videoLoading === "loading" ? (
+                <div style={{ textAlign: "center" }}>
+                  <Loader
+                    type="ThreeDots"
+                    color="#000000"
+                    height={50}
+                    width={50}
+                  />
+                </div>
+              ) : (
+                <div style={{ textAlign: "center" }}>
+                  Video uploaded successfully
+                </div>
+              )}
+            </FormGroup>
+          </Col>
 
-                        : pictureLoading === 'loading' ?
-                          <div style={{textAlign: 'center'}}>
-                            <Loader
-                              type="ThreeDots"
-                              color="#000000"
-                              height={50}
-                              width={50}
-                            />
-                          </div>
-                        : <div style={{textAlign: 'center'}}>
-                            Image uploaded successfully
-                          </div>
+          <Col md="12">
+            <FormGroup>
+              <Label for="exampleFormControlInput6">
+                {" "}
+                <h5>Hashtag</h5>{" "}
+              </Label>
+              <Input
+                id="exampleFormControlInput6"
+                placeholder="#hashtag"
+                type="text"
+                onChange={(e) => this.handleChange(e)}
+                name="hashtag"
+                value={hashtag}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="exampleSelect">
+                {" "}
+                <h5>
+                  Category <span style={{ color: "#ff0000" }}>*</span>
+                </h5>{" "}
+              </Label>
+              <Input
+                type="select"
+                name="categoryId"
+                id="exampleSelect"
+                value={categoryId}
+                onChange={(e) => this.handleChange(e)}
+              >
+                <option value="">Select a category</option>
+                {category &&
+                  category.map((cat) => (
+                    <option key={cat._id} value={cat._id}>
+                      {cat.name[0].toUpperCase() + cat.name.slice(1)}
+                    </option>
+                  ))}
+              </Input>
+            </FormGroup>
+          </Col>
+        </div>
+      );
+    } else if (userSelect === "Challenge Entry") {
+      return (
+        <div>
+          <Col md="12">
+            <FormGroup>
+              <Label for="exampleSelect">
+                {" "}
+                <h5>Upload Image</h5>{" "}
+              </Label>
+              {pictureLoading === "unloaded" ? (
+                <ImageUploader
+                  withIcon={false}
+                  withPreview={true}
+                  singleImage={true}
+                  buttonText="Upload image"
+                  onChange={this.onDropPicture}
+                  name="imageURL"
+                  imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                  maxFileSize={5242880}
+                />
+              ) : pictureLoading === "loading" ? (
+                <div style={{ textAlign: "center" }}>
+                  <Loader
+                    type="ThreeDots"
+                    color="#000000"
+                    height={50}
+                    width={50}
+                  />
+                </div>
+              ) : (
+                <div style={{ textAlign: "center" }}>
+                  Image uploaded successfully
+                </div>
+              )}
+            </FormGroup>
+          </Col>
 
-                    }
-                  </FormGroup>
-                </Col>
+          <Col md="12">
+            <FormGroup>
+              <Label for="exampleSelect">
+                {" "}
+                <h5>
+                  Upload Video <span style={{ color: "#ff0000" }}>*</span>
+                </h5>{" "}
+              </Label>
+              {videoLoading === "unloaded" ? (
+                <div>
+                  <input
+                    type="file"
+                    name="file"
+                    id=""
+                    accept="video/mp4,.mkv, video/x-m4v,video/*"
+                    onChange={this.onDropVideo}
+                  />
+                </div>
+              ) : videoLoading === "loading" ? (
+                <div style={{ textAlign: "center" }}>
+                  <Loader
+                    type="ThreeDots"
+                    color="#000000"
+                    height={50}
+                    width={50}
+                  />
+                </div>
+              ) : (
+                <div style={{ textAlign: "center" }}>
+                  Video uploaded successfully
+                </div>
+              )}
+            </FormGroup>
+          </Col>
 
-                <Col md="12">
-                  <FormGroup>
-                    <Label for="exampleSelect"> <h5>Upload Video <span style={{color: '#ff0000'}}>*</span></h5> </Label>
-                    {
-                      videoLoading === 'unloaded' ?
-                        <div>
-                          <input type="file" name="file" id="" accept="video/mp4,.mkv, video/x-m4v,video/*" onChange={this.onDropVideo} />
-                        </div> :
-                        videoLoading === 'loading' ?
-                          <div style={{ textAlign: 'center' }}>
-                            <Loader
-                              type="ThreeDots"
-                              color="#000000"
-                              height={50}
-                              width={50}
-                            />
-                          </div> :
-                          <div style={{ textAlign: 'center' }}>
-                            Video uploaded successfully
-                          </div>
-
-                    }
-
-                  </FormGroup>
-                  
-                </Col>
-
-                <Col md="12">
-                  <FormGroup>
-                    <Label for="exampleFormControlInput6"> <h5>Hashtag</h5> </Label>
-                    <Input
-                      id="exampleFormControlInput6"
-                      placeholder="#hashtag"
-                      type="text"
-                      onChange={e => this.handleChange(e)}
-                      name="hashtag"
-                      value={hashtag}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="exampleSelect"> <h5>Category <span style={{color: '#ff0000'}}>*</span></h5> </Label>
-                    <Input type="select" name="categoryId" id="exampleSelect" value={categoryId} onChange={e => this.handleChange(e)}>
-                      <option value="">Select a category</option>
-                      {
-                        category && category.map((cat) => (
-                          <option key={cat._id} value={cat._id}>{cat.name[0].toUpperCase() + cat.name.slice(1)}</option>
-                        ))
-                      }
-                    </Input>
-                  </FormGroup>
-                </Col>
-            </div>
-        )
-    }else if(userSelect === 'Challenge Entry') {
-        return (
-            <div>
-                <Col md="12">
-                  <FormGroup>
-                    <Label for="exampleSelect"> <h5>Upload Image</h5> </Label>
-                    {
-                      pictureLoading === 'unloaded' ?
-                        <ImageUploader
-                          withIcon={false}
-                          withPreview={true}
-                          singleImage={true}
-
-                          buttonText='Upload image'
-                          onChange={this.onDropPicture}
-                          name="imageURL"
-                          imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                          maxFileSize={5242880}
-                        />
-
-                        : pictureLoading === 'loading' ?
-                          <div style={{textAlign: 'center'}}>
-                            <Loader
-                              type="ThreeDots"
-                              color="#000000"
-                              height={50}
-                              width={50}
-                            />
-                          </div>
-                        : <div style={{textAlign: 'center'}}>
-                            Image uploaded successfully
-                          </div>
-
-                    }
-                  </FormGroup>
-                </Col>
-
-                <Col md="12">
-                  <FormGroup>
-                    <Label for="exampleSelect"> <h5>Upload Video <span style={{color: '#ff0000'}}>*</span></h5> </Label>
-                    {
-                      videoLoading === 'unloaded' ?
-                        <div>
-                          <input type="file" name="file" id="" accept="video/mp4,.mkv, video/x-m4v,video/*" onChange={this.onDropVideo} />
-                        </div> :
-                        videoLoading === 'loading' ?
-                          <div style={{ textAlign: 'center' }}>
-                            <Loader
-                              type="ThreeDots"
-                              color="#000000"
-                              height={50}
-                              width={50}
-                            />
-                          </div> :
-                          <div style={{ textAlign: 'center' }}>
-                            Video uploaded successfully
-                          </div>
-
-                    }
-
-                  </FormGroup>
-                  
-                </Col>
-
-                <Col md="12">
-                  <FormGroup>
-                    <Label for="exampleSelect"> <h5>Challenge <span style={{color: '#ff0000'}}>*</span> </h5> </Label>
-                    <Input type="select" name="challengeId" id="exampleSelect" value={challengeId} onChange={e => this.handleChange(e)}>
-                      <option value="">Select a challenge</option>
-                      {
-                        challenge && challenge.map((chal) => (
-                          <option key={chal._id} value={chal._id}>{chal.name[0].toUpperCase() + chal.name.slice(1)}</option>
-                        ))
-                      }
-                    </Input>
-                  </FormGroup>
-                </Col>
-            </div>
-        )
+          <Col md="12">
+            <FormGroup>
+              <Label for="exampleSelect">
+                {" "}
+                <h5>
+                  Challenge <span style={{ color: "#ff0000" }}>*</span>{" "}
+                </h5>{" "}
+              </Label>
+              <Input
+                type="select"
+                name="challengeId"
+                id="exampleSelect"
+                value={challengeId}
+                onChange={(e) => this.handleChange(e)}
+              >
+                <option value="">Select a challenge</option>
+                {challenge &&
+                  challenge.map((chal) => (
+                    <option key={chal._id} value={chal._id}>
+                      {chal.name[0].toUpperCase() + chal.name.slice(1)}
+                    </option>
+                  ))}
+              </Input>
+            </FormGroup>
+          </Col>
+        </div>
+      );
     }
-}
-
+  };
 
   onDropPicture = (pictureFiles, pictureDataURLs, name = "imageURL") => {
-    this.setState(prev => ({
-      pictureLoading: 'loading'
-    }))
-    S3FileUpload.uploadFile(pictureFiles[0], config)
-      .then(data => {
-        this.setState({
-          [name]: data.location,
-          pictureLoading: 'loaded',
-          pictureKey: data.key
-        }, () => console.log(this.state));
+    this.setState((prev) => ({
+      pictureLoading: "loading",
+    }));
+    const file = this.renameFile(pictureFiles[0]);
+    console.log(file, pictureFiles);
+    S3FileUpload.uploadFile(file, config)
+      .then((data) => {
+        this.setState(
+          {
+            [name]: data.location,
+            pictureLoading: "loaded",
+            pictureKey: data.key,
+          },
+          () => console.log(this.state)
+        );
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
-          pictureLoading: 'unloaded'
-        })
-        console.error(err)
-        toastr.warning('Error occured uploading the image', toastrOptions)
-      })
-  }
+          pictureLoading: "unloaded",
+        });
+        console.error(err);
+        toastr.warning("Error occured uploading the image", toastrOptions);
+      });
+  };
+
+  renameFile = (file) => {
+    const nameSplit = file.name.split(".");
+    const ext = nameSplit[nameSplit.length - 1];
+    const goodName = `${uuid()}.${ext}`.replace(/-/g, "_");
+    return new File([file], goodName, { type: file.type });
+  };
 
   onDropVideo = (e) => {
-    const {target: {files}} = e
-    const videoFile = files[0]
-    this.setState(prev => ({
-      videoLoading: 'loading'
-    }))
+    const {
+      target: { files },
+    } = e;
+    const videoFile = this.renameFile(files[0]);
+    this.setState((prev) => ({
+      videoLoading: "loading",
+    }));
     S3FileUpload.uploadFile(videoFile, config)
-      .then(data => {
+      .then((data) => {
         this.setState({
           mediaURL: data.location,
-          videoLoading: 'loaded',
-          videoKey: data.key
+          videoLoading: "loaded",
+          videoKey: data.key,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
-          videoLoading: 'unloaded'
-        })
-        console.error(err)
-        toastr.warning('Error occured uploading the video', toastrOptions)
-      })
-  }
-
+          videoLoading: "unloaded",
+        });
+        console.error(err);
+        toastr.warning("Error occured uploading the video", toastrOptions);
+      });
+  };
 
   toggleModal = (state) => {
     this.setState({
@@ -282,77 +343,100 @@ class CreateEntriesModal extends React.Component {
     });
   };
 
-  
-
-
-
   handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({
-      [name]: value
-    })
-  }
+      [name]: value,
+    });
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { imageURL, mediaURL, challengeId, categoryId, hashtag, userSelect } = this.state;
-    this.setState(prevState => ({
-      isMakingRequest: !prevState.isMakingRequest
-    }))
-    console.log({ imageURL, mediaURL, challengeId, categoryId, hashtag, userSelect })
-    if (userSelect === 'Normal Entry') {
+    const {
+      imageURL,
+      mediaURL,
+      challengeId,
+      categoryId,
+      hashtag,
+      userSelect,
+    } = this.state;
+    this.setState((prevState) => ({
+      isMakingRequest: !prevState.isMakingRequest,
+    }));
+    console.log({
+      imageURL,
+      mediaURL,
+      challengeId,
+      categoryId,
+      hashtag,
+      userSelect,
+    });
+    if (userSelect === "Normal Entry") {
       if (!imageURL || !mediaURL || !categoryId) {
-        alert("Please ensure to fill all fields")
+        alert("Please ensure to fill all fields");
         return;
       }
-      this.props.createEntry({ imageURL, mediaURL, categoryId, hashtag }).then(res => {
-        this.setState(prevState => ({
-          isMakingRequest: !prevState.isMakingRequest
-        }))
-        if (res === 'success') {
-          this.setState({
-            categoryId: '',
-            pictureLoading: 'unloaded',
-            pictureKey: '',
-            imageURL: '',
-            mediaURL: '',
-            videoLoading: 'unloaded',
-            videoKey: '',
-          })
-        }
-      })
-    } else if (userSelect === 'Challenge Entry') {
+      this.props
+        .createEntry({ imageURL, mediaURL, categoryId, hashtag })
+        .then((res) => {
+          this.setState((prevState) => ({
+            isMakingRequest: !prevState.isMakingRequest,
+          }));
+          if (res === "success") {
+            this.setState({
+              categoryId: "",
+              pictureLoading: "unloaded",
+              pictureKey: "",
+              imageURL: "",
+              mediaURL: "",
+              videoLoading: "unloaded",
+              videoKey: "",
+            });
+          }
+        });
+    } else if (userSelect === "Challenge Entry") {
       if (!imageURL || !mediaURL || !challengeId) {
-        alert("Please ensure to fill all fields")
+        alert("Please ensure to fill all fields");
         return;
       }
-      this.props.createEntry({ imageURL, mediaURL, challengeId }).then(res => {
-        this.setState(prevState => ({
-          isMakingRequest: !prevState.isMakingRequest
-        }))
-        if (res === 'success') {
-          this.setState({
-            challengeId: '',
-            pictureLoading: 'unloaded',
-            pictureKey: '',
-            imageURL: '',
-            mediaURL: '',
-            videoLoading: 'unloaded',
-            videoKey: '',
-          })
-        }
-      })
+      this.props
+        .createEntry({ imageURL, mediaURL, challengeId })
+        .then((res) => {
+          this.setState((prevState) => ({
+            isMakingRequest: !prevState.isMakingRequest,
+          }));
+          if (res === "success") {
+            this.setState({
+              challengeId: "",
+              pictureLoading: "unloaded",
+              pictureKey: "",
+              imageURL: "",
+              mediaURL: "",
+              videoLoading: "unloaded",
+              videoKey: "",
+            });
+          }
+        });
     }
-
-  }
+  };
 
   render() {
-    const { isMakingRequest, pictureLoading, challengeId, categoryId, videoLoading, imageURL, mediaURL, userSelect } = this.state
-    const { category } = this.props
+    const {
+      isMakingRequest,
+      pictureLoading,
+      challengeId,
+      categoryId,
+      videoLoading,
+      imageURL,
+      mediaURL,
+      userSelect,
+    } = this.state;
+    const { category } = this.props;
     return (
       <>
         {/* Button trigger modal */}
-        <Button style={{backgroundColor: '#033F7C'}}
+        <Button
+          style={{ backgroundColor: "#033F7C" }}
           color="primary"
           type="button"
           onClick={() => this.toggleModal("CreateEntriesModal")}
@@ -366,7 +450,10 @@ class CreateEntriesModal extends React.Component {
           toggle={() => this.toggleModal("CreateEntriesModal")}
         >
           <div className="modal-header">
-            <h4 className="modal-title" id="CreateEntriesModalLabel"> Create Entries </h4>
+            <h4 className="modal-title" id="CreateEntriesModalLabel">
+              {" "}
+              Create Entries{" "}
+            </h4>
             <button
               aria-label="Close"
               className="close"
@@ -379,9 +466,7 @@ class CreateEntriesModal extends React.Component {
           </div>
           <Form onSubmit={this.handleSubmit}>
             <div className="modal-body">
-
               <Row>
-
                 {/* <Col md="12">
                   <FormGroup>
                     <Label for="exampleSelect"> <h5>Upload Image</h5> </Label>
@@ -456,8 +541,17 @@ class CreateEntriesModal extends React.Component {
                     />
                   </FormGroup> */}
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Entry Type</h5> </Label>
-                    <Input type="select" name="userSelect" id="exampleSelect" value={userSelect} onChange={e => this.handleChange(e)}>
+                    <Label for="exampleSelect">
+                      {" "}
+                      <h5>Entry Type</h5>{" "}
+                    </Label>
+                    <Input
+                      type="select"
+                      name="userSelect"
+                      id="exampleSelect"
+                      value={userSelect}
+                      onChange={(e) => this.handleChange(e)}
+                    >
                       {/* <option value="">Select Entry</option>
                       <option value="">Normal Entry</option>
                       <option value="">Challenge Entry</option> */}
@@ -480,7 +574,13 @@ class CreateEntriesModal extends React.Component {
                 </Col>
 
                 <Col>
-                    {this.handleFilteredContent(userSelect, categoryId, pictureLoading, videoLoading, challengeId)}
+                  {this.handleFilteredContent(
+                    userSelect,
+                    categoryId,
+                    pictureLoading,
+                    videoLoading,
+                    challengeId
+                  )}
                 </Col>
 
                 {/* <Col md="12">
@@ -497,7 +597,6 @@ class CreateEntriesModal extends React.Component {
               </FormGroup>
             </Col> */}
               </Row>
-
             </div>
             <div className="modal-footer">
               <Button
@@ -507,14 +606,15 @@ class CreateEntriesModal extends React.Component {
                 onClick={() => this.toggleModal("CreateEntriesModal")}
               >
                 Close
-            </Button>
-              <Button style={{backgroundColor: '#033F7C'}}
+              </Button>
+              <Button
+                style={{ backgroundColor: "#033F7C" }}
                 color="primary"
                 type="submit"
                 disabled={isMakingRequest === true || !mediaURL || !imageURL}
               >
                 Create
-            </Button>
+              </Button>
             </div>
           </Form>
         </Modal>
@@ -525,15 +625,13 @@ class CreateEntriesModal extends React.Component {
 
 const mapStateToProps = ({ socials: { category, challenges } }) => ({
   category,
-  challenge: challenges
-})
+  challenge: challenges,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   createEntry: (entry) => dispatch(handleCreateEntry(entry)),
   getCategories: () => dispatch(handleGetCategories()),
-  getChallenges: () => dispatch(handleGetChallenges())
-})
-
-
+  getChallenges: () => dispatch(handleGetChallenges()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEntriesModal);
