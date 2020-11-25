@@ -35,7 +35,7 @@ class CreateEntriesModal extends React.Component {
     pictureLoading: "unloaded",
     pictureKey: "",
     CreateEntriesModal: false,
-    imageURL: "",
+    // imageURL: "",
     mediaURL: "",
     challengeId: "",
     categoryId: "",
@@ -131,7 +131,7 @@ class CreateEntriesModal extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const {
-      imageURL,
+      // imageURL,
       mediaURL,
       challengeId,
       categoryId,
@@ -147,7 +147,8 @@ class CreateEntriesModal extends React.Component {
         return;
       }
       this.props
-        .createEntry({ imageURL, mediaURL, categoryId, hashtag })
+        .createEntry({ mediaURL, categoryId, hashtag })
+        // .createEntry({ imageURL, mediaURL, categoryId, hashtag })
         .then((res) => {
           this.setState((prevState) => ({
             isMakingRequest: !prevState.isMakingRequest,
@@ -157,7 +158,7 @@ class CreateEntriesModal extends React.Component {
               categoryId: "",
               pictureLoading: "unloaded",
               pictureKey: "",
-              imageURL: "",
+              // imageURL: "",
               mediaURL: "",
               videoLoading: "unloaded",
               videoKey: "",
@@ -170,7 +171,8 @@ class CreateEntriesModal extends React.Component {
         return;
       }
       this.props
-        .createEntry({ imageURL, mediaURL, challengeId })
+        .createEntry({ mediaURL, challengeId })
+        // .createEntry({ imageURL, mediaURL, challengeId })
         .then((res) => {
           this.setState((prevState) => ({
             isMakingRequest: !prevState.isMakingRequest,
@@ -180,7 +182,7 @@ class CreateEntriesModal extends React.Component {
               challengeId: "",
               pictureLoading: "unloaded",
               pictureKey: "",
-              imageURL: "",
+              // imageURL: "",
               mediaURL: "",
               videoLoading: "unloaded",
               videoKey: "",
@@ -203,7 +205,7 @@ class CreateEntriesModal extends React.Component {
     if (userSelect === "Normal Entry") {
       return (
         <div>
-          <Col md="12">
+          {/* <Col md="12">
             <FormGroup>
               <Label for="exampleSelect">
                 {" "}
@@ -235,7 +237,7 @@ class CreateEntriesModal extends React.Component {
                 </div>
               )}
             </FormGroup>
-          </Col>
+          </Col> */}
 
           <Col md="12">
             <FormGroup>
@@ -316,7 +318,7 @@ class CreateEntriesModal extends React.Component {
     } else if (userSelect === "Challenge Entry") {
       return (
         <div>
-          <Col md="12">
+          {/* <Col md="12">
             <FormGroup>
               <Label for="exampleSelect">
                 {" "}
@@ -348,7 +350,7 @@ class CreateEntriesModal extends React.Component {
                 </div>
               )}
             </FormGroup>
-          </Col>
+          </Col> */}
 
           <Col md="12">
             <FormGroup>

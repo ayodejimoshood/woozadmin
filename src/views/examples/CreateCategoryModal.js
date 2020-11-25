@@ -129,7 +129,7 @@ class CreateMerchantModals extends React.Component {
                   </FormGroup>
                 </Col>
                 <Col md="12">
-                  <FormGroup>
+                  {/* <FormGroup>
                     <Label for="exampleSelect"> <h5>Hashtag <span style={{ color: '#ff0000' }}>*</span></h5> </Label>
                     <Input
                       type="select"
@@ -146,6 +146,20 @@ class CreateMerchantModals extends React.Component {
                           </option>
                         ))}
                     </Input>
+                  </FormGroup> */}
+                  <FormGroup>
+                    <Label for="exampleFormControlInput6">
+                      {" "}
+                      <h5>Hashtag</h5>{" "}
+                    </Label>
+                    <Input
+                      id="exampleFormControlInput6"
+                      placeholder="#hashtag"
+                      type="text"
+                      onChange={(e) => this.handleChange(e)}
+                      name="hashtag"
+                      value={hashtag}
+                    />
                   </FormGroup>
                 </Col>
               </Row>

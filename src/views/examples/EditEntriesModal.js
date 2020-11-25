@@ -89,18 +89,17 @@ class EditEntriesModal extends React.Component {
           
           <Row>
           
-            <Col md="12">
+            {/* <Col md="12">
               <FormGroup>
                 <Label for="exampleSelect"> <h5>Upload Image</h5> </Label>
                 <ImageUploader
                   withIcon={false}
                   buttonText='Upload image'
                   onChange={this.onDrop}
-                  // imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                  // maxFileSize={5242880}
+                  
                 />
               </FormGroup>
-            </Col>
+            </Col> */}
 
             <Col md="12">
               <FormGroup>
@@ -122,7 +121,7 @@ class EditEntriesModal extends React.Component {
                 />
               </FormGroup> */}
               <FormGroup>
-                <Label for="exampleSelect"> <h5>Challenge ID</h5> </Label>
+                <Label for="exampleSelect"> <h5>Challenge</h5> </Label>
                 {/* this dropdown is to display different challenge */}
                 <Input
                   id="exampleFormControlInput1"
@@ -137,7 +136,7 @@ class EditEntriesModal extends React.Component {
 
             <Col md="12">
               <FormGroup>
-                <Label for="exampleSelect"> <h5>Category ID</h5> </Label>
+                <Label for="exampleSelect"> <h5>Category</h5> </Label>
                 {/* this dropdown is to display different categories */}
                 <Input type="select" name="select" id="exampleSelect">
                   <option>Select Category</option>

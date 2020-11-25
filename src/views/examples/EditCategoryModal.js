@@ -9,6 +9,7 @@ import {
   FormGroup,
   Form,
   Input,
+  Label,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
@@ -132,7 +133,7 @@ class EditCategoryModal extends React.Component {
             </Col>
 
             <Col md="12">
-              <FormGroup>
+              {/* <FormGroup>
                 <Input
                 type="select"
                 name="hashtag"
@@ -148,6 +149,21 @@ class EditCategoryModal extends React.Component {
                     </option>
                   ))}
               </Input>
+              </FormGroup> */}
+
+              <FormGroup>
+                <Label for="exampleFormControlInput6">
+                  {" "}
+                  <h5>Hashtag</h5>{" "}
+                </Label>
+                <Input
+                  id="exampleFormControlInput6"
+                  placeholder="#hashtag"
+                  type="text"
+                  onChange={(e) => this.handleChange(e)}
+                  name="hashtag"
+                  value={hashtag}
+                />
               </FormGroup>
             </Col>
           </Row>
