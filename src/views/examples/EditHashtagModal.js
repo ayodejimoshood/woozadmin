@@ -56,6 +56,7 @@ class EditHashtagModal extends React.Component {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
+      this.toggleModal("EditHashtagModal")
     })
   }
 

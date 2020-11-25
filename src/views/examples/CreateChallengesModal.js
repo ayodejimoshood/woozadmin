@@ -25,6 +25,7 @@ import { handleAddHashtagEntry } from "redux/actions/socials";
 import { handleCreateChallenge } from "redux/actions/challenges";
 import { handleGetCategories } from "redux/actions/categories";
 import { handleGetSponsors } from "redux/actions/sponsors";
+import { handleGetHashtags } from "redux/actions/hashtag";
 
 class CreateChallengesModal extends React.Component {
   state = {
@@ -40,6 +41,7 @@ class CreateChallengesModal extends React.Component {
   componentDidMount() {
     this.props.getCategories()
     this.props.getSponsors()
+    this.props.getHashtags()
   }
 
   componentWillUnmount() {
@@ -108,13 +110,14 @@ class CreateChallengesModal extends React.Component {
           sponsor: '',
           pictureLoading: 'unloaded'
         })
+        this.toggleModal("CreateChallengesModal")
       }
     })
   }
 
   render() {
     const { name, id, imageURL, hashtag, isMakingRequest, pictureLoading, sponsor } = this.state
-    const { category, sponsors } = this.props
+    const { category, sponsors, allHashtags } = this.props
     return (
       <>
         {/* Button trigger modal */}
@@ -192,14 +195,14 @@ class CreateChallengesModal extends React.Component {
                 <Col md="12">
                   <FormGroup>
                     <Label for="exampleSelect"><h5>Challenge Hashtag <span style={{color: '#ff0000'}}>*</span></h5></Label>
-                    <Input
-                      id="exampleFormControlInput1"
-                      placeholder="Hashtag"
-                      type="text"
-                      onChange={e => this.handleChange(e)}
-                      name="hashtag"
-                      value={hashtag}
-                    />
+                    <Input type="select" name="hashtag" id="exampleSelect" value={hashtag} onChange={e => this.handleChange(e)}>
+                      <option value="">Select a hashtag</option>
+                      {
+                        allHashtags.map((hash) => (
+                          <option key={hash._id} value={hash.name}>{hash.name}</option>
+                        ))
+                      }
+                    </Input>
                   </FormGroup>
                 </Col>
 
@@ -258,15 +261,17 @@ class CreateChallengesModal extends React.Component {
   }
 }
 
-const mapStateToProps = ({ socials: { category, sponsors } }) => ({
+const mapStateToProps = ({ socials: { category, sponsors, hashtag } }) => ({
   category,
-  sponsors
+  sponsors,
+  allHashtags: hashtag
 })
 
 const mapDispatchToProps = (dispatch) => ({
   createChallenge: (challenge) => dispatch(handleCreateChallenge(challenge)),
   getCategories: () => dispatch(handleGetCategories()),
-  getSponsors: () => dispatch(handleGetSponsors())
+  getSponsors: () => dispatch(handleGetSponsors()),
+  getHashtags: () => dispatch(handleGetHashtags())
 })
 
 

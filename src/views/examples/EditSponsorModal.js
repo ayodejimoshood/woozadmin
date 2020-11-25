@@ -65,6 +65,7 @@ class EditSponsorModal extends React.Component {
           sponsorDesc: '',
           hashTag: ''
         })
+        this.toggleModal("EditSponsorModal")
       }
     })
   }

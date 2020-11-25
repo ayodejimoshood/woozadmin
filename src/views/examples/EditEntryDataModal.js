@@ -48,6 +48,7 @@ class EditEntryDataModal extends React.Component {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
+      this.toggleModal("EditEntryDataModal")
     })
   }
 

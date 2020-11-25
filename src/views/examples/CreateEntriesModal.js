@@ -55,6 +55,142 @@ class CreateEntriesModal extends React.Component {
     this.props.getChallenges();
   }
 
+  
+
+  renameFile = (file) => {
+    const nameSplit = file.name.split(".");
+    const ext = nameSplit[nameSplit.length - 1];
+    const goodName = `${uuid()}.${ext}`.replace(/-/g, "_");
+    return new File([file], goodName, { type: file.type });
+  };
+
+  onDropPicture = (pictureFiles, pictureDataURLs, name = "imageURL") => {
+    this.setState((prev) => ({
+      pictureLoading: "loading",
+    }));
+    const file = this.renameFile(pictureFiles[0]);
+    console.log(file, pictureFiles);
+    S3FileUpload.uploadFile(file, config)
+      .then((data) => {
+        this.setState(
+          {
+            [name]: data.location,
+            pictureLoading: "loaded",
+            pictureKey: data.key,
+          },
+          () => console.log(this.state)
+        );
+      })
+      .catch((err) => {
+        this.setState({
+          pictureLoading: "unloaded",
+        });
+        console.error(err);
+        toastr.warning("Error occured uploading the image", toastrOptions);
+      });
+  };
+
+  onDropVideo = (e) => {
+    const {
+      target: { files },
+    } = e;
+    const videoFile = this.renameFile(files[0]);
+    this.setState((prev) => ({
+      videoLoading: "loading",
+    }));
+    S3FileUpload.uploadFile(videoFile, config)
+      .then((data) => {
+        this.setState({
+          mediaURL: data.location,
+          videoLoading: "loaded",
+          videoKey: data.key,
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          videoLoading: "unloaded",
+        });
+        console.error(err);
+        toastr.warning("Error occured uploading the video", toastrOptions);
+      });
+  };
+
+  toggleModal = (state) => {
+    this.setState({
+      [state]: !this.state[state],
+    });
+  };
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      [name]: value,
+    });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const {
+      imageURL,
+      mediaURL,
+      challengeId,
+      categoryId,
+      hashtag,
+      userSelect,
+    } = this.state;
+    this.setState((prevState) => ({
+      isMakingRequest: !prevState.isMakingRequest,
+    }));
+    if (userSelect === "Normal Entry") {
+      if (!mediaURL || !categoryId) {
+        alert("Please ensure to fill all fields");
+        return;
+      }
+      this.props
+        .createEntry({ imageURL, mediaURL, categoryId, hashtag })
+        .then((res) => {
+          this.setState((prevState) => ({
+            isMakingRequest: !prevState.isMakingRequest,
+          }));
+          if (res === "success") {
+            this.setState({
+              categoryId: "",
+              pictureLoading: "unloaded",
+              pictureKey: "",
+              imageURL: "",
+              mediaURL: "",
+              videoLoading: "unloaded",
+              videoKey: "",
+            });
+          }
+        });
+    } else if (userSelect === "Challenge Entry") {
+      if (!mediaURL || !challengeId) {
+        alert("Please ensure to fill all fields");
+        return;
+      }
+      this.props
+        .createEntry({ imageURL, mediaURL, challengeId })
+        .then((res) => {
+          this.setState((prevState) => ({
+            isMakingRequest: !prevState.isMakingRequest,
+          }));
+          if (res === "success") {
+            this.setState({
+              challengeId: "",
+              pictureLoading: "unloaded",
+              pictureKey: "",
+              imageURL: "",
+              mediaURL: "",
+              videoLoading: "unloaded",
+              videoKey: "",
+            });
+            this.toggleModal("CreateEntriesModal")
+          }
+        });
+    }
+  };
+
   handleFilteredContent = (
     userSelect,
     categoryId,
@@ -279,146 +415,7 @@ class CreateEntriesModal extends React.Component {
     }
   };
 
-  onDropPicture = (pictureFiles, pictureDataURLs, name = "imageURL") => {
-    this.setState((prev) => ({
-      pictureLoading: "loading",
-    }));
-    const file = this.renameFile(pictureFiles[0]);
-    console.log(file, pictureFiles);
-    S3FileUpload.uploadFile(file, config)
-      .then((data) => {
-        this.setState(
-          {
-            [name]: data.location,
-            pictureLoading: "loaded",
-            pictureKey: data.key,
-          },
-          () => console.log(this.state)
-        );
-      })
-      .catch((err) => {
-        this.setState({
-          pictureLoading: "unloaded",
-        });
-        console.error(err);
-        toastr.warning("Error occured uploading the image", toastrOptions);
-      });
-  };
-
-  renameFile = (file) => {
-    const nameSplit = file.name.split(".");
-    const ext = nameSplit[nameSplit.length - 1];
-    const goodName = `${uuid()}.${ext}`.replace(/-/g, "_");
-    return new File([file], goodName, { type: file.type });
-  };
-
-  onDropVideo = (e) => {
-    const {
-      target: { files },
-    } = e;
-    const videoFile = this.renameFile(files[0]);
-    this.setState((prev) => ({
-      videoLoading: "loading",
-    }));
-    S3FileUpload.uploadFile(videoFile, config)
-      .then((data) => {
-        this.setState({
-          mediaURL: data.location,
-          videoLoading: "loaded",
-          videoKey: data.key,
-        });
-      })
-      .catch((err) => {
-        this.setState({
-          videoLoading: "unloaded",
-        });
-        console.error(err);
-        toastr.warning("Error occured uploading the video", toastrOptions);
-      });
-  };
-
-  toggleModal = (state) => {
-    this.setState({
-      [state]: !this.state[state],
-    });
-  };
-
-  handleChange = (e) => {
-    const { name, value } = e.target;
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const {
-      imageURL,
-      mediaURL,
-      challengeId,
-      categoryId,
-      hashtag,
-      userSelect,
-    } = this.state;
-    this.setState((prevState) => ({
-      isMakingRequest: !prevState.isMakingRequest,
-    }));
-    console.log({
-      imageURL,
-      mediaURL,
-      challengeId,
-      categoryId,
-      hashtag,
-      userSelect,
-    });
-    if (userSelect === "Normal Entry") {
-      if (!imageURL || !mediaURL || !categoryId) {
-        alert("Please ensure to fill all fields");
-        return;
-      }
-      this.props
-        .createEntry({ imageURL, mediaURL, categoryId, hashtag })
-        .then((res) => {
-          this.setState((prevState) => ({
-            isMakingRequest: !prevState.isMakingRequest,
-          }));
-          if (res === "success") {
-            this.setState({
-              categoryId: "",
-              pictureLoading: "unloaded",
-              pictureKey: "",
-              imageURL: "",
-              mediaURL: "",
-              videoLoading: "unloaded",
-              videoKey: "",
-            });
-          }
-        });
-    } else if (userSelect === "Challenge Entry") {
-      if (!imageURL || !mediaURL || !challengeId) {
-        alert("Please ensure to fill all fields");
-        return;
-      }
-      this.props
-        .createEntry({ imageURL, mediaURL, challengeId })
-        .then((res) => {
-          this.setState((prevState) => ({
-            isMakingRequest: !prevState.isMakingRequest,
-          }));
-          if (res === "success") {
-            this.setState({
-              challengeId: "",
-              pictureLoading: "unloaded",
-              pictureKey: "",
-              imageURL: "",
-              mediaURL: "",
-              videoLoading: "unloaded",
-              videoKey: "",
-            });
-          }
-        });
-    }
-  };
+ 
 
   render() {
     const {
@@ -611,7 +608,7 @@ class CreateEntriesModal extends React.Component {
                 style={{ backgroundColor: "#033F7C" }}
                 color="primary"
                 type="submit"
-                disabled={isMakingRequest === true || !mediaURL || !imageURL}
+                disabled={isMakingRequest === true || !mediaURL}
               >
                 Create
               </Button>
