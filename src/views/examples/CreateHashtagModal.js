@@ -53,6 +53,7 @@ class CreateHashtagModal extends React.Component {
         this.setState({
           hashtagName: ''
         })
+        this.toggleModal("CreateHashtagModal")
       }
     })
   }

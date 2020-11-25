@@ -84,6 +84,7 @@ class CreateSponsorModal extends React.Component {
           pictureLoading: 'unloaded',
           pictureKey: ''
         })
+        this.toggleModal("CreateSponsorModal")
       }
     })
   }

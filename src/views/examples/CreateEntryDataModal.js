@@ -57,6 +57,7 @@ class CreateEntryDataModal extends React.Component {
           entryId: '',
           isLike: undefined
         })
+        this.toggleModal("CreateEntryDataModal")
       }
     })
   }

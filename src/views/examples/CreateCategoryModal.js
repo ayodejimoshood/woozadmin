@@ -15,6 +15,7 @@ import {
   Col,
 } from "reactstrap";
 import { handleCreateCategory } from "redux/actions/categories";
+import { handleGetHashtags } from "redux/actions/hashtag";
 import { handleAddCartegory } from "redux/actions/socials";
 
 class CreateMerchantModals extends React.Component {
@@ -25,6 +26,11 @@ class CreateMerchantModals extends React.Component {
     hashtag: '',
     isMakingRequest: false
   };
+
+  componentDidMount() {
+    this.props.getHashtags()
+  }
+
   toggleModal = (state) => {
     this.setState({
       [state]: !this.state[state],
@@ -45,8 +51,8 @@ class CreateMerchantModals extends React.Component {
     this.setState(prevState => ({
       isMakingRequest: !prevState.isMakingRequest
     }))
-    console.log({name: cartegoryName, description: categoryDesc, hashtag: hashtag})
-    this.props.createCategory({name: cartegoryName, description: categoryDesc, hashtag: hashtag}).then(res => {
+    console.log({ name: cartegoryName, description: categoryDesc, hashtag: hashtag })
+    this.props.createCategory({ name: cartegoryName, description: categoryDesc, hashtag: hashtag }).then(res => {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
@@ -56,21 +62,23 @@ class CreateMerchantModals extends React.Component {
           categoryDesc: '',
           hashtag: ''
         })
+        this.toggleModal("CreateCategoryModal")
       }
     })
   }
 
   render() {
-    const { cartegoryName, isMakingRequest, categoryDesc, hashtag} = this.state
+    const { cartegoryName, isMakingRequest, categoryDesc, hashtag } = this.state
+    const { allHashtags } = this.props
     return (
       <>
         {/* Button trigger modal */}
-        <Button style={{backgroundColor: '#033F7C'}}
+        <Button style={{ backgroundColor: '#033F7C' }}
           color="primary"
           type="button"
           onClick={() => this.toggleModal("CreateCategoryModal")}
         >
-          Create 
+          Create
         </Button>
         {/* Modal */}
         <Modal
@@ -96,7 +104,7 @@ class CreateMerchantModals extends React.Component {
               <Row>
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Category Description <span style={{color: '#ff0000'}}>*</span></h5> </Label>
+                    <Label for="exampleSelect"> <h5>Category Description <span style={{ color: '#ff0000' }}>*</span></h5> </Label>
                     <Input
                       id="exampleFormControlInput1"
                       placeholder="category description"
@@ -109,7 +117,7 @@ class CreateMerchantModals extends React.Component {
                 </Col>
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Category Name <span style={{color: '#ff0000'}}>*</span></h5> </Label>
+                    <Label for="exampleSelect"> <h5>Category Name <span style={{ color: '#ff0000' }}>*</span></h5> </Label>
                     <Input
                       id="exampleFormControlInput1"
                       placeholder="category name"
@@ -122,15 +130,22 @@ class CreateMerchantModals extends React.Component {
                 </Col>
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Hashtag <span style={{color: '#ff0000'}}>*</span></h5> </Label>
+                    <Label for="exampleSelect"> <h5>Hashtag <span style={{ color: '#ff0000' }}>*</span></h5> </Label>
                     <Input
-                      id="exampleFormControlInput1"
-                      placeholder="hashtag"
-                      type="text"
+                      type="select"
                       name="hashtag"
+                      id="exampleSelect"
                       value={hashtag}
-                      onChange={e => this.handleChange(e)}
-                    />
+                      onChange={(e) => this.handleChange(e)}
+                    >
+                      <option value="">Select a hashtag</option>
+                      {allHashtags &&
+                        allHashtags.map((hash) => (
+                          <option key={hash._id} value={hash.name}>
+                            {hash.name}
+                          </option>
+                        ))}
+                    </Input>
                   </FormGroup>
                 </Col>
               </Row>
@@ -145,8 +160,8 @@ class CreateMerchantModals extends React.Component {
               >
                 Close
             </Button>
-              <Button style={{backgroundColor: '#033F7C'}}
-                color="primary" 
+              <Button style={{ backgroundColor: '#033F7C' }}
+                color="primary"
                 type="submit"
                 disabled={cartegoryName === '' || isMakingRequest === true, categoryDesc === '', hashtag === ''}>
                 Create
@@ -159,8 +174,13 @@ class CreateMerchantModals extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  createCategory: (category) => dispatch(handleCreateCategory(category))
-}) 
+const mapStateToProps = ({ socials: { hashtag } }) => ({
+  allHashtags: hashtag
+});
 
-export default connect(null, mapDispatchToProps)(CreateMerchantModals);
+const mapDispatchToProps = (dispatch) => ({
+  createCategory: (category) => dispatch(handleCreateCategory(category)),
+  getHashtags: () => dispatch(handleGetHashtags())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateMerchantModals);

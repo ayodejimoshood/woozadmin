@@ -51,6 +51,7 @@ class EditEntriesModal extends React.Component {
         this.setState({
           name: '',
         })
+        this.toggleModal("EditEntriesModal")
       }
     })
   }

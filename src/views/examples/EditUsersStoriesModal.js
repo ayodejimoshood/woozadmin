@@ -48,6 +48,7 @@ class EditUsersStoriesModal extends React.Component {
       this.setState(prevState => ({
         isMakingRequest: !prevState.isMakingRequest
       }))
+      this.toggleModal("EditUsersStoriesModal")
     })
   }
 

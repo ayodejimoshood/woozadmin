@@ -17,7 +17,7 @@ import {
   Col,
 } from "reactstrap";
 import { handleEditcategory } from "redux/actions/categories";
-import { handleAddHashtagEntry } from "redux/actions/socials";
+import { handleGetHashtags } from "redux/actions/hashtag";
 
 class EditCategoryModal extends React.Component {
   state = {
@@ -29,7 +29,8 @@ class EditCategoryModal extends React.Component {
   };
 
   componentDidMount() {
-    const { cat } = this.props;
+    const { cat, getHashtags } = this.props;
+    getHashtags()
     this.setState({
       categoryDesc: cat.description,
       cartegoryName: cat.name,
@@ -66,12 +67,14 @@ class EditCategoryModal extends React.Component {
           categoryDesc: '',
           hashtag: ''
         })
+        this.toggleModal("EditCategoryModal")
       }
     })
   }
 
   render() {
     const { cartegoryName, isMakingRequest, categoryDesc, hashtag} = this.state
+    const { allHashtags } = this.props
     return (
       <>
         {/* Button trigger modal */}
@@ -131,13 +134,20 @@ class EditCategoryModal extends React.Component {
             <Col md="12">
               <FormGroup>
                 <Input
-                  id="exampleFormControlInput1"
-                  placeholder="#hashtag"
-                  type="text"
-                  onChange={e => this.handleChange(e)}
-                  name="hashtag"
-                  value={hashtag}
-                />
+                type="select"
+                name="hashtag"
+                id="exampleSelect"
+                value={hashtag}
+                onChange={(e) => this.handleChange(e)}
+              >
+                <option value="">Select a hashtag</option>
+                {allHashtags &&
+                  allHashtags.map((hash) => (
+                    <option key={hash._id} value={hash.name}>
+                      {hash.name}
+                    </option>
+                  ))}
+              </Input>
               </FormGroup>
             </Col>
           </Row>
@@ -167,11 +177,14 @@ class EditCategoryModal extends React.Component {
   }
 }
 
-
+const mapStateToProps = ({ socials: { hashtag } }) => ({
+  allHashtags: hashtag
+});
 
 const mapDispatchToProps = (dispatch) => ({
-  editCategory: (category, id) => dispatch(handleEditcategory(category, id)) 
+  editCategory: (category, id) => dispatch(handleEditcategory(category, id)),
+  getHashtags: () => dispatch(handleGetHashtags()) 
 }) 
 
 
-export default connect(null, mapDispatchToProps)(EditCategoryModal);
+export default connect(mapStateToProps, mapDispatchToProps)(EditCategoryModal);
