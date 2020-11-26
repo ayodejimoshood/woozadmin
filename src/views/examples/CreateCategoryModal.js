@@ -109,8 +109,8 @@ class CreateMerchantModals extends React.Component {
                       id="exampleFormControlInput1"
                       placeholder="category description"
                       type="text"
-                      name="cartegoryName"
-                      value={cartegoryName}
+                      name="categoryDesc"
+                      value={categoryDesc}
                       onChange={e => this.handleChange(e)}
                     />
                   </FormGroup>
@@ -122,8 +122,8 @@ class CreateMerchantModals extends React.Component {
                       id="exampleFormControlInput1"
                       placeholder="category name"
                       type="text"
-                      name="categoryDesc"
-                      value={categoryDesc}
+                      name="cartegoryName"
+                      value={cartegoryName}
                       onChange={e => this.handleChange(e)}
                     />
                   </FormGroup>
