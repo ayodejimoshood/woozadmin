@@ -62,8 +62,8 @@ class Categories extends React.Component {
                   <thead className="thead-dark">
                     <tr>
                       <th scope="col">ID</th>
-                      <th scope="col">Description</th>
                       <th scope="col">Name</th>
+                      <th scope="col">Description</th>
                       <th scope="col">Hashtag</th>
                       <th scope="col">Action</th>
                     </tr>
@@ -77,11 +77,13 @@ class Categories extends React.Component {
                       </td>
                       
                       <td>
-                        <span className="mb-0 text-sm">{cat.description}</span>
-                      </td>
-                      <td>
                         <span className="mb-0 text-sm">{cat.name}</span>
                       </td>
+                      
+                      <td>
+                        <span className="mb-0 text-sm">{cat.description}</span>
+                      </td>
+                      
                       <td>
                         <span className="mb-0 text-sm">{cat.hashtagName}</span>
                       </td>

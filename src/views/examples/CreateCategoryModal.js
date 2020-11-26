@@ -104,19 +104,6 @@ class CreateMerchantModals extends React.Component {
               <Row>
                 <Col md="12">
                   <FormGroup>
-                    <Label for="exampleSelect"> <h5>Category Description <span style={{ color: '#ff0000' }}>*</span></h5> </Label>
-                    <Input
-                      id="exampleFormControlInput1"
-                      placeholder="category description"
-                      type="text"
-                      name="categoryDesc"
-                      value={categoryDesc}
-                      onChange={e => this.handleChange(e)}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col md="12">
-                  <FormGroup>
                     <Label for="exampleSelect"> <h5>Category Name <span style={{ color: '#ff0000' }}>*</span></h5> </Label>
                     <Input
                       id="exampleFormControlInput1"
@@ -128,6 +115,20 @@ class CreateMerchantModals extends React.Component {
                     />
                   </FormGroup>
                 </Col>
+                <Col md="12">
+                  <FormGroup>
+                    <Label for="exampleSelect"> <h5>Category Description <span style={{ color: '#ff0000' }}>*</span></h5> </Label>
+                    <Input
+                      id="exampleFormControlInput1"
+                      placeholder="category description"
+                      type="text"
+                      name="categoryDesc"
+                      value={categoryDesc}
+                      onChange={e => this.handleChange(e)}
+                    />
+                  </FormGroup>
+                </Col>
+                
                 <Col md="12">
                   {/* <FormGroup>
                     <Label for="exampleSelect"> <h5>Hashtag <span style={{ color: '#ff0000' }}>*</span></h5> </Label>
