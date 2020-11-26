@@ -106,8 +106,24 @@ class EditCategoryModal extends React.Component {
           <div className="modal-body">
           
           <Row>
+
             <Col md="12">
               <FormGroup>
+                <Label for="exampleSelect"> <h5>Category Name <span style={{ color: '#ff0000' }}>*</span></h5> </Label>
+                <Input
+                  id="exampleFormControlInput1"
+                  placeholder="category name"
+                  type="text"
+                  onChange={e => this.handleChange(e)}
+                  name="cartegoryName"
+                  value={cartegoryName}
+                />
+              </FormGroup>
+            </Col>
+
+            <Col md="12">
+              <FormGroup>
+                <Label for="exampleSelect"> <h5>Category Description <span style={{ color: '#ff0000' }}>*</span></h5> </Label>
                 <Input
                   id="exampleFormControlInput1"
                   placeholder="category description"
@@ -119,18 +135,7 @@ class EditCategoryModal extends React.Component {
               </FormGroup>
             </Col>
 
-            <Col md="12">
-              <FormGroup>
-                <Input
-                  id="exampleFormControlInput1"
-                  placeholder="category name"
-                  type="text"
-                  onChange={e => this.handleChange(e)}
-                  name="cartegoryName"
-                  value={cartegoryName}
-                />
-              </FormGroup>
-            </Col>
+            
 
             <Col md="12">
               {/* <FormGroup>
