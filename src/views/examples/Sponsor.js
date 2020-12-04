@@ -1,5 +1,7 @@
 import React from "react";
 import Loader from 'react-loader-spinner'
+import './style.css'
+import ReactPaginate from 'react-paginate';
 // reactstrap components
 import {
   Badge,
@@ -19,22 +21,51 @@ import DeleteSponsorModal from "./DeleteSponsorModal";
 import { connect } from "react-redux";
 import { handleGetSponsors } from "redux/actions/sponsors";
 import { handleDeleteSponsor } from "redux/actions/sponsors";
+import { calculatePagination } from "utils/helpers";
 
 class Sponsor extends React.Component {
   state = {
-    loading: true
+    loading: true,
+    paginationNumber: 1,
+    pageCount: 1,
+    perPage: 10
   }
   componentDidMount() {
-    this.props.getSponsors().then(res => {
+    this.props.getSponsors(this.state.paginationNumber).then(res => {
+      if (res.message === 'success') {
+        const pageCount = calculatePagination(this.state.perPage, res.total)
+        this.setState({
+          pageCount: pageCount
+        })
+      }
       this.setState({
         loading: false
       })
     })
   }
 
+
+
+  handlePageClick = (data) => {
+    let selected = data.selected + 1;
+    this.setState({ paginationNumber: selected, loading: true }, () => {
+      this.props.getSponsors(this.state.paginationNumber).then(res => {
+        if (res.message === 'success') {
+          const pageCount = calculatePagination(this.state.perPage, res.total)
+          this.setState({
+            pageCount: pageCount
+          })
+        }
+        this.setState({
+          loading: false
+        })
+      })
+    });
+  };
+
+
   render() {
     const { sponsors } = this.props
-    console.log({ sponsors })
     return (
       <>
         <Header />
@@ -117,7 +148,22 @@ class Sponsor extends React.Component {
               </Card>
             </div>
           </Row>
+          <ReactPaginate
+          previousLabel={'previous'}
+          nextLabel={'next'}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={this.state.pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          initialPage={0}
+          onPageChange={this.handlePageClick}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'paginate_active'}
+        />
         </Container>
+
       </>
     );
   }
@@ -130,7 +176,7 @@ const mapStateToProps = ({ socials: { sponsors } }) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getSponsors: () => dispatch(handleGetSponsors()),
+  getSponsors: (pagNumber) => dispatch(handleGetSponsors(pagNumber)),
   deleteSponsor: (id) => dispatch(handleDeleteSponsor(id))
 })
 
