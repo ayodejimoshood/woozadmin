@@ -17,6 +17,7 @@ import {
 import { handleCreateCategory } from "redux/actions/categories";
 import { handleGetHashtags } from "redux/actions/hashtag";
 import { handleAddCartegory } from "redux/actions/socials";
+import ReactPaginate from 'react-paginate';
 
 class CreateMerchantModals extends React.Component {
   state = {
