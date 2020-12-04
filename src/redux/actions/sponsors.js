@@ -39,24 +39,27 @@ export const handleCreateSponsor = (body) => async (dispatch, getState) => {
 
 
 // function to handle get all sponsors
-export const handleGetSponsors = (data) => async (dispatch, getState) => {
+export const handleGetSponsors = (pageNumber) => async (dispatch, getState) => {
   const state = getState();
   const accessToken = state.auth.token;
   const config = {
     method: 'get',
-    url: `https://apis.woozeee.com/api/v1/sponsors?pageNumber=1&pageSize=10&name=&hashtagName=`,
+    url: `https://apis.woozeee.com/api/v1/sponsors?pageNumber=${pageNumber}&pageSize=10&name=&hashtagName=`,
     headers: {
       'Authorization': accessToken
     },
   }
   try {
     const response = await axios(config)
-    console.log(response)
+    console.info('response', response, pageNumber)
     dispatch({
       type: GET_SPONSORS,
       payload: response.data.data
     })
-    return;
+    return {
+      message: 'success',
+      total: response.data.total
+    };
   } catch (error) {
     console.log(error.response);
     toastr.error(`An error occured getting the sponsors`, toastrOptions)

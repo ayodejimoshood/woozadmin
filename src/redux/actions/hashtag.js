@@ -36,12 +36,12 @@ export const handleCreateHashtag = (data) => async (dispatch, getState) => {
   }
 }
 
-export const handleGetHashtags = () => async (dispatch, getState) => {
+export const handleGetHashtags = (pageNumber) => async (dispatch, getState) => {
   const state = getState();
   const accessToken = state.auth.token;
   const config = {
     method: 'get',
-    url: `https://apis.woozeee.com/api/v1/hashtags?pageNumber=1&pageSize=100&name`,
+    url: `https://apis.woozeee.com/api/v1/hashtags?pageNumber=${pageNumber}&pageSize=10&name`,
     headers: {
       'Authorization': accessToken
     },
@@ -53,7 +53,10 @@ export const handleGetHashtags = () => async (dispatch, getState) => {
       type: GET_HASHTAGS,
       payload: response.data.data
     })
-    return;
+    return {
+      message: 'success',
+      total: response.data.total
+    }
   } catch (error) {
     console.log(error.response);
     toastr.error(`An error occured getting the hashtags`, toastrOptions)

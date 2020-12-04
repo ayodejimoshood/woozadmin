@@ -1,5 +1,8 @@
 import React from "react";
-
+import './style.css'
+import ReactPaginate from 'react-paginate';
+import Loader from 'react-loader-spinner'
+import { calculatePagination } from "utils/helpers";
 // reactstrap components
 import {
   Badge,
@@ -21,25 +24,47 @@ import { handleDeleteHashtag } from "redux/actions/hashtag";
 
 class Hashtag extends React.Component {
   state = {
-    loading: true
+    loading: true,
+    pageCount: 1,
+    perPage: 10,
+    paginationNumber: 1
   }
 
   componentDidMount() {
-    this.props.getHashtags().then(res => {
+    this.props.getHashtags(this.state.paginationNumber).then(res => {
+      if (res.message === 'success') {
+        const pageCount = calculatePagination(this.state.perPage, res.total)
+        this.setState({
+          pageCount: pageCount
+        })
+      }
       this.setState({
         loading: false
       })
     })
   }
 
-  handleDelete(id) {
-    if (window.confirm("Are you sure you want to delete this hashtag?")) {
-      this.props.deleteHashtag(id)
-    }
-  }
+
+  handlePageClick = (data) => {
+    let selected = data.selected + 1;
+    this.setState({ paginationNumber: selected, loading: true }, () => {
+      this.props.getHashtags(this.state.paginationNumber).then(res => {
+        if (res.message === 'success') {
+          const pageCount = calculatePagination(this.state.perPage, res.total)
+          this.setState({
+            pageCount: pageCount
+          })
+        }
+        this.setState({
+          loading: false
+        })
+      })
+    });
+  };
 
   render() {
     const { hashtag } = this.props
+    const { loading } = this.state
     return (
       <>
         <Header />
@@ -59,41 +84,61 @@ class Hashtag extends React.Component {
                 <CardHeader className="bg-transparent border-0">
                   <h3 className="text-white mb-0">All Hashtag Data</h3>
                 </CardHeader>
-                <Table
-                  className="align-items-center table-dark table-flush"
-                  responsive
-                >
-                  <thead className="thead-dark">
-                    <tr>
-                      <th scope="col">ID</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      hashtag.map(hash => (
-                        <tr key={hash._id}>
-                          <td>
-                            <span className="mb-0 text-sm">{hash._id}</span>
-                          </td>
+                {
+                  hashtag.length <= 1 || loading === true ? <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', zIndex: '10', marginTop: '80px' }}>
+                    <Loader type="ThreeDots" color="#00BFFF" height={90} width={80} />
+                  </div> :
+                  <Table
+                    className="align-items-center table-dark table-flush"
+                    responsive
+                  >
+                    <thead className="thead-dark">
+                      <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        hashtag.map(hash => (
+                          <tr key={hash._id}>
+                            <td>
+                              <span className="mb-0 text-sm">{hash._id}</span>
+                            </td>
 
-                          <td>
-                            <span className="mb-0 text-sm">{hash.name}</span>
-                          </td>
-                          <th scope='row'>
-                            <EditHashtagModal  hash={hash}/>
-                            <DeleteHashtagModal id={hash._id} />
-                          </th>
-                        </tr>
+                            <td>
+                              <span className="mb-0 text-sm">{hash.name}</span>
+                            </td>
+                            <th scope='row'>
+                              <EditHashtagModal hash={hash} />
+                              <DeleteHashtagModal id={hash._id} />
+                            </th>
+                          </tr>
 
-                      ))
-                    }
-                  </tbody>
-                </Table>
+                        ))
+                      }
+                    </tbody>
+                  </Table>
+                }
+
               </Card>
             </div>
           </Row>
+          <ReactPaginate
+            previousLabel={'previous'}
+            nextLabel={'next'}
+            breakLabel={'...'}
+            breakClassName={'break-me'}
+            pageCount={this.state.pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            initialPage={0}
+            onPageChange={this.handlePageClick}
+            containerClassName={'pagination'}
+            subContainerClassName={'pages pagination'}
+            activeClassName={'paginate_active'}
+          />
         </Container>
       </>
     );
@@ -108,7 +153,7 @@ const mapStateToProps = ({ socials: { hashtag } }) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getHashtags: () => dispatch(handleGetHashtags()),
+  getHashtags: (pagNumber) => dispatch(handleGetHashtags(pagNumber)),
   deleteHashtag: (id) => dispatch(handleDeleteHashtag(id))
 })
 
