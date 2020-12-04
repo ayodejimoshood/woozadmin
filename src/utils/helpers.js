@@ -23,3 +23,8 @@ export const toastrOptions = {
   timeOut: 6000, 
   showCloseButton: true, 
 }
+
+
+export const calculatePagination = (perPage, total) => {
+  return Math.ceil(total / perPage)
+}
