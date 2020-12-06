@@ -1,5 +1,6 @@
 import React from "react";
-
+import ReactPaginate from 'react-paginate';
+import Loader from 'react-loader-spinner'
 // reactstrap components
 import {
   Badge,
@@ -29,13 +30,50 @@ import EditEntryDataModal from "./EditEntryDataModal";
 import EditEntriesModal from "./EditEntriesModal";
 import DeleteEntriesModal from "./DeleteEntriesModal";
 import { handleGetEntries } from "redux/actions/entries";
+import { calculatePagination } from "utils/helpers";
 
 class Entries extends React.Component {
-  componentDidMount() {
-    this.props.getEntries();
+  state = {
+    loading: true,
+    paginationNumber: 1,
+    pageCount: 1,
+    perPage: 10
   }
+  componentDidMount() {
+    this.props.getEntries(this.state.paginationNumber).then(res => {
+      if (res.message === 'success') {
+        const pageCount = calculatePagination(this.state.perPage, res.total)
+        this.setState({
+          pageCount: pageCount
+        })
+      }
+      this.setState({
+        loading: false
+      })
+    })
+  }
+
+  handlePageClick = (data) => {
+    let selected = data.selected + 1;
+    this.setState({ paginationNumber: selected, loading: true }, () => {
+      this.props.getEntries(this.state.paginationNumber).then(res => {
+        if (res.message === 'success') {
+          const pageCount = calculatePagination(this.state.perPage, res.total)
+          this.setState({
+            pageCount: pageCount
+          })
+        }
+        this.setState({
+          loading: false
+        })
+      })
+    });
+  };
+
+
   render() {
     const { entries} = this.props
+    const { loading } = this.state
     return (
       <>
         <Header />
@@ -54,7 +92,11 @@ class Entries extends React.Component {
                 <CardHeader className="bg-transparent border-0">
                   <h3 className="text-white mb-0">All Entries Data</h3>
                 </CardHeader>
-                <Table
+                {
+                  entries.length <= 1 || loading === true ? <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', zIndex: '10', marginTop: '80px' }}>
+                    <Loader type="ThreeDots" color="#00BFFF" height={90} width={80} />
+                  </div> :
+                  <Table
                   className="align-items-center table-dark table-flush"
                   responsive
                 >
@@ -75,7 +117,7 @@ class Entries extends React.Component {
                     entries.map((ent, i) => (
                       <tr key={ent._id}>
                       <td>
-                        <span className="mb-0 text-sm">{i + 1}</span>
+                        <span className="mb-0 text-sm">{ent._id}</span>
                       </td>
                       <td>
                         <span className="mb-0 text-sm">{ent.userFirstName + ' ' + ent.userLastName}</span>
@@ -130,9 +172,26 @@ class Entries extends React.Component {
                   }
                   </tbody>
                 </Table>
+
+                }
+                
               </Card>
             </div>
           </Row>
+          <ReactPaginate
+            previousLabel={'previous'}
+            nextLabel={'next'}
+            breakLabel={'...'}
+            breakClassName={'break-me'}
+            pageCount={this.state.pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            initialPage={0}
+            onPageChange={this.handlePageClick}
+            containerClassName={'pagination'}
+            subContainerClassName={'pages pagination'}
+            activeClassName={'paginate_active'}
+          />
         </Container>
       </>
     );
@@ -146,7 +205,7 @@ const mapStateToProps = ({ socials: { entries } }) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getEntries: () => dispatch(handleGetEntries()),
+  getEntries: (pageNum) => dispatch(handleGetEntries(pageNum)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Entries);

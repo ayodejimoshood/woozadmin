@@ -36,12 +36,12 @@ export const handleCreateCategory = (data) => async (dispatch, getState) => {
   }
 }
 
-export const handleGetCategories = () => async (dispatch, getState) => {
+export const handleGetCategories = (pageNumber) => async (dispatch, getState) => {
   const state = getState();
   const accessToken = state.auth.token;
   const config = {
     method: 'get',
-    url: `https://apis.woozeee.com/api/v1/categories?pageNumber=1&pageSize=50`,
+    url: `https://apis.woozeee.com/api/v1/categories?pageNumber=${pageNumber}&pageSize=10`,
     headers: {
       'Authorization': accessToken
     },
@@ -53,7 +53,10 @@ export const handleGetCategories = () => async (dispatch, getState) => {
       type: GET_CATEGORIES,
       payload: response.data.data
     })
-    return;
+    return {
+      message: 'success',
+      total: response.data.total
+    }
   } catch (error) {
     console.log(error.response);
     toastr.error(`An error occured getting the categorues`, toastrOptions)

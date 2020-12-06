@@ -39,12 +39,12 @@ export const handleCreateChallenge = (body) => async (dispatch, getState) => {
 
 
 // function to handle get all challenges
-export const handleGetChallenges = (data) => async (dispatch, getState) => {
+export const handleGetChallenges = (pageNumber) => async (dispatch, getState) => {
   const state = getState();
   const accessToken = state.auth.token;
   const config = {
     method: 'get',
-    url: `https://apis.woozeee.com/api/v1/challenges?pageNumber=1&pageSize=90&name=&hashtag=&sponsorName=&hasEnded=&sortBy=totalEntries&sortOrder=0`,
+    url: `https://apis.woozeee.com/api/v1/challenges?pageNumber=${pageNumber}&pageSize=10&name=&hashtag=&sponsorName=&hasEnded=&sortBy=totalEntries&sortOrder=0`,
     headers: {
       'Authorization': accessToken
     },
@@ -56,7 +56,10 @@ export const handleGetChallenges = (data) => async (dispatch, getState) => {
       type: GET_CHALLENGES,
       payload: response.data.data
     })
-    return;
+    return {
+      message: 'success',
+      total: response.data.total
+    }
   } catch (error) {
     console.log(error.response);
     toastr.error(`An error occured getting the challenges`, toastrOptions)

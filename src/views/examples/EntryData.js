@@ -1,5 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux'
+import ReactPaginate from 'react-paginate';
+import Loader from 'react-loader-spinner'
 // reactstrap components
 import {
   Badge,
@@ -27,20 +29,53 @@ import { Link } from "react-router-dom";
 import EditEntryDataModal from "./EditEntryDataModal";
 import DeleteEntryDataModal from "./DeleteEntryDataModal";
 import { handleGetEntriesData } from "redux/actions/entryData";
+import { calculatePagination } from "utils/helpers";
 
 class EntryData extends React.Component {
   state = {
-    request: true
+    loading: true,
+    paginationNumber: 1,
+    pageCount: 1,
+    perPage: 10
   }
+
+
   componentDidMount() {
-    this.props.getEntryDatas().then(res => {
-      this.setState(prev => ({
-        request: !prev.request
-      }))
-    });
+    this.props.getEntryDatas(this.state.paginationNumber).then(res => {
+      if (res.message === 'success') {
+        const pageCount = calculatePagination(this.state.perPage, res.total)
+        this.setState({
+          pageCount: pageCount
+        })
+      }
+      this.setState({
+        loading: false
+      })
+    })
   }
+
+
+  handlePageClick = (data) => {
+    let selected = data.selected + 1;
+    this.setState({ paginationNumber: selected, loading: true }, () => {
+      this.props.getEntryDatas(this.state.paginationNumber).then(res => {
+        if (res.message === 'success') {
+          const pageCount = calculatePagination(this.state.perPage, res.total)
+          this.setState({
+            pageCount: pageCount
+          })
+        }
+        this.setState({
+          loading: false
+        })
+      })
+    });
+  };
+
+
   render() {
     const { entryDatas, request } = this.props
+    const { loading } = this.state
     return (
       <>
         <Header />
@@ -59,7 +94,12 @@ class EntryData extends React.Component {
                 <CardHeader className="bg-transparent border-0">
                   <h3 className="text-white mb-0">All EntryData Data</h3>
                 </CardHeader>
-                <Table
+                {
+                  entryDatas.length <= 1 || loading === true ? <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', zIndex: '10', marginTop: '80px' }}>
+                    <Loader type="ThreeDots" color="#00BFFF" height={90} width={80} />
+                  </div> :
+
+                  <Table
                   className="align-items-center table-dark table-flush"
                   responsive
                 >
@@ -79,7 +119,7 @@ class EntryData extends React.Component {
                       entryDatas.length > 0 && !request ? entryDatas.map((ent, i) => (
                         <tr key={ent._id}>
                           <td>
-                            <span className="mb-0 text-sm">{i + 1}</span>
+                            <span className="mb-0 text-sm">{ent._id}</span>
                           </td>
 
                           <td>
@@ -141,9 +181,25 @@ class EntryData extends React.Component {
 
                   </tbody>
                 </Table>
+                }
+                
               </Card>
             </div>
           </Row>
+          <ReactPaginate
+            previousLabel={'previous'}
+            nextLabel={'next'}
+            breakLabel={'...'}
+            breakClassName={'break-me'}
+            pageCount={this.state.pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            initialPage={0}
+            onPageChange={this.handlePageClick}
+            containerClassName={'pagination'}
+            subContainerClassName={'pages pagination'}
+            activeClassName={'paginate_active'}
+          />
         </Container>
       </>
     );
@@ -157,7 +213,7 @@ const mapStateToProps = ({ socials: { entryDatas } }) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getEntryDatas: () => dispatch(handleGetEntriesData()),
+  getEntryDatas: (pageNumber) => dispatch(handleGetEntriesData(pageNumber)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntryData);

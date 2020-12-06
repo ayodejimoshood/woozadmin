@@ -1,4 +1,8 @@
 import React from "react";
+import './style.css'
+import ReactPaginate from 'react-paginate';
+import Loader from 'react-loader-spinner'
+import { calculatePagination } from "utils/helpers";
 
 // reactstrap components
 import {
@@ -32,11 +36,48 @@ import { handleGetCategories } from "redux/actions/categories";
 // import { connect } from "react-redux";
 
 class Categories extends React.Component {
-  componentDidMount() {
-    this.props.getCategories();
+  state = {
+    loading: true,
+    pageCount: 1,
+    perPage: 10,
+    paginationNumber: 1
   }
+
+
+  componentDidMount() {
+    this.props.getCategories(this.state.paginationNumber).then(res => {
+      if (res.message === 'success') {
+        const pageCount = calculatePagination(this.state.perPage, res.total)
+        this.setState({
+          pageCount: pageCount
+        })
+      }
+      this.setState({
+        loading: false
+      })
+    })
+  }
+
+  handlePageClick = (data) => {
+    let selected = data.selected + 1;
+    this.setState({ paginationNumber: selected, loading: true }, () => {
+      this.props.getCategories(this.state.paginationNumber).then(res => {
+        if (res.message === 'success') {
+          const pageCount = calculatePagination(this.state.perPage, res.total)
+          this.setState({
+            pageCount: pageCount
+          })
+        }
+        this.setState({
+          loading: false
+        })
+      })
+    });
+  };
   render() {
     const { category } = this.props
+    const { loading, paginationNumber } = this.state
+    console.log(paginationNumber)
     return (
       <>
         <Header />
@@ -55,7 +96,12 @@ class Categories extends React.Component {
                 <CardHeader className="bg-transparent border-0">
                   <h3 className="text-white mb-0">All Categories Data</h3>
                 </CardHeader>
-                <Table
+                {
+                  category.length <= 1 || loading === true ? <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', zIndex: '10', marginTop: '80px' }}>
+                    <Loader type="ThreeDots" color="#00BFFF" height={90} width={80} />
+                  </div> :
+
+                  <Table
                   className="align-items-center table-dark table-flush"
                   responsive
                 >
@@ -73,7 +119,7 @@ class Categories extends React.Component {
                       category.map((cat, i) => (
                         <tr key={cat._id}>
                       <td>
-                        <span className="mb-0 text-sm">{i+1}</span>
+                        <span className="mb-0 text-sm">{cat._id}</span>
                       </td>
                       
                       <td>
@@ -114,9 +160,25 @@ class Categories extends React.Component {
                     
                   </tbody>
                 </Table>
+                }
+                
               </Card>
             </div>
           </Row>
+          <ReactPaginate
+            previousLabel={'previous'}
+            nextLabel={'next'}
+            breakLabel={'...'}
+            breakClassName={'break-me'}
+            pageCount={this.state.pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            initialPage={0}
+            onPageChange={this.handlePageClick}
+            containerClassName={'pagination'}
+            subContainerClassName={'pages pagination'}
+            activeClassName={'paginate_active'}
+          />
         </Container>
       </>
     );
@@ -130,7 +192,7 @@ const mapStateToProps = ({ socials: { category } }) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getCategories: () => dispatch(handleGetCategories()),
+  getCategories: (pageNumber) => dispatch(handleGetCategories(pageNumber)),
 })
 
 
