@@ -40,12 +40,12 @@ export const handleCreateEntry = (body) => async (dispatch, getState) => {
 
 
 // function to handle get all entries
-export const handleGetEntries = (data) => async (dispatch, getState) => {
+export const handleGetEntries = (pageNumber) => async (dispatch, getState) => {
   const state = getState();
   const accessToken = state.auth.token;
   const config = {
     method: 'get',
-    url: `https://apis.woozeee.com/api/v1/entries?pageNumber=1&pageSize=100&hashtag=&categoryId=&sponsorId=&sponsorName=&sortOrder=1&sortBy=totalComments&challengeName&challengeId`,
+    url: `https://apis.woozeee.com/api/v1/entries?pageNumber=${pageNumber}&pageSize=10&hashtag=&categoryId=&sponsorId=&sponsorName=&sortOrder=1&sortBy=totalComments&challengeName&challengeId`,
     headers: {
       'Authorization': accessToken
     },
@@ -57,7 +57,10 @@ export const handleGetEntries = (data) => async (dispatch, getState) => {
       type: GET_ENTRIES,
       payload: response.data.data
     })
-    return;
+    return {
+      message: 'success',
+      total: response.data.total
+    }
   } catch (error) {
     console.log(error.response);
     toastr.error(`An error occured getting the entries`, toastrOptions)

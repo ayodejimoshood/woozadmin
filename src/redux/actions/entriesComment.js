@@ -39,12 +39,12 @@ export const handleCreateEntryComment = (body) => async (dispatch, getState) => 
 
 
 // function to handle get all entries
-export const handleGetEntriesComment = () => async (dispatch, getState) => {
+export const handleGetEntriesComment = (pageNumber) => async (dispatch, getState) => {
   const state = getState();
   const accessToken = state.auth.token;
   const config = {
     method: 'get',
-    url: `https://apis.woozeee.com/api/v1/entry-comments?pageNumber=1&pageSize=100`,
+    url: `https://apis.woozeee.com/api/v1/entry-comments?pageNumber=${pageNumber}&pageSize=10`,
     headers: {
       'Authorization': accessToken
     },
@@ -56,7 +56,10 @@ export const handleGetEntriesComment = () => async (dispatch, getState) => {
       type: GET_ENTRIESCOMMENT,
       payload: response.data.data
     })
-    return;
+    return {
+      message: 'success',
+      total: response.data.total
+    }
   } catch (error) {
     console.log(error.response);
     toastr.error(`An error occured getting the entry comments`, toastrOptions)
