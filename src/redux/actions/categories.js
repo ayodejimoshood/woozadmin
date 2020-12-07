@@ -59,7 +59,7 @@ export const handleGetCategories = (pageNumber) => async (dispatch, getState) =>
     }
   } catch (error) {
     console.log(error.response);
-    toastr.error(`An error occured getting the categorues`, toastrOptions)
+    toastr.error(`An error occured getting the categories`, toastrOptions)
     return
   }
 }

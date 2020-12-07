@@ -3,8 +3,8 @@
 }
 
 .pagination li {
-  border: 1px solid rgba(218, 215, 215, 0.7);
-  padding: 8px 12px;
+  /* border: 1px solid rgba(218, 215, 215, 0.7); */
+  /* padding: 8px 12px; */
   cursor: pointer;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .paginate_active {
-  background: #153a68;
+  background: rgb(255, 87, 87)
 }
 
 .paginate_active a {
