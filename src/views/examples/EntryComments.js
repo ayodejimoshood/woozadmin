@@ -41,7 +41,7 @@ class EntryComments extends React.Component {
   }
   componentDidMount() {
     this.props.getEntryComments(this.state.paginationNumber).then(res => {
-      if (res.message === 'success') {
+      if (res?.message === 'success') {
         const pageCount = calculatePagination(this.state.perPage, res.total)
         this.setState({
           pageCount: pageCount
@@ -57,7 +57,7 @@ class EntryComments extends React.Component {
     let selected = data.selected + 1;
     this.setState({ paginationNumber: selected, loading: true }, () => {
       this.props.getEntryComments(this.state.paginationNumber).then(res => {
-        if (res.message === 'success') {
+        if (res?.message === 'success') {
           const pageCount = calculatePagination(this.state.perPage, res.total)
           this.setState({
             pageCount: pageCount
