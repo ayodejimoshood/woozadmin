@@ -55,38 +55,38 @@ var routes = [
   //   component: Profile,
   //   layout: "/admin"
   // },
-  {
-    path: "/users",
-    name: "Users",
-    icon: "ni ni-circle-08 text-pink",
+  // {
+  //   path: "/users",
+  //   name: "Users",
+  //   icon: "ni ni-circle-08 text-pink",
 
-    component: Tables,
-    layout: "/admin",
-  },
-  {
-    path: "/merchants",
-    name: "Merchants",
-    icon: "ni ni-circle-08 text-pink",
+  //   component: Tables,
+  //   layout: "/admin",
+  // },
+  // {
+  //   path: "/merchants",
+  //   name: "Merchants",
+  //   icon: "ni ni-circle-08 text-pink",
 
-    component: Merchants,
-    layout: "/admin",
-  },
-  {
-    path: "/insurance",
-    name: "Insurance",
-    icon: "ni ni-circle-08 text-pink",
+  //   component: Merchants,
+  //   layout: "/admin",
+  // },
+  // {
+  //   path: "/insurance",
+  //   name: "Insurance",
+  //   icon: "ni ni-circle-08 text-pink",
 
-    component: Insurance,
-    layout: "/admin",
-  },
-  {
-    path: "/verticals",
-    name: "Verticals",
-    icon: "ni ni-circle-08 text-pink",
+  //   component: Insurance,
+  //   layout: "/admin",
+  // },
+  // {
+  //   path: "/verticals",
+  //   name: "Verticals",
+  //   icon: "ni ni-circle-08 text-pink",
 
-    component: Verticals,
-    layout: "/admin",
-  },
+  //   component: Verticals,
+  //   layout: "/admin",
+  // },
   {
     path: "/socials",
     name: "Socials",
