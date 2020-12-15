@@ -46,7 +46,7 @@ class Categories extends React.Component {
 
   componentDidMount() {
     this.props.getCategories(this.state.paginationNumber).then(res => {
-      if (res.message === 'success') {
+      if (res?.message === 'success') {
         const pageCount = calculatePagination(this.state.perPage, res.total)
         this.setState({
           pageCount: pageCount
@@ -62,7 +62,7 @@ class Categories extends React.Component {
     let selected = data.selected + 1;
     this.setState({ paginationNumber: selected, loading: true }, () => {
       this.props.getCategories(this.state.paginationNumber).then(res => {
-        if (res.message === 'success') {
+        if (res?.message === 'success') {
           const pageCount = calculatePagination(this.state.perPage, res.total)
           this.setState({
             pageCount: pageCount

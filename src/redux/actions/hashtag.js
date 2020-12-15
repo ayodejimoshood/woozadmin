@@ -48,7 +48,6 @@ export const handleGetHashtags = (pageNumber) => async (dispatch, getState) => {
   }
   try {
     const response = await axios(config)
-    console.log(response)
     dispatch({
       type: GET_HASHTAGS,
       payload: response.data.data
