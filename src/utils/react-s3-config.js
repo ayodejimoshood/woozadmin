@@ -4,6 +4,7 @@
 export const config = {
   bucketName: 'woozeee-socials-artifacts',
   region: 'eu-central-1',
-  accessKeyId: 'AKIA2NMZBZGZNEMF2ONT',
+  // accessKeyId: 'AKIA2NMZBZGZNEMF2ONT',
+  accessKeyId: 'AKIA2NMZBZGZE2FWM44H',
   secretAccessKey: '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',
 }
